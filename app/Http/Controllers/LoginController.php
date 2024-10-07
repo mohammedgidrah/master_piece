@@ -29,7 +29,7 @@ class LoginController extends Controller
                 return redirect()->route('dashboard.maindasboard')->with('success', 'Welcome to the admin dashboard!');
             }
 
-            return redirect()->intended('homepage')->with('success', 'Welcome back!'); // Redirect to home for regular users
+            return redirect()->intended('/')->with('success', 'Welcome back!'); // Redirect to home for regular users
         }
 
         // If authentication fails, redirect back with an error message

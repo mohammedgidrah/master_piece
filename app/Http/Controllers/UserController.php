@@ -19,7 +19,6 @@ class UserController extends Controller
         // Show the form to create a new user
         return view('users.create');
     }
-
     public function store(Request $request)
     {
         // Validate the request data
@@ -27,15 +26,29 @@ class UserController extends Controller
             'name' => 'required|string|max:255',
             'email' => 'required|string|email|max:255|unique:users',
             'password' => 'required|string|min:8|confirmed',
-            // Add additional validation rules as needed
+            'image' => 'nullable|mimes:png,jpg,jpeg,webp',
         ]);
+
+        // Handle the image upload if provided
+        if ($request->has('image')) {
+            $file = $request->file('image');
+            $extension = $file->getClientOriginalExtension();
+            $filename = time() . '.' . $extension;
+            $path = 'uploads/usersprofiles/';
+            $file->move($path, $filename);
+            $imagePath = $path . $filename;
+        } else {
+            // Set default image if none is uploaded
+            $imagePath = 'uploads/usersprofiles/default.png';  
+        }
 
         // Create a new user
         User::create([
-            'name' => $request->name,
+            'first_name' => $request->first_name,
+            'last_name' => $request->last_name,
             'email' => $request->email,
             'password' => bcrypt($request->password),
-            // Add other fields as necessary
+            'image' => $imagePath,
         ]);
 
         return redirect()->route('users.index')->with('success', 'User created successfully.');

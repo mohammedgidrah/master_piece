@@ -19,9 +19,10 @@ return new class extends Migration
             $table->string('email')->unique();
             $table->string('password'); // For users
             $table->enum('role', ['admin', 'user'])->default('user'); // Enum column for user roles
-            // $table->bigInteger('phone')->nullable(); // Phone stored as numbers
-            // $table->string('address')->nullable(); // For customers
+            $table->bigInteger('phone')->nullable(); // Phone stored as numbers
+            $table->string('address')->nullable(); // For customers
             $table->timestamp('email_verified_at')->nullable();
+            $table->string('image')->nullable();
             $table->rememberToken();
             $table->timestamps();
         });

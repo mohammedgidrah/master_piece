@@ -5,6 +5,7 @@ use App\Http\Controllers\ProductController;
 use App\Http\Controllers\RegisterController;
 use App\Http\Controllers\LoginController;
 use App\Http\Controllers\AdminController;
+use App\Http\Controllers\ProfileController;
 
 /*
 |--------------------------------------------------------------------------
@@ -31,10 +32,14 @@ Route::post('/login', [LoginController::class, 'login'])->name('login.submit'); 
 Route::post('/register', [RegisterController::class, 'register'])->name('register');
 
 // Home page route
-Route::view('/', 'homepage.home')->name('homepage');
+Route::view('/', 'homepage.home')->name('home');
 
 // Table route
 Route::view('/tables', 'dashboard.table')->name('tables');
 
 // Status route (the correct naming for this route)
 Route::view('/status', 'dashboard.statestic')->name('status');
+Route::view('/adminprofile', 'dashboard.profile')->name('adminprofile');
+Route::view('/userprofile', 'userprofile.userprofile')->name('userprofile');
+
+Route::put('/profile/update/{id}', [ProfileController::class, 'update'])->name('profile.update');
