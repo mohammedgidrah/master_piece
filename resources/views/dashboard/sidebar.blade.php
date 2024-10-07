@@ -3,7 +3,7 @@
         <!-- Logo Header -->
         <div class="logo-header" data-background-color="dark">
             <a href={{ route('status') }} class="logo">
-                <img src="assets/img/masterpeace_logo__1_-removebg-preview.png" alt="navbar brand" class="navbar-brand"
+                <img src="{{asset('assets/img/masterpeace_logo__1_-removebg-preview.png')}}" alt="navbar brand" class="navbar-brand"
                     height="150" />
             </a>
             <div class="nav-toggle">
@@ -139,12 +139,12 @@
                     <div class="collapse" id="tables">
                         <ul class="nav nav-collapse">
                             <li>
-                                <a href="{{ route('tables') }}">
+                                <a href="{{ route('users.index') }}">
                                     <span class="sub-item">Basic Table</span>
                                 </a>
                             </li>
                             <li>
-                                <a href="{{ route('tables') }}">
+                                <a href="{{ route('users.index') }}">
                                     <span class="sub-item">Datatables</span>
                                 </a>
                             </li>

@@ -4,7 +4,7 @@
              <!-- Logo Header -->
              <div class="logo-header" data-background-color="dark">
                  <a href={{ url('/') }} class="logo">
-                     <img src="assets/img/kaiadmin/masterpeace_logo__1_-removebg-preview.png" alt="navbar brand" class="navbar-brand" height="20" />
+                     <img src="{{asset('assets/img/masterpeace_logo__1_-removebg-preview.png')}}" alt="navbar brand" class="navbar-brand" height="20" />
                  </a>
                  <div class="nav-toggle">
                      <button class="btn btn-toggle toggle-sidebar">
@@ -77,7 +77,7 @@
                                          </a>
                                          <a href="#">
                                              <div class="notif-img">
-                                                 <img src="assets/img/profile2.jpg" alt="Img Profile" />
+                                                 <img src="{{asset('assets/img/profile2.jpg')}}" alt="Img Profile" />
                                              </div>
                                              <div class="notif-content">
                                                  <span class="block">
@@ -111,7 +111,7 @@
                          <a class="dropdown-toggle profile-pic" data-bs-toggle="dropdown" href="#"
                              aria-expanded="false">
                              <div class="avatar-sm">
-                                 <img src="assets/img/profile.jpg" alt="..." class="avatar-img rounded-circle" />
+                                 <img src={{Auth::user()->image}} alt="..." class="avatar-img rounded-circle" />
                              </div>
                              <span class="profile-username">
                                  <span class="op-7">Hi,</span>
@@ -124,7 +124,7 @@
                                  <li>
                                      <div class="user-box">
                                          <div class="avatar-lg">
-                                             <img src="assets/img/profile.jpg" alt="image profile"
+                                             <img src={{Auth::user()->image}} alt="image profile"
                                                  class="avatar-img rounded" />
                                          </div>
                                          <div class="u-text">

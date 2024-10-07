@@ -16,19 +16,23 @@ class RegisterController extends Controller
             'last_name' => 'required|string|max:255',
             'email' => 'required|string|email|max:255|unique:users',
             'password' => 'required|string|min:8',
-            'image' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:5120', // Validate the image
+            'image' => 'nullable|image|mimes:jpeg,png,jpg,gif,webg|max:5120',  
         ]);
 
         // Set the default image path
-        $imagePath = 'uploads/usersprofiles/arashmil.jpg'; // Path to the default image
+        $imagePath = 'uploads/usersprofiles/userimage.png';  
 
         // Check if an image was uploaded
-        if ($request->hasFile('image')) {
+        if ($request->has('image')) {
+
             $file = $request->file('image');
             $extension = $file->getClientOriginalExtension();
+
             $filename = time() . '.' . $extension;
+
             $path = 'uploads/usersprofiles/'; // Directory to store uploaded images
-            $file->move(public_path($path), $filename); // Move the file to the public path
+            $file->move($path, $filename); // Move the file to the public path
+
             $imagePath = $path . $filename; // Update the image path to the newly uploaded image
         }
 

@@ -4,14 +4,14 @@ namespace App\Http\Controllers;
 
 use App\Models\User;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\File;
 
 class UserController extends Controller
 {
-    public function index()
-    {
-        // Retrieve all users
+    public function index() {
+        // Fetch all users
         $users = User::all();
-        return view('users.index', compact('users'));
+        return view('dashboard.users.index', compact('users'));
     }
 
     public function create()
@@ -39,7 +39,7 @@ class UserController extends Controller
             $imagePath = $path . $filename;
         } else {
             // Set default image if none is uploaded
-            $imagePath = 'uploads/usersprofiles/default.png';  
+            $imagePath = 'uploads/usersprofiles/default.png';
         }
 
         // Create a new user
@@ -54,45 +54,82 @@ class UserController extends Controller
         return redirect()->route('users.index')->with('success', 'User created successfully.');
     }
 
-    public function show(User $user)
+    public function edit($id)
     {
-        // Show details of a specific user
-        return view('users.show', compact('user'));
+        $user = User::findOrFail($id); // Fetch the user by ID
+        return view('dashboard.users.edit', compact('user')); // Pass the user to the view
     }
 
-    public function edit(User $user)
-    {
-        // Show the form to edit a specific user
-        return view('users.edit', compact('user'));
-    }
 
-    public function update(Request $request, User $user)
+
+    public function update(Request $request, int $id)
     {
         // Validate the request data
         $request->validate([
-            'name' => 'required|string|max:255',
-            'email' => 'required|string|email|max:255|unique:users,email,' . $user->id,
-            'password' => 'nullable|string|min:8|confirmed',
-            // Add additional validation rules as needed
+            'first_name' => 'required|string|max:255',
+            'last_name' => 'required|string|max:255',
+            'email' => 'required|string|email|max:255|unique:users,email,' . $id,
+            'address' => 'nullable|string|max:255',
+            'phone' => 'nullable|string|max:255',
+            'image' => 'nullable|image|mimes:jpeg,png,jpg,gif',
+            'password' => 'nullable|string|min:8',
         ]);
-
+        
+    
+        // Find the user by ID
+        $user = User::findOrFail($id);
+    
+        // Define the upload path
+        $path = 'uploads/usersprofiles/';
+    
+        // Use existing image unless a new one is uploaded
+        $filename = $user->image;
+    
+        // If a new image is uploaded
+        if($request->hasFile('image')){
+            $file= $request->file('image');
+            $extension=$file->getClientOriginalExtension();
+            $filename=time().'.'.$extension;
+            $path='uploads/usersprofiles/';
+            $file->move($path,$filename);
+            if(File::exists($user->image)){
+                File::delete($user->image);
+            }
+        }
+    
         // Update user information
-        $user->name = $request->name;
-        $user->email = $request->email;
-
+        $user->update([
+            'first_name' => $request->first_name,
+            'last_name' => $request->last_name,
+            'email' => $request->email ?? $user->email,  // Use existing email if not provided
+            'address' => $request->address,
+            'phone' => $request->phone,
+            'image' => $filename ?? $user->image,
+        ]);
+        
+    
+        // Check if a password is being updated
         if ($request->filled('password')) {
             $user->password = bcrypt($request->password);
         }
-
+    
+        // Save the user data
         $user->save();
-
-        return redirect()->route('users.index')->with('success', 'User updated successfully.');
+    
+        // Redirect back with success message
+        return redirect()->back()->with('success', 'Profile updated successfully.');
     }
+    
+
+    
 
     public function destroy(User $user)
     {
+        if (File::exists($user->image)) {
+        File::delete($user->image);
+    }
         // Delete a specific user
         $user->delete();
-        return redirect()->route('users.index')->with('success', 'User deleted successfully.');
+        return redirect()->back()->with('success', 'Profile updated successfully.');
     }
 }

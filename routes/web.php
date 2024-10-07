@@ -6,6 +6,7 @@ use App\Http\Controllers\RegisterController;
 use App\Http\Controllers\LoginController;
 use App\Http\Controllers\AdminController;
 use App\Http\Controllers\ProfileController;
+use App\Http\Controllers\UserController;
 
 /*
 |--------------------------------------------------------------------------
@@ -35,11 +36,16 @@ Route::post('/register', [RegisterController::class, 'register'])->name('registe
 Route::view('/', 'homepage.home')->name('home');
 
 // Table route
-Route::view('/tables', 'dashboard.table')->name('tables');
+// Route::view('/tables', 'dashboard.table')->name('tables');
 
 // Status route (the correct naming for this route)
 Route::view('/status', 'dashboard.statestic')->name('status');
 Route::view('/adminprofile', 'dashboard.profile')->name('adminprofile');
 Route::view('/userprofile', 'userprofile.userprofile')->name('userprofile');
-
+// SQLSTATE[HY000]: General error: 1364 Field 'email' doesn't have a default value ||| when i replace the controller with usercontroller
+// fix it later
 Route::put('/profile/update/{id}', [ProfileController::class, 'update'])->name('profile.update');
+// fix it later
+
+
+Route::resource('users', UserController::class);

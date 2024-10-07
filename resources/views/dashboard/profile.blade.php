@@ -1,16 +1,14 @@
 @extends('dashboard.maindasboard')
 
 @section('content')
-<div class="main-panel" style="padding-top: 75px">
-<div class="content">
-    <div class="container-xl px-4 mt-4">
-        <div class="row">
+    {{-- <div class="container-xl px-4 mt-4"  style="padding-top: 75px"> --}}
+        <div class="row" style="padding: 75px">
             <div class="col-xl-4">
                 <div class="card mb-4 mb-xl-0">
                     <div class="card-header">Profile Picture</div>
                     <div class="card-body text-center">
                         <img class="img-account-profile rounded-circle mb-2"
-                            src="{{ Auth::user()->image ? asset(Auth::user()->image) : 'http://bootdey.com/img/Content/avatar/avatar1.png' }}" alt="">
+                            src="{{ Auth::user()->image}} " class="avatar-img rounded-circle" style="width: 50%" alt="">
 
                         <div class="small font-italic text-muted mb-4">JPG or PNG no larger than 5 MB</div>
 
