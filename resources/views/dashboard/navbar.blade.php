@@ -111,7 +111,7 @@
                          <a class="dropdown-toggle profile-pic" data-bs-toggle="dropdown" href="#"
                              aria-expanded="false">
                              <div class="avatar-sm">
-                                 <img src={{Auth::user()->image}} alt="..." class="avatar-img rounded-circle" />
+                                 <img src={{asset(Auth::user()->image)}} alt="..." class="avatar-img rounded-circle" />
                              </div>
                              <span class="profile-username">
                                  <span class="op-7">Hi,</span>
@@ -140,7 +140,7 @@
                                       <a class="dropdown-item" href="#">My Balance</a>
                                      <a class="dropdown-item" href="#">Inbox</a>
                                      <div class="dropdown-divider"></div>
-                                     <a class="dropdown-item" href="#">Account Setting</a>
+                                     <a class="dropdown-item" href={{ route('home') }}>Home</a>
                                      <div class="dropdown-divider"></div>
                                      <form action="{{ route('logout') }}" method="POST" style="display: inline;">
                                          @csrf <!-- CSRF token for security -->

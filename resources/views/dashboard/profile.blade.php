@@ -2,6 +2,19 @@
 
 @section('content')
     {{-- <div class="container-xl px-4 mt-4"  style="padding-top: 75px"> --}}
+        @if (session('success'))
+        <div class="alert alert-success alert-dismissible fade show bg-light" role="alert">
+            {{ session('success') }}
+            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+        </div>
+    @endif
+
+    @if (session('error'))
+        <div class="alert alert-danger alert-dismissible fade show bg-light" role="alert">
+            {{ session('error') }}
+            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+        </div>
+    @endif
         <div class="row" style="padding: 75px">
             <div class="col-xl-4">
                 <div class="card mb-4 mb-xl-0">

@@ -44,8 +44,10 @@ Route::view('/adminprofile', 'dashboard.profile')->name('adminprofile');
 Route::view('/userprofile', 'userprofile.userprofile')->name('userprofile');
 // SQLSTATE[HY000]: General error: 1364 Field 'email' doesn't have a default value ||| when i replace the controller with usercontroller
 // fix it later
-Route::put('/profile/update/{id}', [ProfileController::class, 'update'])->name('profile.update');
+// Route::put('/profile/update/{id}', [ProfileController::class, 'update'])->name('profile.update');
 // fix it later
 
 
 Route::resource('users', UserController::class);
+
+Route::resource('profile', ProfileController::class)->only('update');

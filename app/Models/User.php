@@ -25,6 +25,7 @@ class User extends Authenticatable
         'address',
         'password',
         'image',
+        'role'
      ];
 
      public function isAdmin()

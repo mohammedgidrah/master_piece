@@ -41,8 +41,8 @@
         @include('dashboard.navbar')
 
         <div class="main-panel">
-            @yield('content') <!-- Main content area -->
-            @include('dashboard.sidebar') <!-- Sidebar -->
+            @yield('content')  
+            @include('dashboard.sidebar')  
         </div>
     </div>
 
@@ -166,6 +166,7 @@
     <script src="{{ asset('assets/js/setting-demo.js') }}"></script>
     <script src="{{ asset('assets/js/demo.js') }}"></script>
 
+    <script src="https://kit.fontawesome.com/a49038f582.js" crossorigin="anonymous"></script>
     <script>
         // Sparkline Chart example
         $("#lineChart").sparkline([102, 109, 120, 99, 110, 105, 115], {

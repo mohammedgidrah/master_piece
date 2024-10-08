@@ -3,8 +3,8 @@ namespace App\Http\Controllers;
 
 use App\Models\User;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\File;
+use Illuminate\Support\Facades\Hash;
 
 class ProfileController extends Controller
 {
@@ -14,49 +14,51 @@ class ProfileController extends Controller
         $request->validate([
             'first_name' => 'required|string|max:255',
             'last_name' => 'required|string|max:255',
-            'email' => 'required|string|email|max:255|unique:users,email,' . $user->id,
+            'email' => 'required|string|email|max:255',
             'address' => 'nullable|string|max:255',
             'phone' => 'nullable|string|max:255',
             'image' => 'nullable|image|mimes:jpeg,png,jpg,gif',
             'password' => 'nullable|string|min:8',
         ]);
-        
-        // Use the current image unless a new one is uploaded
-        $filename = $user->image;
-        $path = 'uploads/usersprofiles/';
 
-        // If a new image is uploaded
+        // Use existing image unless a new one is uploaded
+        $imagePath = $user->image; // Use existing image by default
+
+        // Handle the uploaded image
         if ($request->hasFile('image')) {
             $file = $request->file('image');
-            $extension = $file->getClientOriginalExtension();
-            $filename = time() . '.' . $extension;
-            $file->move($path, $filename);
+            $filename = time() . '.' . $file->getClientOriginalExtension();
+            $path = 'uploads/usersprofiles/';
+            $file->move(public_path($path), $filename);
+            $imagePath = $path . $filename;
 
             // Delete the old image if it exists
-            if (File::exists($user->image)) {
-                File::delete($user->image);
+            if (File::exists(public_path($user->image))) {
+                File::delete(public_path($user->image));
             }
         }
 
-        // Update user information
-        $user->update([
-            'first_name' => $request->first_name,
-            'last_name' => $request->last_name,
-            'email' => $request->email ?? $user->email, // Use existing email if not provided
-            'address' => $request->address,
-            'phone' => $request->phone,
-            'image' => $path . $filename,
-        ]);
+        // Prepare the update data
+        $updateData = [
+            'first_name' => $request->input('first_name', $user->first_name),
+            'last_name' => $request->input('last_name', $user->last_name),
+            'email' => $request->input('email', $user->email), // Ensure email is provided
+            'address' => $request->input('address', $user->address),
+            'phone' => $request->input('phone', $user->phone),
+            'role' => $request->input('role', $user->role), // Assuming role is also being updated
+            'image' => $imagePath, // Use the new or existing image
+        ];
 
-        // Check if a password is being updated
+        // Hash the password if provided
         if ($request->filled('password')) {
-            $user->password = bcrypt($request->password);
+            $updateData['password'] = Hash::make($request->input('password'));
         }
-dd($request->all());
-        // Save the user data
-        $user->save();
+
+        // Update the user information
+        $user->update($updateData);
 
         // Redirect back with success message
-        return redirect()->back()->with('success', 'Profile updated successfully.');
+        return back()->with('success', 'User updated successfully.');
     }
 }
+
