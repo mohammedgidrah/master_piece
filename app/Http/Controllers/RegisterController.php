@@ -20,21 +20,12 @@ class RegisterController extends Controller
         ]);
 
         // Set the default image path
-        $imagePath = 'uploads/usersprofiles/userimage.png';  
+        $imagePath = 'uploads/usersprofiles/defultimage/userimage.png';  
 
         // Check if an image was uploaded
-        if ($request->has('image')) {
-
-            $file = $request->file('image');
-            $extension = $file->getClientOriginalExtension();
-
-            $filename = time() . '.' . $extension;
-
-            $path = 'uploads/usersprofiles/'; // Directory to store uploaded images
-            $file->move($path, $filename); // Move the file to the public path
-
-            $imagePath = $path . $filename; // Update the image path to the newly uploaded image
-        }
+    if ($request->hasFile('image')) {
+        $imagePath = $request->file('image')->store('uploads/usersprofiles', 'public');
+    }
 
         // Check if the user is already registered
         $existingUser = User::where('email', $request->email)->first();

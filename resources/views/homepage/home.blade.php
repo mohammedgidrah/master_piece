@@ -8,6 +8,8 @@
     <link rel="stylesheet" href="assets/css/homepage.css" />
     <link rel="icon" type="image/png" href="assets/img/home/masterpeace_logo-removebg-preview.png" /> <!-- Add your favicon link here -->
     {{-- <link rel="stylesheet" href="assets/css/login.css"> --}}
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+
 
   </head>
   <body>
@@ -68,5 +70,7 @@
   </div>
 
     <script src="assets/js/homepage.js"></script>
+    <script src="https://kit.fontawesome.com/a49038f582.js" crossorigin="anonymous"></script>
+
   </body>
 </html>

@@ -103,7 +103,9 @@
                                   <td>{{ $user->first_name }}</td>
                                 <td>{{ $user->last_name }}</td>
                                 <td>
-                                    <img src="{{ $user->image ?? asset('path/to/default/image.png') }}" style="width: 50px; height: auto; border-radius: 50%;">
+                                    {{-- <img src="{{ $user->image ?? asset('path/to/default/image.png') }}" style="width: 50px; height: auto; border-radius: 50%;"> --}}
+                                    <img src="{{ asset('storage/' . $user->image) }}" alt="{{ $user->first_name }} {{ $user->last_name }}" style="width: 50px; height: auto; border-radius: 50%;"  />
+
                                 </td>
                                 <td>{{ $user->email }}</td>
                                 <td>{{ $user->phone }}</td>

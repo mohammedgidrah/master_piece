@@ -67,57 +67,8 @@
 </style>
 
 <body>
-    <header>
-        <div>
-            <img class="header_img" src="assets/img/home/masterpeace_logo-removebg-preview.png" alt="Logo" />
-        </div>
-        <button class="menu-toggle" aria-label="Open menu">
-            <span class="menu-icon"></span>
-        </button>
-        <section class="links">
-            <a href="{{ route('home') }}">Home</a>
-            <a href="#">Create</a>
-            <a href="#">About</a>
-            <a href="#">Faq</a>
-
-            @auth <!-- Check if the user is logged in -->
-                <div class="dropdown">
-                    <!-- Display user name with a dropdown -->
-                    <button class="dropbtn">
-                        {{ auth()->user()->first_name }} {{ auth()->user()->last_name }}
-                    </button>
-                    <div class="dropdown-content">
-                        <a class="dropdown-item" href="#">My Balance</a>
-                        <a class="dropdown-item" href="#">Inbox</a>
-                        <div class="dropdown-divider"></div>
-                        <a class="dropdown-item" href="{{ route('userprofile') }}">Profile</a>
-                        <div class="dropdown-divider"></div>
-
-                        <!-- Logout button inside the dropdown -->
-                        <form action="{{ route('logout') }}" method="POST" style="display: inline;">
-                            @csrf
-                            <button type="submit" class="dropdown-item">Logout</button>
-                        </form>
-                    </div>
-                </div>
-
-                @if (auth()->user()->role === 'admin')
-                    <!-- Check if the user role is admin -->
-                    <div class="dropdown">
-                        <button class="dropbtn">Admin Menu</button>
-                        <div class="dropdown-content">
-                            <a href="{{ route('admin.dashboard') }}">Dashboard</a>
-                            <!-- Add more admin-specific links here -->
-                        </div>
-                    </div>
-                @endif
-            @else
-                <!-- Display login link if the user is not logged in -->
-                <a href="{{ route('login') }}">Login</a>
-            @endauth
-        </section>
-    </header>
-
+ 
+@include('homepage.homenav.homenav')
     <div class="wrapper">
         <div class="main">
             <input type="checkbox" id="chk" aria-hidden="true">

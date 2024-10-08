@@ -12,6 +12,12 @@
         border: none;
         cursor: pointer;
         font-size: 16px;
+        display: flex; /* Use flex to align items */
+        align-items: center; /* Vertically center the items */
+    }
+
+    .dropbtn i {
+        margin-left: 5px; /* Space between the text and icon */
     }
 
     .dropdown-content {
@@ -19,7 +25,8 @@
         position: absolute;
         background-color: #f9f9f9;
         min-width: 160px;
-        color: #4a098b box-shadow: 0px 8px 16px 0px rgba(0, 0, 0, 0.2);
+        color: #4a098b;
+        box-shadow: 0px 8px 16px 0px rgba(0, 0, 0, 0.2);
         z-index: 1;
     }
 
@@ -52,6 +59,7 @@
         background-color: #e9ecef;
     }
 </style>
+
 <header>
     <div>
         <img class="header_img" src="assets/img/home/masterpeace_logo-removebg-preview.png" alt="Logo" />
@@ -70,27 +78,29 @@
                 <!-- Display user name with a dropdown -->
                 <button class="dropbtn">
                     {{ auth()->user()->first_name }} {{ auth()->user()->last_name }}
+                    <i class="fas fa-caret-down"></i> <!-- Arrow icon -->
                 </button>
                 <div class="dropdown-content">
-                  @if (Auth::user()->role === 'admin')
-                      <!-- If the user is an admin, add admin links -->
-                      \
-                      <a class="dropdown-item" href="{{ route('dashboard.maindasboard') }}">Dashboard</a>
-                      <!-- Add more admin-specific links here -->
-                  @endif
-                    {{-- <a class="dropdown-item" href="#">My Balance</a>
-                    <a class="dropdown-item" href="#">Inbox</a> --}}
-                    <div class="dropdown-divider"></div>
-                    <a class="dropdown-item" href="{{ route('userprofile') }}">Profile</a>
-                    <div class="dropdown-divider"></div>
+                    @if (Auth::user()->role === 'admin')
+                        <!-- If the user is an admin, add admin links -->
+                        <a class="dropdown-item" href="{{ route('dashboard.maindasboard') }}">Dashboard</a>
+                        <!-- Add more admin-specific links here -->
+                    @endif
+                    @if (Auth::user()->role !== 'admin')
+                        <div class="dropdown-divider"></div>
+                        <a class="dropdown-item" href="{{ route('userprofile') }}">Profile</a>
+                        <div class="dropdown-divider"></div>
+                    @endif
 
-                    <!-- Logout button inside the dropdown -->
-                    <form action="{{ route('logout') }}" method="POST" style="display: inline;">
-                        @csrf
-                        <button type="submit" class="dropdown-item">Logout</button>
-                    </form>
+                    <!-- Logout link that submits the hidden form -->
+                    <a href="#" class="dropdown-item" onclick="event.preventDefault(); document.getElementById('logout-form').submit();">Logout</a>
                 </div>
             </div>
+
+            <!-- Hidden logout form -->
+            <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">
+                @csrf
+            </form>
         @else
             <!-- Display login link if the user is not logged in -->
             <a href="{{ route('login') }}">Login</a>
