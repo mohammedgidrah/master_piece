@@ -30,7 +30,7 @@ class User extends Authenticatable
 
      public function isAdmin()
      {
-         return $this->role === 'admin';
+         return $this->role === 'admin'; // or however you define admin roles
      }
     /**
      * The attributes that should be hidden for serialization.

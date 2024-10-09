@@ -19,43 +19,40 @@ use App\Http\Controllers\UserController;
 |
 */
 
-// Dashboard route handled by AdminController
-// This route shows the main dashboard for an admin
-Route::get('/dashboard', [AdminController::class, 'mainDashboard'])->name('dashboard.maindasboard');
-
-// Logout route
-// This route handles the POST request to logout
-Route::post('/logout', [LoginController::class, 'logout'])->name('logout');
+// Home page route
+Route::view('/', 'homepage.home')->name('home');
 
 // Login routes
-// This route shows the login form
 Route::view('/login', 'login.login')->name('login');
-// This route handles the POST request to login
 Route::post('/login', [LoginController::class, 'login'])->name('login.submit');
 
 // Register route
-// This route handles the POST request to register
 Route::post('/register', [RegisterController::class, 'register'])->name('register');
 
-// Home page route
-// This route shows the homepage
-Route::view('/', 'homepage.home')->name('home');
+// Logout route
+Route::post('/logout', [LoginController::class, 'logout'])->name('logout');
 
-// Table route
-// This route shows the tables page
-// Route::view('/tables', 'dashboard.table')->name('tables');
+// Unauthorized page route
+Route::view('/unauthorized', 'unauthorized.unauthorized')->name('unauthorized');
 
-// Status route (the correct naming for this route)
-// This route shows the status page
-Route::view('/status', 'dashboard.statestic')->name('status');
-// This route shows the admin profile page
-Route::view('/adminprofile', 'dashboard.profile')->name('adminprofile');
-// This route shows the user profile page
+// Route group for the dashboard, protected by the 'admin' middleware
+Route::middleware(['admin'])->group(function () {
+
+    // Dashboard main route (for admins)
+    Route::get('/dashboard', [AdminController::class, 'mainDashboard'])->name('dashboard.maindasboard'); // Correct spelling
+
+    // Status page route
+    Route::view('/status', 'dashboard.statestic')->name('status');
+
+    // Admin profile page route
+    Route::view('/adminprofile', 'dashboard.profile')->name('adminprofile');
+
+    // User management routes
+    Route::resource('users', UserController::class);
+});
+
+// User profile route
 Route::view('/userprofile', 'userprofile.userprofile')->name('userprofile');
- 
 
-
-Route::resource('users', UserController::class);
-
+// Profile resource route (limited to update only)
 Route::resource('profile', ProfileController::class)->only('update');
-

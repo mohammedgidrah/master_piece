@@ -33,7 +33,8 @@ class UserController extends Controller
             $query->where(function ($q) use ($search) {
                 $q->where('first_name', 'like', '%' . $search . '%')
                     ->orWhere('last_name', 'like', '%' . $search . '%')
-                    ->orWhere('email', 'like', '%' . $search . '%');
+                    ->orWhere('email', 'like', '%' . $search . '%')
+                    ->orWhere('address', 'like', '%' . $search . '%');
             });
         }
 
@@ -131,6 +132,7 @@ class UserController extends Controller
     $user->email = $request->email;
     $user->address = $request->address;
     $user->phone = $request->phone;
+    $user->role = $request->role;
 
     // Only update password if provided
     if ($request->filled('password')) {

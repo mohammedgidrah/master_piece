@@ -1,8 +1,8 @@
 @extends('../dashboard.maindasboard')
 
 @section('content')
-    <div class="page-inner" style="padding-top: 75px">
-        <div class="page-header">
+    {{-- <div class="page-inner" > --}}
+        <div class="page-header" style="padding-top: 75px">
             <h3 class="fw-bold mb-3">Edit User</h3>
             <ul class="breadcrumbs mb-3">
                 <li class="nav-home">
@@ -113,8 +113,8 @@
                 </div>
             </div>
         </div>
+        @include('dashboard.footer')
     </div>
-    @include('dashboard.footer')
 
     <script>
         function previewImage(event) {
