@@ -80,6 +80,11 @@
                                     <input class="form-control" id="inputPhone" name="phone" type="tel"
                                            placeholder="Enter your phone number" value="{{ Auth::user()->phone }}">
                                 </div>
+                                {{-- <div class="col-md-6">
+                                    <label class="small mb-1" for="password">password</label>
+                                    <input class="form-control" id="password" name="password" type="text"
+                                           placeholder="Enter your password " value="{{ Auth::user()->password }}">
+                                </div> --}}
                             </div>
 
                             <button class="btn btn-primary" type="submit">Save changes</button>

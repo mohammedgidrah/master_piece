@@ -7,6 +7,7 @@ use App\Http\Controllers\LoginController;
 use App\Http\Controllers\AdminController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\UserController;
+use App\Http\Controllers\CategoryController;
 
 /*
 |--------------------------------------------------------------------------
@@ -49,6 +50,13 @@ Route::middleware(['admin'])->group(function () {
 
     // User management routes
     Route::resource('users', UserController::class);
+
+    // category management routes
+    Route::resource('categories', CategoryController::class);
+
+    // Product management routes
+    Route::resource('products', ProductController::class);
+
 });
 
 // User profile route
@@ -56,3 +64,4 @@ Route::view('/userprofile', 'userprofile.userprofile')->name('userprofile');
 
 // Profile resource route (limited to update only)
 Route::resource('profile', ProfileController::class)->only('update');
+

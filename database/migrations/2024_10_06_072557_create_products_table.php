@@ -13,14 +13,16 @@ return new class extends Migration
     {
         Schema::create('products', function (Blueprint $table) {
             $table->id(); // product_id
-            $table->unsignedBigInteger('category_id'); // Must match the type of the 'id' in 'categories'
-            $table->foreign('category_id')->references('id')->on('products')->onDelete('cascade');
+
+            // Ensure 'category_id' matches the type of 'id' in 'categories'
+            $table->unsignedBigInteger('category_id');
+            $table->foreign('category_id')->references('id')->on('categories')->onDelete('cascade');
             $table->string('name', 100);
             $table->text('description')->nullable();
-            $table->decimal('price', 10, 2);  
+            $table->decimal('price', 10, 2);
             $table->enum('stock', ['in_stock', 'out_of_stock'])->default('in_stock');
-            $table->string('image_url')->nullable();
-            $table->timestamps();  
+            $table->string('image')->nullable();
+            $table->timestamps();
         });
     }
 

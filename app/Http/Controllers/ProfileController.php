@@ -33,6 +33,7 @@ class ProfileController extends Controller
         $user->email = $request->email;
         $user->address = $request->address;
         $user->phone = $request->phone;
+        $user->image = $imagePath;
     
         // Save the changes
         $user->save();

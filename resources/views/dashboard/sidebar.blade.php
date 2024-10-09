@@ -45,12 +45,12 @@
                 </li>
                 {{-- users --}}
                 <li class="nav-item">
-                    <a data-bs-toggle="collapse" href="#tables" aria-expanded="false" aria-controls="tables">
+                    <a data-bs-toggle="collapse" href="#users" aria-expanded="false" aria-controls="users">
                         <i class="fa-solid fa-users"></i>
                         <p>users</p>
                         <span class="caret"></span>
                     </a>
-                    <div class="collapse" id="tables">
+                    <div class="collapse" id="users">
                         <ul class="nav nav-collapse">
                             <li>
                                 <a href="{{ route('users.index') }}">
@@ -60,6 +60,48 @@
                             <li>
                                 <a href="{{ route('users.create') }}">
                                     <span class="sub-item">create user</span>
+                                </a>
+                            </li>
+                        </ul> 
+                    </div>
+                </li>
+                <li class="nav-item">
+                    <a data-bs-toggle="collapse" href="#category" aria-expanded="false" aria-controls="category">
+                        <i class="fa-solid fa-users"></i>
+                        <p>categories</p>
+                        <span class="caret"></span>
+                    </a>
+                    <div class="collapse" id="category">
+                        <ul class="nav nav-collapse">
+                            <li>
+                                <a href="{{ route('categories.index') }}">
+                                    <span class="sub-item">All categories</span>
+                                </a>
+                            </li>
+                            <li>
+                                <a href="{{ route('categories.create') }}">
+                                    <span class="sub-item">create categories</span>
+                                </a>
+                            </li>
+                        </ul> 
+                    </div>
+                </li>
+                <li class="nav-item">
+                    <a data-bs-toggle="collapse" href="#products" aria-expanded="false" aria-controls="products">
+                        <i class="fa-solid fa-users"></i>
+                        <p>products</p>
+                        <span class="caret"></span>
+                    </a>
+                    <div class="collapse" id="products">
+                        <ul class="nav nav-collapse">
+                            <li>
+                                <a href="{{ route('products.index') }}">
+                                    <span class="sub-item">All products</span>
+                                </a>
+                            </li>
+                            <li>
+                                <a href="{{ route('products.create') }}">
+                                    <span class="sub-item">create products</span>
                                 </a>
                             </li>
                         </ul> 

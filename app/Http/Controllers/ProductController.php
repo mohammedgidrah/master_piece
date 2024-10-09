@@ -8,21 +8,47 @@ use Illuminate\Http\Request;
 
 class ProductController extends Controller
 {
-    // List all products
-    public function index()
+    
+    public function index(Request $request) 
     {
-        $products = Product::with('category')->get(); // Eager load category
-        return view('products.index', compact('products'));
+        $perPage = $request->input('per_page', 5);
+
+        
+        if ($perPage === 'all' || $perPage > 20) {
+            $perPage = 20; 
+        }
+        $query = Product::query();
+        $stockFilter = $request->input('stock');
+        if ($stockFilter) {
+            $query->where('stock', $stockFilter);
+        }
+        $search = $request->input('search');
+
+
+        
+        if ($search) {
+            $query->where(function ($q) use ($search) {
+                $q->where('name', 'like', '%' . $search . '%')
+                    ->orWhere('description', 'like', '%' . $search . '%');
+            });
+        }
+
+        
+        $products = $query->paginate($perPage); 
+        $totalProducts = Product::count(); 
+
+        return view('dashboard.products.index', compact('products', 'totalProducts')); 
     }
 
-    // Show form to create a new product
+    
     public function create()
     {
-        $categories = Category::all(); // Get all categories for dropdown
-        return view('products.create', compact('categories'));
+        $categories = Category::all(); 
+        return view('dashboard.products.create', compact('categories')); 
     }
+    
 
-    // Store the new product in the database
+    
     public function store(Request $request)
     {
         $request->validate([
@@ -30,46 +56,93 @@ class ProductController extends Controller
             'name' => 'required|string|max:100',
             'description' => 'nullable|string',
             'price' => 'required|numeric|min:0',
-            'stock' => 'required|integer|min:0',
-            'image_url' => 'nullable|url',
+            'stock' => 'required|in:in_stock,out_of_stock',
+            'image' => 'nullable|mimes:png,jpg,jpeg,webp|max:2048', 
         ]);
-
-        Product::create($request->all());
-
+    
+        $imagePath = null; 
+    
+        
+        if ($request->hasFile('image')) {
+            $imagePath = $request->file('image')->store('uploads/products', 'public');
+        }
+    
+        
+        Product::create([
+            'category_id' => $request->category_id, 
+            'name' => $request->name,
+            'description' => $request->description,
+            'price' => $request->price,
+            'stock' => $request->stock,
+            'image' => $imagePath, 
+        ]);
+    
         return redirect()->route('products.index')->with('success', 'Product created successfully!');
     }
+    
+    
 
-    // Show a specific product
+
+ 
+
+    
     public function show(Product $product)
     {
-        return view('products.show', compact('product'));
+        return view('dashboard.products.show', compact('product'));
     }
 
-    // Show form to edit a product
+    
     public function edit(Product $product)
     {
         $categories = Category::all();
-        return view('products.edit', compact('product', 'categories'));
+        return view('dashboard.products.edit', compact('product', 'categories'));
     }
 
-    // Update the product in the database
-    public function update(Request $request, Product $product)
+    
+    public function update(Request $request, $id)
     {
         $request->validate([
             'category_id' => 'required|exists:categories,id',
             'name' => 'required|string|max:100',
             'description' => 'nullable|string',
             'price' => 'required|numeric|min:0',
-            'stock' => 'required|integer|min:0',
-            'image_url' => 'nullable|url',
+            'stock' => 'required|in:in_stock,out_of_stock',
+            'image' => 'nullable|mimes:png,jpg,jpeg,webp',
         ]);
 
-        $product->update($request->all());
+
+        $product = Product::findOrFail($id);
+        
+        
+        $currentImagePath = $product->image;
+    
+        
+        if ($request->hasFile('image')) {
+            
+            if ($currentImagePath && \Storage::disk('public')->exists($currentImagePath)) {
+                \Storage::disk('public')->delete($currentImagePath);
+            }
+    
+            
+            $imagePath = $request->file('image')->store('uploads/products', 'public');
+            $product->image = $imagePath; 
+        } else {
+            
+            $product->image = $currentImagePath;
+        }
+
+        $product->category_id = $request->category_id;
+        $product->name = $request->name;
+        $product->description = $request->description;
+        $product->price = $request->price;
+        $product->stock = $request->stock;
+        $product->save();
+
 
         return redirect()->route('products.index')->with('success', 'Product updated successfully!');
     }
 
-    // Delete a product
+    
     public function destroy(Product $product)
     {
         $product->delete();
