@@ -87,7 +87,7 @@
                         <!-- Add more admin-specific links here -->
                     @endif
                     @if (Auth::user()->role !== 'admin')
-                        <div class="dropdown-divider"></div>
+                        {{-- <div class="dropdown-divider"></div> --}}
                         <a class="dropdown-item" href="{{ route('userprofile') }}">Profile</a>
                         <div class="dropdown-divider"></div>
                     @endif
@@ -99,7 +99,7 @@
 
             <!-- Hidden logout form -->
             <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">
-                @csrf
+                @csrf <!-- Ensure CSRF token is included -->
             </form>
         @else
             <!-- Display login link if the user is not logged in -->
@@ -107,3 +107,4 @@
         @endauth
     </section>
 </header>
+

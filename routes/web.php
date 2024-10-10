@@ -57,7 +57,10 @@ Route::middleware(['admin'])->group(function () {
 
     // Product management routes
     Route::resource('products', ProductController::class);
-
+    
+    Route::post('/users/restore/{id}', [UserController::class, 'restore'])->name('users.restore');
+    Route::delete('/users/forceDelete/{id}', [UserController::class, 'forceDelete'])->name('users.forceDelete');
+    Route::get('/trashed', [UserController::class, 'trashed'])->name('users.trashed');
 });
 
 // User profile route

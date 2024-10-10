@@ -34,11 +34,16 @@
         </div>
 
         <!-- Create Button -->
-        <div class="mb-3">
-            <a href="{{ route('users.create') }}" class="btn btn-primary">
+        <div class="mb-3 d-flex justify-content-start">
+            <a href="{{ route('users.create') }}" class="btn btn-primary me-2">
                 <i class="fa fa-plus"></i> Create User
             </a>
+            <a href="{{ route('users.trashed') }}" class="btn btn-danger">
+                <i class="fa fa-trash"></i> View Trashed Users
+            </a>
         </div>
+        
+        
 
         <!-- Search and Filter -->
         <div class="mb-3">
@@ -106,11 +111,10 @@
                                     <img src="{{ asset('storage/' . $user->image) }}"
                                         alt="{{ $user->first_name }} {{ $user->last_name }}"
                                         style="width: 50px; height: auto; border-radius: 50%;" />
-
                                 </td>
                                 <td>{{ $user->first_name }}</td>
                                 <td>{{ $user->last_name }}</td>
-                                <td> {!! wrapText($user->email, 30) !!} </td>
+                                <td>{{ $user->email }}</td>
                                 <td>{{ $user->phone }}</td>
                                 <td>{{ $user->address }}</td>
                                 <td>{{ $user->role }}</td>
@@ -151,10 +155,10 @@
     </div>
     @include('dashboard.footer')
     </div>
-    @php
+    {{-- @php
     function wrapText($text, $length = 50)
     {
         return nl2br(wordwrap($text, $length, "\n", true));
     }
-@endphp
+@endphp --}}
 @endsection

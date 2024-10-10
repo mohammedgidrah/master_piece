@@ -19,12 +19,13 @@ return new class extends Migration
             $table->string('email')->unique();
             $table->string('password'); // For users
             $table->enum('role', ['admin', 'user'])->default('user'); // Enum column for user roles
-            $table->string('phone')->nullable(); // This defaults to 255 characters
-            $table->string('address')->nullable(); // For customers
-            $table->timestamp('email_verified_at')->nullable();
-            $table->string('image')->nullable();
-            $table->rememberToken();
-            $table->timestamps();
+            $table->string('phone')->nullable(); // Optional for customers/users
+            $table->string('address')->nullable(); // Optional for customers/users
+            $table->timestamp('email_verified_at')->nullable(); // For email verification
+            $table->string('image')->nullable(); // For profile/customer image
+            $table->softDeletes(); // Adds the deleted_at column for soft delete functionality
+            $table->rememberToken(); // Token for "remember me" sessions
+            $table->timestamps(); // Created and updated timestamps
         });
     }
 

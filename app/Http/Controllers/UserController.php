@@ -42,7 +42,38 @@ class UserController extends Controller
         $users = $query->paginate($perPage);
         $totalUsers = User::count();
 
+        $users = User::paginate(5); // For active users
+        $trashedUsers = User::onlyTrashed()->paginate(5); // For trashed users
+
         return view('dashboard.users.index', compact('users', 'totalUsers'));
+    }
+
+    public function trashed(Request $request)
+    {
+        $totaltrashedUsers= User::onlyTrashed()->count();
+     
+        // Fetch trashed users with pagination
+        $users = User::onlyTrashed()->paginate(5);
+    
+        return view('dashboard.users.trashed', compact('users', 'totaltrashedUsers'));
+    }
+    
+    // Restore a soft deleted user
+    public function restore($id)
+    {
+        $user = User::onlyTrashed()->findOrFail($id);
+        $user->restore();
+
+        return redirect()->route('users.trashed')->with('success', 'User restored successfully.');
+    }
+
+    // Permanently delete a user
+    public function forceDelete($id)
+    {
+        $user = User::onlyTrashed()->findOrFail($id);
+        $user->forceDelete();
+
+        return redirect()->route('users.trashed')->with('success', 'User permanently deleted.');
     }
 
     public function create()
@@ -50,46 +81,43 @@ class UserController extends Controller
         // Show the form to create a new user
         return view('dashboard.users.create');
     }
-    public function show()
+    public function show($id)
     {
-        // Show the form to create a new user
-        // return view('users.create');
+        $user = User::onlyTrashed()->findOrFail($id); // Fetch the trashed user by ID
+        return view('dashboard.users.trashed', compact('user'));
     }
     public function store(Request $request)
-{
-    // Validate the request data
-    $request->validate([
-        'last_name' => 'required|string|max:255',
-        'first_name' => 'required|string|max:255',
-        'email' => 'required|string|email|max:255|unique:users',
-        'role' => 'required|in:admin,user',
-        'address' => 'nullable|string|max:255',
-        'phone' => 'nullable|string|max:255',
-        'password' => 'required|string|min:8',
-        'image' => 'nullable|mimes:png,jpg,jpeg,webp',
-    ]);
+    {
+        // Validate the request data
+        $request->validate([
+            'last_name' => 'required|string|max:255',
+            'first_name' => 'required|string|max:255',
+            'email' => 'required|string|email|max:255|unique:users',
+            'role' => 'required|in:admin,user',
+            'address' => 'nullable|string|max:255',
+            'phone' => 'nullable|string|max:255',
+            'password' => 'required|string|min:8',
+            'image' => 'nullable|mimes:png,jpg,jpeg,webp',
+        ]);
 
- 
+        if ($request->hasFile('image')) {
+            $imagePath = $request->file('image')->store('uploads/usersprofiles', 'public');
+        }
 
-    if ($request->hasFile('image')) {
-        $imagePath = $request->file('image')->store('uploads/usersprofiles', 'public');
+        // Create a new user
+        User::create([
+            'first_name' => $request->first_name,
+            'last_name' => $request->last_name,
+            'email' => $request->email,
+            'role' => $request->role,
+            'address' => $request->address,
+            'phone' => $request->phone,
+            'password' => bcrypt($request->password),
+            'image' => $imagePath,
+        ]);
+
+        return redirect()->route('users.index')->with('success', 'User created successfully.');
     }
-
-    // Create a new user
-    User::create([
-        'first_name' => $request->first_name,
-        'last_name' => $request->last_name,
-        'email' => $request->email,
-        'role' => $request->role,
-        'address' => $request->address,
-        'phone' => $request->phone,
-        'password' => bcrypt($request->password),
-        'image' => $imagePath,
-    ]);
-
-    return redirect()->route('users.index')->with('success', 'User created successfully.');
-}
-
 
     public function edit($id)
     {
@@ -97,54 +125,51 @@ class UserController extends Controller
         return view('dashboard.users.edit', compact('users')); // Pass the user to the view
     }
 
-  
-
     public function update(Request $request, $id)
-{
-    $request->validate([
-        'first_name' => 'required|string|max:255',
-        'last_name' => 'required|string|max:255',
-        'email' => 'required|string|email|max:255|unique:users,email,' . $id, // Ensure unique email
-        'address' => 'nullable|string|max:255',
-        'phone' => 'nullable|string|max:255',
-        'image' => 'nullable|image|mimes:jpeg,png,jpg,gif',
-        'password' => 'nullable|string|min:8',
-        'role' => 'required|in:admin,user',
-    ]);
+    {
+        $request->validate([
+            'first_name' => 'required|string|max:255',
+            'last_name' => 'required|string|max:255',
+            'email' => 'required|string|email|max:255|unique:users,email,' . $id, // Ensure unique email
+            'address' => 'nullable|string|max:255',
+            'phone' => 'nullable|string|max:255',
+            'image' => 'nullable|image|mimes:jpeg,png,jpg,gif',
+            'password' => 'nullable|string|min:8',
+            'role' => 'required|in:admin,user',
+        ]);
 
-    $user = User::findOrFail($id);
+        $user = User::findOrFail($id);
 
-    // Handle file upload if exists
-    if ($request->hasFile('image')) {
-        // Delete the old image if it exists
-        if ($user->image && \Storage::disk('public')->exists($user->image)) {
-            \Storage::disk('public')->delete($user->image);
+        // Handle file upload if exists
+        if ($request->hasFile('image')) {
+            // Delete the old image if it exists
+            if ($user->image && \Storage::disk('public')->exists($user->image)) {
+                \Storage::disk('public')->delete($user->image);
+            }
+
+            // Store the new image
+            $imagePath = $request->file('image')->store('uploads/usersprofiles', 'public');
+            $user->image = $imagePath; // Update the user's image path
         }
 
-        // Store the new image
-        $imagePath = $request->file('image')->store('uploads/usersprofiles', 'public');
-        $user->image = $imagePath; // Update the user's image path
+        // Update user details
+        $user->first_name = $request->first_name;
+        $user->last_name = $request->last_name;
+        $user->email = $request->email;
+        $user->address = $request->address;
+        $user->phone = $request->phone;
+        $user->role = $request->role;
+
+        // Only update password if provided
+        if ($request->filled('password')) {
+            $user->password = bcrypt($request->password); // Hash the new password
+        }
+
+        // Save the changes
+        $user->save();
+
+        return redirect()->route('users.index')->with('success', 'Profile updated successfully!');
     }
-
-    // Update user details
-    $user->first_name = $request->first_name;
-    $user->last_name = $request->last_name;
-    $user->email = $request->email;
-    $user->address = $request->address;
-    $user->phone = $request->phone;
-    $user->role = $request->role;
-
-    // Only update password if provided
-    if ($request->filled('password')) {
-        $user->password = bcrypt($request->password); // Hash the new password
-    }
-
-    // Save the changes
-    $user->save();
-
-    return redirect()->route('users.index')->with('success', 'Profile updated successfully!');
-}
-
 
     public function destroy(string $id)
     {

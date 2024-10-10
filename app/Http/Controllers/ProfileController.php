@@ -17,11 +17,12 @@ class ProfileController extends Controller
             'address' => 'nullable|string|max:255',
             'phone' => 'nullable|string|max:15',
             'image' => 'nullable|image|mimes:jpeg,png,jpg,gif,svg|max:5120', // Max 5MB
+            'password' => 'nullable|string|min:8',
         ]);
     
         $user = User::findOrFail($id);
     
-        // Handle file upload if exists
+        // Handle file upload if exists, otherwise keep the current image
         if ($request->hasFile('image')) {
             $imagePath = $request->file('image')->store('uploads/usersprofiles', 'public');
             $user->image = $imagePath;
@@ -33,13 +34,18 @@ class ProfileController extends Controller
         $user->email = $request->email;
         $user->address = $request->address;
         $user->phone = $request->phone;
-        $user->image = $imagePath;
+    
+        // Only update the password if provided
+        if ($request->filled('password')) {
+            $user->password = Hash::make($request->password);
+        }
     
         // Save the changes
         $user->save();
     
         return redirect()->back()->with('success', 'Profile updated successfully!');
     }
+    
     
 }
 
