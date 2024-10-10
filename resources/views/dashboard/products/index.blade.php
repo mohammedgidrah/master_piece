@@ -150,9 +150,11 @@
     @include('dashboard.footer')
     </div>
     @php
-        function wrapText($text, $length = 50)
-        {
+    if (!function_exists('wrapText')) {
+        function wrapText($text, $length = 50) {
             return nl2br(wordwrap($text, $length, "\n", true));
         }
+    }
     @endphp
+    
 @endsection

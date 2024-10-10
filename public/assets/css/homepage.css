@@ -479,6 +479,12 @@ section.links.active a{
   width: 250px;
   height: auto;
 }
+.button-container {
+  display: flex; /* Use flexbox to align items in a row */
+  align-items: center; /* Center items vertically */
+  margin-top: 20px; /* Add some space above the buttons */
+}
+
 
 
 

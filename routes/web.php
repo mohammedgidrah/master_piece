@@ -9,6 +9,7 @@ use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\HomeCategoryController;
+use App\Http\Controllers\OrderController;
 
 /*
 |--------------------------------------------------------------------------
@@ -77,5 +78,9 @@ Route::get('/categories/{id}', [ProductController::class, 'showCategoryProducts'
 
 // routes/web.php
 
-Route::get('/products/{id}', [ProductController::class, 'show'])->name('product.show');
+Route::get('/products/{id}', [ProductController::class, 'show'])->name('products.show');
+
+Route::post('/orders/store/{id}', [OrderController::class, 'store'])->name('orders.store');
+
+Route::get('/orders', [OrderController::class, 'index'])->middleware('auth');
 

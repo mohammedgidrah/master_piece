@@ -12,7 +12,7 @@
 
 </head>
 
-<body>
+<body style="height: 100vh">
     @include('homepage.homenav.homenav')
 
     <section class="product_section">
@@ -24,7 +24,7 @@
                     <img src="{{ asset('storage/' . $product->image) }}" alt="{{ $product->name }}" class="product_image" />
                     {{-- <p class="product_description">{!! wrapText($product->description, 30) !!} </p> --}}
                     {{-- <p class="product_price">Price: <span class="price_value">${{ $product->price }}</span></p> --}}
-                    <a class="product_link" href="{{ route('product.show', $product->id) }}">View Details</a>
+                    <a class="product_link" href="{{ route('products.show', $product->id) }}">View Details</a>
                 </div>
             @empty
                 <p>No products found in this category.</p>
@@ -38,7 +38,9 @@
 </html>
 
 @php
-function wrapText($text, $length = 50) {
-    return nl2br(wordwrap($text, $length, "\n", true));
+if (!function_exists('wrapText')) {
+    function wrapText($text, $length = 50) {
+        return nl2br(wordwrap($text, $length, "\n", true));
+    }
 }
 @endphp

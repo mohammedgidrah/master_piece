@@ -62,12 +62,12 @@
                                     <span class="sub-item">create user</span>
                                 </a>
                             </li>
-                        </ul> 
+                        </ul>
                     </div>
                 </li>
                 <li class="nav-item">
                     <a data-bs-toggle="collapse" href="#category" aria-expanded="false" aria-controls="category">
-                        <i class="fa-solid fa-users"></i>
+                        <i class="fa-solid fa-layer-group"></i>
                         <p>categories</p>
                         <span class="caret"></span>
                     </a>
@@ -83,12 +83,12 @@
                                     <span class="sub-item">create categories</span>
                                 </a>
                             </li>
-                        </ul> 
+                        </ul>
                     </div>
                 </li>
                 <li class="nav-item">
                     <a data-bs-toggle="collapse" href="#products" aria-expanded="false" aria-controls="products">
-                        <i class="fa-solid fa-users"></i>
+                        <i class="fa-solid fa-basket-shopping"></i>
                         <p>products</p>
                         <span class="caret"></span>
                     </a>
@@ -104,11 +104,11 @@
                                     <span class="sub-item">create products</span>
                                 </a>
                             </li>
-                        </ul> 
+                        </ul>
                     </div>
                 </li>
 
- 
+
 
 
 

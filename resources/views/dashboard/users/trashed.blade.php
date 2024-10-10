@@ -1,8 +1,8 @@
 @extends('dashboard.maindasboard')
 
 @section('content')
-    <div class="page-inner" style="padding-top: 75px">
-         <div class="page-header">
+    {{-- <div class="page-inner" style="padding-top: 75px"> --}}
+         <div class="page-header" style="padding-top: 75px">
             <h3 class="fw-bold mb-3">Trashed Users</h3>
             <ul class="breadcrumbs mb-3">
                 <li class="nav-home">
@@ -19,10 +19,11 @@
             </ul>
         </div>
 
-        <div class="table-responsive">
+        <div class="table-responsive" >
             <table class="display table table-striped table-hover">
                 <thead>
                     <tr>
+                        <th>image</th>
                         <th>First Name</th>
                         <th>Last Name</th>
                         <th>Email</th>
@@ -33,6 +34,9 @@
                     @if ($users->isNotEmpty())
                         @foreach ($users as $user)
                             <tr>
+                                <td>
+                                    <img src="{{ asset('storage/' . $user->image) }}"  style="width: 100px; height: auto; border-radius: 50%;">
+                                </td>
                                 <td>{{ $user->first_name }}</td>
                                 <td>{{ $user->last_name }}</td>
                                 <td>{{ $user->email }}</td>
@@ -51,7 +55,7 @@
                         @endforeach
                     @else
                         <tr>
-                            <td colspan="4" class="text-center">No trashed users found.</td>
+                            <td colspan="5" class="text-center">No trashed users found.</td>
                         </tr>
                     @endif
                 </tbody>

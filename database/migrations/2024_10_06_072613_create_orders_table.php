@@ -13,12 +13,14 @@ return new class extends Migration
     {
         Schema::create('orders', function (Blueprint $table) {
             $table->id();
-            $table->unsignedBigInteger('customer_id'); // Must match the type of the 'id' in 'categories'
-            $table->foreign('customer_id')->references('id')->on('orders')->onDelete('cascade');
+            $table->unsignedBigInteger('customer_id'); // Update from 'user_id' to 'customer_id'
+            $table->foreign('customer_id')->references('id')->on('users')->onDelete('cascade'); // Ensure the foreign key is correct
+            $table->unsignedBigInteger('product_id'); // Add the product_id foreign key
+            $table->foreign('product_id')->references('id')->on('products')->onDelete('cascade'); // Ensure the foreign key is correct
             $table->decimal('total_price', 10, 2);
+            $table->string('image')->nullable();
             // Define the 'order_status' as an ENUM type with specific values
             $table->enum('order_status', ['pending', 'processing', 'shipped', 'delivered', 'cancelled'])->default('pending');
-            $table->text('shipping_address');
             $table->timestamps();
         });
     }

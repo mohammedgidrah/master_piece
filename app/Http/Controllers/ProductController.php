@@ -80,14 +80,22 @@ class ProductController extends Controller
         return redirect()->route('products.index')->with('success', 'Product created successfully!');
     }
 
+ 
+
     public function show($id)
     {
-        // Retrieve the product by ID
-        $product = Product::findOrFail($id);
-
-        // Return the product view
+        // Retrieve the product by its ID
+        $product = Product::find($id); // Use $product, not $products
+    
+        // Check if the product exists
+        if (!$product) {
+            return redirect()->back()->with('error', 'Product not found.');
+        }
+    
+        // Pass the product to the view
         return view('homepage.products.show', compact('product'));
     }
+    
 
     public function edit(Product $product)
     {
