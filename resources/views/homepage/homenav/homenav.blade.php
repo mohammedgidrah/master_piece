@@ -62,7 +62,7 @@
 
 <header>
     <div>
-        <img class="header_img" src="assets/img/home/masterpeace_logo-removebg-preview.png" alt="Logo" />
+        <img class="header_img" src="{{asset('assets/img/home/masterpeace_logo-removebg-preview.png')}}" alt="Logo" />
     </div>
     <button class="menu-toggle" aria-label="Open menu">
         <span class="menu-icon"></span>

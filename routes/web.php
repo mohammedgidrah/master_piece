@@ -8,6 +8,7 @@ use App\Http\Controllers\AdminController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\CategoryController;
+use App\Http\Controllers\HomeCategoryController;
 
 /*
 |--------------------------------------------------------------------------
@@ -64,4 +65,14 @@ Route::view('/userprofile', 'userprofile.userprofile')->name('userprofile');
 
 // Profile resource route (limited to update only)
 Route::resource('profile', ProfileController::class)->only('update');
+
+Route::get('/', [HomeCategoryController::class, 'index'])->name('home');
+
+// routes/web.php
+
+Route::get('/categories/{id}', [ProductController::class, 'showCategoryProducts'])->name('category.products');
+
+// routes/web.php
+
+Route::get('/products/{id}', [ProductController::class, 'show'])->name('product.show');
 

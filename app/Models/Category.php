@@ -14,6 +14,7 @@ class Category extends Model
         'description',
         'image',
     ];
+    protected $table = 'categories';
 
 
     public function products()

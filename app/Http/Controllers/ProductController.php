@@ -2,20 +2,19 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Product;
 use App\Models\Category;
+use App\Models\Product;
 use Illuminate\Http\Request;
 
 class ProductController extends Controller
 {
-    
-    public function index(Request $request) 
+
+    public function index(Request $request)
     {
         $perPage = $request->input('per_page', 5);
 
-        
         if ($perPage === 'all' || $perPage > 20) {
-            $perPage = 20; 
+            $perPage = 20;
         }
         $query = Product::query();
         $stockFilter = $request->input('stock');
@@ -24,8 +23,6 @@ class ProductController extends Controller
         }
         $search = $request->input('search');
 
-
-        
         if ($search) {
             $query->where(function ($q) use ($search) {
                 $q->where('name', 'like', '%' . $search . '%')
@@ -33,22 +30,27 @@ class ProductController extends Controller
             });
         }
 
-        
-        $products = $query->paginate($perPage); 
-        $totalProducts = Product::count(); 
+        $products = $query->paginate($perPage);
+        $totalProducts = Product::count();
 
-        return view('dashboard.products.index', compact('products', 'totalProducts')); 
+        return view('dashboard.products.index', compact('products', 'totalProducts'));
     }
 
+    public function showCategoryProducts( Request $request,   $id)
+{
     
+    $products = Product::where('category_id', $id)->get();
+
+    
+    return view('homepage.products.index', compact('products'));
+} 
+
     public function create()
     {
-        $categories = Category::all(); 
-        return view('dashboard.products.create', compact('categories')); 
+        $categories = Category::all();
+        return view('dashboard.products.create', compact('categories'));
     }
-    
 
-    
     public function store(Request $request)
     {
         $request->validate([
@@ -57,48 +59,42 @@ class ProductController extends Controller
             'description' => 'nullable|string',
             'price' => 'required|numeric|min:0',
             'stock' => 'required|in:in_stock,out_of_stock',
-            'image' => 'nullable|mimes:png,jpg,jpeg,webp|max:2048', 
+            'image' => 'nullable|mimes:png,jpg,jpeg,webp|max:2048',
         ]);
-    
-        $imagePath = null; 
-    
-        
+
+        $imagePath = null;
+
         if ($request->hasFile('image')) {
             $imagePath = $request->file('image')->store('uploads/products', 'public');
         }
-    
-        
+
         Product::create([
-            'category_id' => $request->category_id, 
+            'category_id' => $request->category_id,
             'name' => $request->name,
             'description' => $request->description,
             'price' => $request->price,
             'stock' => $request->stock,
-            'image' => $imagePath, 
+            'image' => $imagePath,
         ]);
-    
+
         return redirect()->route('products.index')->with('success', 'Product created successfully!');
     }
-    
-    
 
-
- 
-
-    
-    public function show(Product $product)
+    public function show($id)
     {
-        return view('dashboard.products.show', compact('product'));
+        // Retrieve the product by ID
+        $product = Product::findOrFail($id);
+
+        // Return the product view
+        return view('homepage.products.show', compact('product'));
     }
 
-    
     public function edit(Product $product)
     {
         $categories = Category::all();
         return view('dashboard.products.edit', compact('product', 'categories'));
     }
 
-    
     public function update(Request $request, $id)
     {
         $request->validate([
@@ -110,24 +106,20 @@ class ProductController extends Controller
             'image' => 'nullable|mimes:png,jpg,jpeg,webp',
         ]);
 
-
         $product = Product::findOrFail($id);
-        
-        
+
         $currentImagePath = $product->image;
-    
-        
+
         if ($request->hasFile('image')) {
-            
+
             if ($currentImagePath && \Storage::disk('public')->exists($currentImagePath)) {
                 \Storage::disk('public')->delete($currentImagePath);
             }
-    
-            
+
             $imagePath = $request->file('image')->store('uploads/products', 'public');
-            $product->image = $imagePath; 
+            $product->image = $imagePath;
         } else {
-            
+
             $product->image = $currentImagePath;
         }
 
@@ -138,14 +130,13 @@ class ProductController extends Controller
         $product->stock = $request->stock;
         $product->save();
 
-
         return redirect()->route('products.index')->with('success', 'Product updated successfully!');
     }
 
-    
     public function destroy(Product $product)
     {
         $product->delete();
         return redirect()->route('products.index')->with('success', 'Product deleted successfully!');
     }
+
 }
