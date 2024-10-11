@@ -52,16 +52,22 @@ Route::middleware(['admin'])->group(function () {
 
     // User management routes
     Route::resource('users', UserController::class);
-
+    
     // category management routes
     Route::resource('categories', CategoryController::class);
-
+    
     // Product management routes
     Route::resource('products', ProductController::class);
     
     Route::post('/users/restore/{id}', [UserController::class, 'restore'])->name('users.restore');
     Route::delete('/users/forceDelete/{id}', [UserController::class, 'forceDelete'])->name('users.forceDelete');
     Route::get('/trashed', [UserController::class, 'trashed'])->name('users.trashed');
+});
+Route::middleware(['auth'])->group(function () {
+    Route::get('/orders', [OrderController::class, 'index'])->name('orders.index');
+    Route::post('/orders/store/{id}', [OrderController::class, 'store'])->name('orders.store');
+    Route::delete('/orders/{id}', [OrderController::class, 'destroy'])->name('orders.destroy');
+
 });
 
 // User profile route
@@ -80,7 +86,4 @@ Route::get('/categories/{id}', [ProductController::class, 'showCategoryProducts'
 
 Route::get('/products/{id}', [ProductController::class, 'show'])->name('products.show');
 
-Route::post('/orders/store/{id}', [OrderController::class, 'store'])->name('orders.store');
-
-Route::get('/orders', [OrderController::class, 'index'])->middleware('auth');
 

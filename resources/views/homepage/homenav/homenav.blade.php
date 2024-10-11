@@ -69,7 +69,7 @@
     </button>
     <section class="links">
         <a href="{{ route('home') }}">Home</a>
-        <a href="#">Create</a>
+        <a href="{{ route('orders.index') }}" >Your Orders</a>
         <a href="#">About</a>
         <a href="#">Faq</a>
 

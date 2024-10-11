@@ -65,7 +65,21 @@ label {
     transition: 0.5s ease-in-out;
 }
 
-input {
+.sign_up_input {
+    width: 60%;
+    height: 30px;
+    background: #8f00ff;
+    color: white;
+    justify-content: center;
+    display: flex;
+    margin: -20px auto;
+    border: none;
+    outline: none;
+    padding: 10px;
+    border-radius: 10px;
+    margin-top: -10px;
+}
+.login_input {
     width: 60%;
     height: 30px;
     background: #8f00ff;
@@ -152,6 +166,21 @@ svg {
 }
 
 p {
+    display: flex;
+    justify-content: start;
+    align-items: center;
+    margin: 20px 0;
+    color: #8f00ff;
+}
+.sign_up_p{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin: 20px 0;
+    color: white;
+
+}
+.sign_in_p{
     display: flex;
     justify-content: center;
     align-items: center;

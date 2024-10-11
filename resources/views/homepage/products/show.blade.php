@@ -25,32 +25,47 @@
                 </div>
             </div>
             <p class="product_price">Price: <span class="price_value">${{ $product->price }}</span></p>
-
             <div class="button-container">
-                <form action="{{ route('orders.store', $product->id) }}" method="POST" class="order_form">
-                    @csrf
-                    
-                    <!-- Display Validation Errors -->
-                    @if ($errors->any())
-                        <div class="alert alert-danger">
-                            <ul>
-                                @foreach ($errors->all() as $error)
-                                    <li>{{ $error }}</li>
-                                @endforeach
-                            </ul>
+                @if(auth()->check())
+                    <!-- Form is available only to logged-in users -->
+                    @if (session('success'))
+                        <div class="alert alert-success" style="height: 40px; margin-top: 17px; display: flex; align-items: center">
+                            {{ session('success') }}
                         </div>
                     @endif
-
-                    <input type="hidden" name="product_id" value="{{ $product->id }}">
-                    <input type="hidden" name="total_price" value="{{ $product->price }}">
-                    <input type="hidden" name="customer_id" value="{{ auth()->user()->id }}"> 
-                    <button type="submit" class="btn btn-primary">Store Product in Order</button>
-                </form>
-
+                    
+                    <form action="{{ route('orders.store', $product->id) }}" method="POST" class="order_form">
+                        @csrf
+            
+                        <!-- Display Validation Errors -->
+                        @if ($errors->any())
+                            <div class="alert alert-danger" style="height: 40px; margin-top: 17px; display: flex; align-items: center">
+                                <ul>
+                                    @foreach ($errors->all() as $error)
+                                        <li>{{ $error }}</li>
+                                    @endforeach
+                                </ul>
+                            </div>
+                        @endif
+            
+                        <input type="hidden" name="product_id" value="{{ $product->id }}">
+                        <input type="hidden" name="total_price" value="{{ $product->price }}">
+                        <input type="hidden" name="customer_id" value="{{ auth()->user()->id }}">
+                        <button type="submit" class="btn btn-primary">Store Product in Order</button>
+                    </form>
+                @else
+                    <!-- Show message if the user is not logged in -->
+                    <p class="alert alert-warning" style="height: 40px; margin-top: 17px; display: flex; align-items: center">
+                        You need to <a href="{{ route('login') }}" style="text-decoration: none">log in</a> first to place an order.
+                    </p>
+                @endif
+            
                 <a href="{{ route('category.products', $product->category_id) }}" class="btn btn-secondary">Back to Category</a>
             </div>
+            
         </div>
     </section>
+    
 
     <!-- Fix the JavaScript link -->
     <script src="{{ asset('./assets/js/homepage.js') }}"></script>

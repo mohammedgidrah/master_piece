@@ -485,7 +485,58 @@ section.links.active a{
   margin-top: 20px; /* Add some space above the buttons */
 }
 
+.dropdown {
+  position: relative;
+  display: inline-block;
+}
 
+.dropbtn {
+  background-color: transparent;
+  color: #d8af53;
+  padding: 10px;
+  border: none;
+  cursor: pointer;
+  font-size: 16px;
+}
+
+.dropdown-content {
+  display: none;
+  position: absolute;
+  background-color: #f9f9f9;
+  min-width: 160px;
+  color: #4a098b;
+  box-shadow: 0px 8px 16px 0px rgba(0, 0, 0, 0.2);
+  z-index: 1;
+}
+
+.dropdown-content a,
+.dropdown-content form button {
+  color: #d8af53;
+  padding: 12px 30px;
+  text-decoration: none;
+  display: block;
+  background: none;
+  border: none;
+  width: 100%;
+  text-align: left;
+  cursor: pointer;
+}
+
+.dropdown-content a:hover,
+.dropdown-content form button:hover {
+  background-color: #f1f1f1;
+}
+
+.dropdown:hover .dropdown-content {
+  display: block;
+}
+
+.dropdown-divider {
+  height: 1px;
+  margin: .5rem 0;
+  overflow: hidden;
+  background-color: #e9ecef;
+}
 
 
 
