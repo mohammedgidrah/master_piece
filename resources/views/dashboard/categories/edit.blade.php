@@ -2,7 +2,7 @@
 
 @section('content')
     {{-- <div class="page-inner" > --}}
-        <div class="page-header" style="padding: 90px 0px 0px 75px">
+        <div class="page-inner d-flex justify-content-start align-items-start" style="padding-top:  75px">
             <h3 class="fw-bold mb-3">Edit User</h3>
             <ul class="breadcrumbs mb-3">
                 <li class="nav-home">
@@ -25,7 +25,7 @@
             </ul>
         </div>
 
-        <div class="row" style="margin: 50px">
+        <div class="row"  style="padding:  10px   10px">
             <div class="col-md-12">
                 <div class="card">
                     <div class="card-body">

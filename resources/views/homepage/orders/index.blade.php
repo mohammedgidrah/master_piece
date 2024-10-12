@@ -55,7 +55,7 @@
                                     Order Number #{{ $order->id }}
                                 </div>
                                 <div class="card-body text-center">
-                                    <img src="{{ asset('storage/' . $order->product->image) }}" alt="Order Image" class="img-fluid" style="max-height: 300px;">
+                                    <img src="{{ asset('storage/' . $order->product->image) }}" alt="Order Image" class="img-fluid"  style="width: 200px; height: auto;">
                                     <p class="order-info"><strong>Status:</strong> {{ ucfirst($order->order_status) }}</p>
                                     <p class="order-info"><strong>Total Price:</strong> ${{ $order->total_price }}</p>
                                     <p class="order-info"><strong>Date:</strong> {{ $order->created_at->format('Y-m-d') }}</p>

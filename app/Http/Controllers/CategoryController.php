@@ -35,6 +35,31 @@ class CategoryController extends Controller
 
         return view('dashboard.categories.index', compact('categories', 'totalcategories'));
     }
+
+    public function trashed(Request $request)
+    {
+        $totaltrashedcategories= Category::onlyTrashed()->count();
+     
+        // Fetch trashed users with pagination
+        $categories = Category::onlyTrashed()->paginate(5);
+    
+        return view('dashboard.categories.trashed', compact('categories', 'totaltrashedcategories'));
+    }
+
+    public function restore($id)
+    {
+        $categories = Category::onlyTrashed()->findOrFail($id);
+        $categories->restore();
+
+        return redirect()->route('categories.trashed')->with('success', 'Category restored successfully.');
+    }
+    public function forceDelete($id)
+    {
+        $categories = Category::onlyTrashed()->findOrFail($id);
+        $categories->forceDelete();
+
+        return redirect()->route('categories.trashed')->with('success', 'Category permanently deleted.');
+    }
     public function show($id)
     {
         // Retrieve the category

@@ -70,6 +70,11 @@ Route::middleware(['admin'])->group(function () {
     Route::post('/products/restore/{id}', [ProductController::class, 'restore'])->name('products.restore');
     Route::delete('/products/forceDelete/{id}', [ProductController::class, 'forceDelete'])->name('products.forceDelete');
 
+    // Category management routes
+    route::get('/trashed/categories', [CategoryController::class, 'trashed'])->name('categories.trashed');
+    Route::post('/categories/restore/{id}', [CategoryController::class, 'restore'])->name('categories.restore');
+    Route::delete('/categories/forceDelete/{id}', [CategoryController::class, 'forceDelete'])->name('categories.forceDelete');
+
 });
 Route::middleware(['auth'])->group(function () {
     Route::get('/orders', [OrderController::class, 'index'])->name('orders.index');

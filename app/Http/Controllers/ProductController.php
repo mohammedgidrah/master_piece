@@ -100,10 +100,20 @@ class ProductController extends Controller
 
  
 
+ 
+
     public function show($id)
     {
-        $products = User::onlyTrashed()->findOrFail($id); // Fetch the trashed products by ID
-        return view('dashboard.products.trashed', compact('products'));
+        // Retrieve the product by ID
+        $product = Product::findOrFail($id);
+ 
+        // Check if the product exists
+        if (!$product) {
+            return redirect()->back()->with('error', 'Product not found.');
+        }
+    
+        // Pass the product to the view
+        return view('homepage.products.show', compact('product'));
     }
     
 

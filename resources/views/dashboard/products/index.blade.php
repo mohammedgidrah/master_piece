@@ -1,8 +1,7 @@
 @extends('dashboard.maindasboard')
 
 @section('content')
-    {{-- <div class="container"> --}}
-    <div class="page-inner" style="padding-top: 75px">
+     <div class="page-inner" style="padding-top: 100px">
         @if (session('success'))
             <div class="alert alert-success alert-dismissible fade show bg-light" role="alert">
                 {{ session('success') }}
@@ -34,7 +33,7 @@
         </div>
 
         <!-- Create Button -->
-        <div class="mb-3 d-flex justify-content-start">
+        <div class="mb-3 d-flex justify-content-start" >
             <a href="{{ route('products.create') }}" class="btn btn-primary me-2">
                 <i class="fa fa-plus"></i> Create User
             </a>
@@ -106,14 +105,14 @@
                                 <td>
                                     {{-- <img src="{{ $product->image ?? asset('path/to/default/image.png') }}" style="width: 50px; height: auto; border-radius: 50%;"> --}}
                                     <img src="{{ asset('storage/' . $product->image) }}"
-                                        style="width: 50px; height: auto; border-radius: 50%;" />
+                                    style="width: 75px; height: auto;  " />
 
                                 </td>
                                 <td>{!! wrapText($product->name, 30) !!} </td>
                                 <td>{!! wrapText($product->description, 30) !!}</td>
                                 <td>{{ $product->price }}</td>
                                 <td>{{ $product->stock }}</td>
-                                <td>{{ $product->category->name }}</td>
+                                <td>{{ $product->category ? $product->category->name : 'No Category' }}</td>
 
                                 <td>
                                     <div class="form-button-action">

@@ -1,24 +1,24 @@
 @extends('dashboard.maindasboard')
 
 @section('content')
+@if (session('success'))
+    <div class="alert alert-success alert-dismissible fade show bg-light" role="alert">
+        {{ session('success') }}
+        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+    </div>
+@endif
+
+@if (session('error'))
+    <div class="alert alert-danger alert-dismissible fade show bg-light" role="alert">
+        {{ session('error') }}
+        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+    </div>
+@endif
 {{-- <div class="container"> --}}
     <div class="page-inner" style="padding-top: 75px">
 
-        @if (session('success'))
-            <div class="alert alert-success alert-dismissible fade show bg-light" role="alert">
-                {{ session('success') }}
-                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-            </div>
-        @endif
-
-        @if (session('error'))
-            <div class="alert alert-danger alert-dismissible fade show bg-light" role="alert">
-                {{ session('error') }}
-                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-            </div>
-        @endif
         
-        <div class="page-header">
+        <div class="page-header" style="padding-top: 50px">
             <h3 class="fw-bold mb-3">Categories Management</h3>
             <ul class="breadcrumbs mb-3">
                 <li class="nav-home">
@@ -36,9 +36,12 @@
         </div>
 
         <!-- Create Button -->
-        <div class="mb-3">
-            <a href="{{ route('categories.create') }}" class="btn btn-primary">
+        <div class="mb-3 d-flex justify-content-start">
+            <a href="{{ route('categories.create') }}" class="btn btn-primary me-2">
                 <i class="fa fa-plus"></i> Create User
+            </a>
+            <a href="{{ route('categories.trashed') }}" class="btn btn-danger">
+                <i class="fa fa-trash"></i> View Trashed categories
             </a>
         </div>
 

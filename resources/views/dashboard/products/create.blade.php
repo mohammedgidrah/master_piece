@@ -1,8 +1,9 @@
 @extends('dashboard.maindasboard')
 
 @section('content')
-    <div class="page-inner" style="padding-top: 75px">
-        <div class="page-header">
+{{-- <div class="main-panel" style="padding-top: 75px"> --}}
+    <div class="page-inner d-flex  justify-content-start align-items-start" style="padding-top: 75px"  >
+        {{-- <div class="page-header" > --}}
             <h3 class="fw-bold mb-3">Create products</h3>
             <ul class="breadcrumbs mb-3">
                 <li class="nav-home">
@@ -71,6 +72,6 @@
                 </form>
             </div>
         </div>
+        @include('dashboard.footer')    
     </div>
-    @include('dashboard.footer')
 @endsection

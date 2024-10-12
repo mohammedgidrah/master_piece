@@ -21,13 +21,14 @@
             @forelse ($products as $product)
                 <div class="product_card">
                     <h3 class="product_name">{!! wrapText($product->name, 15) !!} </h3>
-                    <img src="{{ asset('storage/' . $product->image) }}" alt="{{ $product->name }}" class="product_image" />
+                    <img src="{{ asset('storage/' . $product->image) }}" alt="{{ $product->name }}" class="product_image"     style="width: 200px; height: 150px; display: block; margin: 10px   auto;" 
+                    />
                     {{-- <p class="product_description">{!! wrapText($product->description, 30) !!} </p> --}}
                     {{-- <p class="product_price">Price: <span class="price_value">${{ $product->price }}</span></p> --}}
                     <a class="product_link" href="{{ route('products.show', $product->id) }}">View Details</a>
                 </div>
             @empty
-                <p>No products found in this category.</p>
+                <p style="text-align: center; margin-top: 20px; font-size: 20px; color: white">No products found in this category.</p>
             @endforelse
         </div>
     </section>

@@ -4,6 +4,7 @@ namespace Database\Factories;
 
 use Illuminate\Database\Eloquent\Factories\Factory;
 use Illuminate\Support\Str;
+use Illuminate\Support\Facades\Hash;
 
 /**
  * @extends \Illuminate\Database\Eloquent\Factories\Factory<\App\Models\User>
@@ -18,16 +19,18 @@ class UserFactory extends Factory
     public function definition(): array
     {
         return [
-            'first_name' => fake()->firstName(),
-            'last_name' => fake()->lastName(),
-            'email' => fake()->unique()->safeEmail(),
+            'first_name' => $this->faker->firstName(),
+            'last_name' => $this->faker->lastName(),
+            'email' => $this->faker->unique()->safeEmail(),
+            'password' => Hash::make('password'), // default password
+            'role' => $this->faker->randomElement(['admin', 'user']),
+            'phone' => $this->faker->phoneNumber(),
+            'address' => $this->faker->address(),
             'email_verified_at' => now(),
-            'role' => fake()->randomElement(['user', 'admin']), // Randomly choose between 'user' and 'admin'
-            'image' => 'uploads/usersprofiles/' . fake()->image('public/uploads/usersprofiles', 640, 480, null, false), // Dynamically generated image name
-            'address' => fake()->address(),
-            'phone' => $this->generateValidPhoneNumber(),
-            'password' => bcrypt('password'), // Use bcrypt for hashing
+            'image' => 'uploads/usersprofiles/' . fake()->image('public/storage/uploads/usersprofiles', 640, 480, null, false), // Dynamically generated image name
             'remember_token' => Str::random(10),
+            'created_at' => now(),
+            'updated_at' => now(),
         ];
     }
 

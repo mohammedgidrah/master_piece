@@ -1,8 +1,7 @@
 @extends('dashboard.maindasboard')
 
 @section('content')
-    {{-- <div class="container"> --}}
-    <div class="page-inner" style="padding-top: 75px">
+     <div class="page-inner" style="padding-top: 75px">
         @if (session('success'))
             <div class="alert alert-success alert-dismissible fade show bg-light" role="alert">
                 {{ session('success') }}

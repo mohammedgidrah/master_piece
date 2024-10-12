@@ -16,12 +16,12 @@
 
     <section class="product_detail_section">
         <div class="product_detail_container">
-            <h1 class="product_name">{!! wrapText($product->name, 15) !!}</h1>
+            <h1 class="product_name">{!! wrapText($product->name, 30) !!}</h1>
             <div class="product_details">
-                <img src="{{ asset('storage/' . $product->image) }}" alt="{{ $product->name }}" class="product_image" />
+                <img src="{{ asset('storage/' . $product->image) }}" alt="{{ $product->name }}" class="product_image"   />
                 <div class="description">
                     <h2>Description:</h2>
-                    <p class="product_description">{!! wrapText($product->description, 30) !!}</p>
+                    <p style="text-align: justify" class="product_description">{!! wrapText($product->description, 40) !!}</p>
                 </div>
             </div>
             <p class="product_price">Price: <span class="price_value">${{ $product->price }}</span></p>

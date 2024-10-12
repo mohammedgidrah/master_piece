@@ -1,8 +1,9 @@
 @extends('../dashboard.maindasboard')
 
 @section('content')
-    <div class="page-header" style="padding: 90px 0px 0px 75px">
-        <h3 class="fw-bold mb-3">Edit Product</h3>
+    {{-- <div class="main-panel " > --}}
+    <div class="page-header" style="padding-top: 75px">
+        <h3 class="fw-bold mb-3  ">Edit Product</h3>
         <ul class="breadcrumbs mb-3">
             <li class="nav-home">
                 <a href="#">
@@ -24,17 +25,19 @@
         </ul>
     </div>
 
-    <div class="row" style="margin: 50px">
+    <div class="row">
         <div class="col-md-12">
             <div class="card">
                 <div class="card-body">
-                    <form action="{{ route('products.update', $product->id) }}" method="POST" enctype="multipart/form-data">
+                    <form action="{{ route('products.update', $product->id) }}" method="POST"
+                        enctype="multipart/form-data">
                         @csrf
                         @method('PUT') <!-- Use PUT for update -->
 
                         <div class="form-group">
                             <label for="name">Product Name</label>
-                            <input type="text" class="form-control" id="name" name="name" value="{{ $product->name }}">
+                            <input type="text" class="form-control" id="name" name="name"
+                                value="{{ $product->name }}">
                             @error('name')
                                 <div class="text-danger">{{ $message }}</div>
                             @enderror
@@ -50,7 +53,8 @@
 
                         <div class="form-group">
                             <label for="price">Price</label>
-                            <input type="number" class="form-control" id="price" name="price" value="{{ $product->price }}">
+                            <input type="number" class="form-control" id="price" name="price"
+                                value="{{ $product->price }}">
                             @error('price')
                                 <div class="text-danger">{{ $message }}</div>
                             @enderror
@@ -59,8 +63,12 @@
                         <div class="form-group">
                             <label for="stock">Stock Status</label>
                             <select class="form-control" id="stock" name="stock">
-                                <option value="in_stock" {{ $product->stock == 'in_stock' ? 'selected' : '' }}>In Stock</option>
-                                <option value="out_of_stock" {{ $product->stock == 'out_of_stock' ? 'selected' : '' }}>Out of Stock</option>
+                                <option value="in_stock" {{ $product->stock == 'in_stock' ? 'selected' : '' }}>In
+                                    Stock
+                                </option>
+                                <option value="out_of_stock" {{ $product->stock == 'out_of_stock' ? 'selected' : '' }}>
+                                    Out
+                                    of Stock</option>
                             </select>
                             @error('stock')
                                 <div class="text-danger">{{ $message }}</div>
@@ -71,7 +79,8 @@
                             <label for="category">Category</label>
                             <select class="form-control" id="category" name="category_id">
                                 @foreach ($categories as $category)
-                                    <option value="{{ $category->id }}" {{ $product->category_id == $category->id ? 'selected' : '' }}>
+                                    <option value="{{ $category->id }}"
+                                        {{ $product->category_id == $category->id ? 'selected' : '' }}>
                                         {{ $category->name }}
                                     </option>
                                 @endforeach
@@ -83,16 +92,17 @@
 
                         <div class="form-group">
                             <label for="image">Product Image</label>
-                            <input type="file" class="form-control-file" id="image" name="image" onchange="previewImage(event)">
+                            <input type="file" class="form-control-file" id="image" name="image"
+                                onchange="previewImage(event)">
                             <div class="d-flex align-items-center mt-2">
                                 <p class="mb-0">Old image:</p>
                                 @if ($product->image)
-                                    <img src="{{ asset('storage/' . $product->image) }}"
-                                         alt="{{ $product->name }}"
-                                         style="width: 100px; height: auto;" class="img-thumbnail ms-2" id="oldImage" />
+                                    <img src="{{ asset('storage/' . $product->image) }}" alt="{{ $product->name }}"
+                                        style="width: 100px; height: auto;" class="img-thumbnail ms-2" id="oldImage" />
                                 @endif
                                 <p class="mb-0 ms-3">New image:</p>
-                                <img id="newImagePreview" style="width: 100px; height: auto; display: none;" class="img-thumbnail ms-2" />
+                                <img id="newImagePreview" style="width: 100px; height: auto; display: none;"
+                                    class="img-thumbnail ms-2" />
                             </div>
 
                             @error('image')
@@ -108,7 +118,8 @@
         </div>
     </div>
     @include('dashboard.footer')
-
+    </div>
+    </div>
     <script>
         function previewImage(event) {
             var reader = new FileReader();
