@@ -60,7 +60,7 @@
                     </p>
                 @endif
             
-                <a href="{{ route('category.products', $product->category_id) }}" class="btn btn-secondary">Back to Category</a>
+                <a href="{{ route('products.show', $product->category->id) }}" class="btn btn-secondary">Back to Category</a>
             </div>
             
         </div>

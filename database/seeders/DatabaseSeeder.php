@@ -6,6 +6,9 @@ use App\Models\User;
 use App\Models\Product;
 use App\Models\Category;
 use Illuminate\Database\Seeder;
+use Database\Seeders\ProductSeeder;
+use Database\Seeders\CategorySeeder;
+use Database\Seeders\UserSeeder;
 
 
 class DatabaseSeeder extends Seeder
@@ -15,10 +18,12 @@ class DatabaseSeeder extends Seeder
      */
     public function run(): void
     {
-        // Create 50 random users
-        User::factory(10)->create();
-        Product::factory()->count(15)->create(); // Create 50 products
-        Category::factory()->count(5)->create(); // Create 5 categories
+ 
+        $this->call([
+            CategorySeeder::class,
+            ProductSeeder::class,
+            UserSeeder::class
+        ]);
 
 
  

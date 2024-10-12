@@ -16,7 +16,7 @@ class AdminController extends Controller
         }
 
         // Proceed with the dashboard logic for admins
-        return view('dashboard');
+        return view('dashboard.maindasboard');
     }
 
 }

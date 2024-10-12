@@ -1,7 +1,7 @@
 @extends('dashboard.maindasboard')
 
 @section('content')
-    <div class="page-inner  d-flex justify-content-start align-items-start" style="padding-top: 75px">
+    <div class="page-header  d-flex justify-content-start align-items-start" style="padding-top: 75px">
         {{-- <div class="page-header"> --}}
             <h3 class="fw-bold mb-3">Trashed Users</h3>
             <ul class="breadcrumbs mb-3">
@@ -75,8 +75,7 @@
             </div>
         </div>
     </div>
-    </div>
-    
+     
     
 
     <script>

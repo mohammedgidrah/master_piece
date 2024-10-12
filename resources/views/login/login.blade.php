@@ -85,7 +85,7 @@
                     <!-- Error message for password -->
                     <p id="password_error" class="error"></p>
 
-                    <a class="forget_password" href="#">Forget password?</a>
+                    <a class="forget_password" href="{{ route('password.request') }}">Forget password?</a>
                     <button class="login_btn" type="submit">Login</button>
                 </form>
 

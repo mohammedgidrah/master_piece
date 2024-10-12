@@ -14,7 +14,7 @@ class CategoryFactory extends Factory
         return [
             'name' => $this->faker->words(2, true), // Random category name
             'description' => $this->faker->sentence(), // Random description
-            'image' => 'uploads/categories/' . fake()->image('public/storage/uploads/categories', 640, 480, null, false), // Dynamically generated image name
+            // 'image' => 'uploads/categories/' . fake()->image('public/storage/uploads/categories'), // Dynamically generated image name
             'created_at' => now(),
             'updated_at' => now(),
         ];

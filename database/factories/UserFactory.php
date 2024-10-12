@@ -27,7 +27,7 @@ class UserFactory extends Factory
             'phone' => $this->faker->phoneNumber(),
             'address' => $this->faker->address(),
             'email_verified_at' => now(),
-            'image' => 'uploads/usersprofiles/' . fake()->image('public/storage/uploads/usersprofiles', 640, 480, null, false), // Dynamically generated image name
+            // 'image' => 'uploads/usersprofiles/' . fake()->image('public/storage/uploads/usersprofiles'), // Dynamically generated image name
             'remember_token' => Str::random(10),
             'created_at' => now(),
             'updated_at' => now(),
