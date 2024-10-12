@@ -1,7 +1,8 @@
 document.addEventListener('DOMContentLoaded', () => {
-    const form = document.getElementById('sign-up-form');
+    // Sign-Up Form Validation
+    const signUpForm = document.getElementById('sign-up-form');
 
-    form.addEventListener('submit', (e) => {
+    signUpForm.addEventListener('submit', (e) => {
         e.preventDefault(); // Prevent the default form submission
 
         const fnameInput = document.getElementById('firstName-input-sign-up').value.trim();
@@ -26,7 +27,7 @@ document.addEventListener('DOMContentLoaded', () => {
         emailError.textContent = '';
         passwordError.textContent = '';
 
-        // Validate Name
+        // Validate First Name
         if (!nameRegex.test(fnameInput)) {
             fnameError.textContent = "Please enter a valid first name.";
             isValid = false;
@@ -52,23 +53,24 @@ document.addEventListener('DOMContentLoaded', () => {
 
         // If all inputs are valid, submit the form
         if (isValid) {
-            form.submit();
+            signUpForm.submit();
         }
     });
-});
-document.addEventListener('DOMContentLoaded', () => {
-    const form = document.getElementById('login-form');
 
-    form.addEventListener('submit', (e) => {
+    // Login Form Validation
+    const loginForm = document.getElementById('login-form');
+
+    loginForm.addEventListener('submit', (e) => {
         e.preventDefault(); // Prevent the default form submission
 
         const emailInput = document.getElementById('email-input-login').value.trim();
         const passwordInput = document.getElementById('password-input-login').value.trim();
 
-        const emailError = document.getElementById('email-error');
-        const passwordError = document.getElementById('password-error');
+        const emailError = document.getElementById('email_error');
+        const passwordError = document.getElementById('password_error');
 
         const emailRegex = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
+        const passwordRegex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/;
 
         let isValid = true;
 
@@ -83,14 +85,14 @@ document.addEventListener('DOMContentLoaded', () => {
         }
 
         // Validate Password
-        if (passwordInput.length < 8) {
-            passwordError.textContent = "Password must be at least 8 characters long.";
+        if (!passwordRegex.test(passwordInput)) {
+            passwordError.textContent = "Password must be at least 8 characters long, including an uppercase letter, a lowercase letter, a number, and a special character.";
             isValid = false;
         }
 
         // If all inputs are valid, submit the form
         if (isValid) {
-            form.submit();
+            loginForm.submit();
         }
     });
-})
+});

@@ -58,10 +58,18 @@ Route::middleware(['admin'])->group(function () {
     
     // Product management routes
     Route::resource('products', ProductController::class);
+
+    // User management routes
     
     Route::post('/users/restore/{id}', [UserController::class, 'restore'])->name('users.restore');
     Route::delete('/users/forceDelete/{id}', [UserController::class, 'forceDelete'])->name('users.forceDelete');
     Route::get('/trashed', [UserController::class, 'trashed'])->name('users.trashed');
+
+    // Product management routes
+    route::get('/trashed/products', [ProductController::class, 'trashed'])->name('products.trashed');
+    Route::post('/products/restore/{id}', [ProductController::class, 'restore'])->name('products.restore');
+    Route::delete('/products/forceDelete/{id}', [ProductController::class, 'forceDelete'])->name('products.forceDelete');
+
 });
 Route::middleware(['auth'])->group(function () {
     Route::get('/orders', [OrderController::class, 'index'])->name('orders.index');

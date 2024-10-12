@@ -34,9 +34,12 @@
         </div>
 
         <!-- Create Button -->
-        <div class="mb-3">
-            <a href="{{ route('products.create') }}" class="btn btn-primary">
-                <i class="fa fa-plus"></i> Create products
+        <div class="mb-3 d-flex justify-content-start">
+            <a href="{{ route('products.create') }}" class="btn btn-primary me-2">
+                <i class="fa fa-plus"></i> Create User
+            </a>
+            <a href="{{ route('products.trashed') }}" class="btn btn-danger">
+                <i class="fa fa-trash"></i> View Trashed products
             </a>
         </div>
 
@@ -69,7 +72,7 @@
 
         <!-- Total Users Display -->
         <div class="mb-3">
-            <h5>Total Users: {{ $totalProducts }}</h5>
+            <h5>Total products: {{ $totalProducts }}</h5>
         </div>
 
         <div class="table-responsive">

@@ -22,6 +22,7 @@ return new class extends Migration
             $table->decimal('price', 10, 2);
             $table->enum('stock', ['in_stock', 'out_of_stock'])->default('in_stock');
             $table->string('image')->nullable();
+            $table->softDeletes(); // This will create a 'deleted_at' column
             $table->timestamps();
         });
     }

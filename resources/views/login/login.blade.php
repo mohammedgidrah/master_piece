@@ -8,10 +8,6 @@
     <link rel="stylesheet" href="assets/css/homepage.css" />
     <link rel="stylesheet" href="assets/css/login.css">
     <style>
-        /* Basic dropdown styling */
-
-
-        /* Error message styling */
         .error {
             color: red;
             font-size: 12px;
@@ -19,37 +15,45 @@
     </style>
 </head>
 
-<body>
+<body style="height: 100vh">
 
     @include('homepage.homenav.homenav')
+
     <div class="wrapper">
+
         <div class="main">
             <input type="checkbox" id="chk" aria-hidden="true">
 
             <!-- Sign-Up Form -->
             <div class="sign-in-contaner">
+                @if ($errors->has('email'))
+                <p class="error" style="display: flex; align-items: center; justify-content: center; font-size: 12px">{{ $errors->first('email') }}</p>
+            @endif
+                @if ($errors->has('password'))
+                <p class="error">{{ $errors->first('password') }}</p>
+            @endif
                 <form id="sign-up-form" action="{{ route('register') }}" method="POST" enctype="multipart/form-data">
-                    @csrf <!-- Include CSRF token for form security -->
+                    @csrf
                     <label class="sign_up" for="chk" aria-hidden="true">SIGN UP</label>
 
-                    <!-- First Name -->
-                    <input class="sign_up_input" type="text" id="firstName-input-sign-up" name="first_name" placeholder="First name" >
-                    <p id="fname-error"   class="error"></p>
+                    <input class="sign_up_input" type="text" id="firstName-input-sign-up" name="first_name"
+                        placeholder="First name">
+                    <p id="fname-error" class="error"></p>
 
-                    <!-- Last Name -->
-                    <input class="sign_up_input" type="text" id="lastName-input-sign-up" name="last_name" placeholder="Last name" >
+                    <input class="sign_up_input" type="text" id="lastName-input-sign-up" name="last_name"
+                        placeholder="Last name">
                     <p id="lname-error" class="error"></p>
 
-                    <!-- Email -->
-                    <input class="sign_up_input" type="email" id="email-input-sign-up" name="email" placeholder="Email" >
-                    <p  id="email-error" class="error"></p>
+                    <input class="sign_up_input" type="email" id="email-input-sign-up" name="email"
+                        placeholder="Email">
+                    <p id="email-error" class="error"></p>
 
-                    <!-- Password -->
-                    <input class="sign_up_input" type="password" id="password-input-sign-up" name="password" placeholder="Password" >
+                    <input class="sign_up_input" type="password" id="password-input-sign-up" name="password"
+                        placeholder="Password">
                     <p id="password-error" class="error"></p>
 
-                    <!-- Submit Button -->
                     <button class="sign_up_btn" type="submit">SIGN UP</button>
+
 
                     <p class="sign_up_p">or sign up with</p>
 
@@ -57,38 +61,91 @@
                     <div class="svg_contaner">
                         <!-- SVG icons here -->
                     </div>
+
                 </form>
             </div>
+
+
 
             <!-- Login Form -->
             <div class="login">
-                <form id="login-form" method="POST" action="{{ route('login.submit') }}" onsubmit="return validateLogin()">
+                <form id="login-form" method="POST" action="{{ route('login.submit') }}">
                     @csrf
                     <label for="chk" aria-hidden="true">Login</label>
-                    <input class="login_input" type="email" name="email" placeholder="Email"  pattern="^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$" title="Please enter a valid email address">
-                    <input class="login_input" type="password" name="password" placeholder="Password"  minlength="8" title="Password must be at least 8 characters long">
+
+                    <!-- Email Input -->
+                    <input class="login_input" type="email" name="email" id="email-input-login" placeholder="Email"
+                        value="{{ old('email') }}">
+                    <!-- Error message for email -->
+                    <p id="email_error" class="error"></p>
+
+                    <!-- Password Input -->
+                    <input class="login_input" type="password" name="password" id="password-input-login"
+                        placeholder="Password">
+                    <!-- Error message for password -->
+                    <p id="password_error" class="error"></p>
+
                     <a class="forget_password" href="#">Forget password?</a>
                     <button class="login_btn" type="submit">Login</button>
-                    <p class="sign_in_p">or login with</p>
-
-                    <div class="svg_contaner">
-                        <!-- SVG icons here -->
-                    </div>
                 </form>
+
             </div>
+
         </div>
     </div>
-
     <footer>
-        <div class="foter_content">
-            <p>&copy;2023 All rights reserved | This template is made with ❤ by Masa</p>
+        <div style="display: flex; align-items: center; justify-content: center">
+            <p>&copy;2023 All rights reserved | This template is made with <span style="color: red "> ❤</span> by Masa</p>
         </div>
     </footer>
 
 
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    {{-- <script>
+        document.getElementById('login-form').addEventListener('submit', function(event) {
+            event.preventDefault(); // Prevent default form submission behavior
+    
+            // Clear previous error messages
+            document.getElementById('email_error').innerHTML = '';
+            document.getElementById('password_error').innerHTML = '';
+    
+            // Collect form data
+            const formData = new FormData(this);
+    
+            fetch(this.action, {
+                method: 'POST',
+                body: formData,
+                headers: {
+                    'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute('content')
+                }
+            }).then(response => {
+                if (!response.ok) {
+                    // Parse the HTML response
+                    return response.text().then(text => {
+                        const parser = new DOMParser();
+                        const doc = parser.parseFromString(text, 'text/html');
+    
+                        // Extract validation error messages
+                        const emailError = doc.querySelector('p#error-email')?.textContent || 'Invalid email or password.';
+                        const passwordError = doc.querySelector('p#error-password')?.textContent || 'Invalid email or password.';
+    
+                        // Display the errors
+                        document.getElementById('email_error').innerHTML = emailError;
+                        document.getElementById('password_error').innerHTML = passwordError;
+                    });
+                } else {
+                    window.location.href = '/'; // Redirect to home or intended page on success
+                }
+            }).catch(error => {
+                console.error('Error:', error);
+            });
+        });
+    </script> --}}
 
-    <script src="assets/js/homepage.js"></script>
-    <script src="assets/js/login.js"></script>
+
+    <script src="{{ asset('assets/js/login.js') }}"></script>
+    <script src="{{ asset('assets/js/homepage.js') }}"></script>
+
 </body>
 
 </html>

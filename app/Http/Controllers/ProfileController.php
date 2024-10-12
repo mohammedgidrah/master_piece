@@ -13,7 +13,7 @@ class ProfileController extends Controller
         $request->validate([
             'first_name' => 'required|string|max:255',
             'last_name' => 'required|string|max:255',
-            'email' => 'required|email',
+            'email' => 'required|email|unique:users,email,' . $id, // Ensure the email is unique except for the current user
             'address' => 'nullable|string|max:255',
             'phone' => 'nullable|string|max:15',
             'image' => 'nullable|image|mimes:jpeg,png,jpg,gif,svg|max:5120', // Max 5MB

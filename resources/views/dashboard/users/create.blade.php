@@ -48,7 +48,7 @@
                         </div>
                         <div class="form-group">
                             <label for="image">Profile Image</label>
-                            <input type="file" class="form-control" id="image" name="image" accept="image/*">
+                            <input type="file" class="form-control" id="image" name="image" accept="image/*" required>
                         </div>
                         <div class="form-group">
                             <label for="phone">Phone</label>

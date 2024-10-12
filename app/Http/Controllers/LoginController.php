@@ -7,10 +7,7 @@ use Illuminate\Support\Facades\Auth;
 
 class LoginController extends Controller
 {
-    public function showLoginForm()
-    {
-        return view('auth.login'); // Ensure this view exists
-    }
+ 
 
     public function login(Request $request)
     {
@@ -29,14 +26,15 @@ class LoginController extends Controller
                 return redirect()->route('dashboard.maindasboard')->with('success', 'Welcome to the admin dashboard!');
             }
 
-            return redirect()->intended('/')->with('success', 'Welcome back!'); // Redirect to home for regular users
+            return redirect()->intended('/') ; // Redirect to home for regular users
         }
 
-        // If authentication fails, redirect back with an error message
+        // If authentication fails, return error message for both email and password fields
         return back()->withErrors([
-            'email' => 'The provided credentials do not match our records.',
-        ])->withInput();
+            'email' => 'email  or password is incorrect.',
+         ])->withInput();
     }
+
     public function logout(Request $request)
     {
         Auth::logout();
@@ -44,6 +42,6 @@ class LoginController extends Controller
         $request->session()->invalidate();
         $request->session()->regenerateToken();
 
-        return redirect()->route('login')->with('success', 'Logged out successfully!');
+        return redirect()->route('login') ;
     }
 }

@@ -28,7 +28,7 @@ class OrderController extends Controller
             'product_id' => 'required|exists:products,id', // Ensure product_id is required and valid
             'total_price' => 'required|numeric',
             'order_status' => 'in:pending,processing,shipped,delivered,cancelled',
-            'image' => 'nullable|mimes:png,jpg,jpeg,webp|max:2048',
+            // 'image' => 'nullable|mimes:png,jpg,jpeg,webp|max:2048',
         ]);
     
         // Create a new order

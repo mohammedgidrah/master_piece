@@ -35,21 +35,38 @@ class ProductController extends Controller
 
         return view('dashboard.products.index', compact('products', 'totalProducts'));
     }
-
-    public function showCategoryProducts( Request $request,   $id)
-{
+    public function trashed(Request $request)
+    {
+        $totaltrashedproducts= Product::onlyTrashed()->count();
+     
+        // Fetch trashed users with pagination
+        $products = Product::onlyTrashed()->paginate(5);
     
-    $products = Product::where('category_id', $id)->get();
+        return view('dashboard.products.trashed', compact('products', 'totaltrashedproducts'));
+    }
 
-    
-    return view('homepage.products.index', compact('products'));
-} 
+    public function restore($id)
+    {
+        $products = Product::onlyTrashed()->findOrFail($id);
+        $products->restore();
+
+        return redirect()->route('products.trashed')->with('success', 'Product restored successfully.');
+    }
+    public function forceDelete($id)
+    {
+        $products = Product::onlyTrashed()->findOrFail($id);
+        $products->forceDelete();
+
+        return redirect()->route('products.trashed')->with('success', 'Product permanently deleted.');
+    }
+
 
     public function create()
     {
         $categories = Category::all();
         return view('dashboard.products.create', compact('categories'));
     }
+
 
     public function store(Request $request)
     {
@@ -85,16 +102,8 @@ class ProductController extends Controller
 
     public function show($id)
     {
-        // Retrieve the product by its ID
-        $product = Product::find($id); // Use $product, not $products
-    
-        // Check if the product exists
-        if (!$product) {
-            return redirect()->back()->with('error', 'Product not found.');
-        }
-    
-        // Pass the product to the view
-        return view('homepage.products.show', compact('product'));
+        $products = User::onlyTrashed()->findOrFail($id); // Fetch the trashed products by ID
+        return view('dashboard.products.trashed', compact('products'));
     }
     
 
