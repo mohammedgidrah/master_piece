@@ -129,3 +129,5 @@ Route::get('forgot-password', [ForgetPasswordManeger::class, 'forgetPassword'])-
 Route::post('forgot-password', [ForgetPasswordManeger::class, 'forgetPasswordpost'])->name('forget.password.post');
 Route::get('reset-password/{token}', [ForgetPasswordManeger::class, 'resetPassword'])->name('reset.password');
 Route::post('reset-password', [ForgetPasswordManeger::class, 'resetPasswordpost'])->name('reset.password.post');
+
+Route::resource('ordersdash', OrderDashboardController::class);

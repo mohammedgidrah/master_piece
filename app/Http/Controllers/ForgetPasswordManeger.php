@@ -32,8 +32,7 @@ class ForgetPasswordManeger extends Controller
         ]);
         
         Mail::send('emails.forget-password', ['token' => $token], function ($message) use ($request) {
-            // $emailsattic= 'hammourileen14@gmail.com';
-            $message->to('hammourileen14@gmail.com');
+            $message->to($request->email);
             $message->subject('Reset Password');
         });
         return redirect()->to(route('forget.password'))->with('success', 'We have sent a link to your email address to reset your password.');

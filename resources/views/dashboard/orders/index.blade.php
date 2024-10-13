@@ -83,7 +83,6 @@
                     <th>Customer Name</th>
                     <th>Product Name</th>
                     <th>Total Price</th>
-                    {{-- <th>Stock</th> --}}
                     <th>Order Status</th>
                     <th style="width: 10%">Action</th>
                 </tr>
@@ -94,7 +93,6 @@
                     <th>Customer Name</th>
                     <th>Product Name</th>
                     <th>Total Price</th>
-                    {{-- <th>Stock</th> --}}
                     <th>Order Status</th>
                     <th>Action</th>
                 </tr>
@@ -109,9 +107,19 @@
                             <td>{!! wrapText($order->user->first_name, 30) !!} {!! wrapText($order->user->last_name, 30) !!}</td>
                             <td>{!! wrapText($order->product->name, 30) !!}</td>
                             <td>{{ $order->product->price }}</td>
-                            {{-- <td>{{ $order->product->stock }}</td> --}}
-                            <td>{{ ucfirst($order->order_status) }}</td> <!-- Capitalize the first letter of the status -->
-
+                            <td>
+                                <form action="{{ route('ordersdash.update', $order->id) }}" method="POST" class="status-form">
+                                    @csrf
+                                    @method('PUT')
+                                    <select name="order_status" class="form-control order-status" data-id="{{ $order->id }}">
+                                        <option value="pending" {{ $order->order_status == 'pending' ? 'selected' : '' }}>Pending</option>
+                                        <option value="processing" {{ $order->order_status == 'processing' ? 'selected' : '' }}>Processing</option>
+                                        <option value="shipped" {{ $order->order_status == 'shipped' ? 'selected' : '' }}>Shipped</option>
+                                        <option value="delivered" {{ $order->order_status == 'delivered' ? 'selected' : '' }}>Delivered</option>
+                                        <option value="cancelled" {{ $order->order_status == 'cancelled' ? 'selected' : '' }}>Cancelled</option>
+                                    </select>
+                                </form>
+                            </td>
                             <td>
                                 <div class="form-button-action">
                                     <a href="{{ route('ordersdash.edit', $order->id) }}" class="btn btn-link btn-primary btn-lg" data-original-title="Edit Order">
@@ -130,10 +138,11 @@
                     @endforeach
                 @else
                     <tr>
-                        <td colspan="7" class="text-center">No orders found.</td> <!-- Updated colspan to 7 -->
+                        <td colspan="7" class="text-center">No orders found.</td>
                     </tr>
                 @endif
             </tbody>
+            
         </table>
 
         <!-- Pagination Controls -->
