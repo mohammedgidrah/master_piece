@@ -74,8 +74,7 @@
                     <label for="chk" aria-hidden="true">Login</label>
 
                     <!-- Email Input -->
-                    <input class="login_input" type="email" name="email" id="email-input-login" placeholder="Email"
-                        value="{{ old('email') }}">
+                    <input class="login_input" type="email" name="email" id="email-input-login" placeholder="Email">
                     <!-- Error message for email -->
                     <p id="email_error" class="error"></p>
 
@@ -85,7 +84,7 @@
                     <!-- Error message for password -->
                     <p id="password_error" class="error"></p>
 
-                    <a class="forget_password" href="{{ route('password.request') }}">Forget password?</a>
+                    <a class="forget_password" href="{{ route('forget.password')}}">Forget password?</a>
                     <button class="login_btn" type="submit">Login</button>
                 </form>
 

@@ -1,17 +1,18 @@
 <?php
 
-use Illuminate\Support\Facades\Route;
-use App\Http\Controllers\ProductController;
-use App\Http\Controllers\RegisterController;
-use App\Http\Controllers\LoginController;
 use App\Http\Controllers\AdminController;
-use App\Http\Controllers\ProfileController;
-use App\Http\Controllers\UserController;
 use App\Http\Controllers\CategoryController;
-use App\Http\Controllers\HomeCategoryController;
-use App\Http\Controllers\OrderController;
 use App\Http\Controllers\ForgetPasswordManeger;
-
+use App\Http\Controllers\HomeCategoryController;
+use App\Http\Controllers\LoginController;
+use App\Http\Controllers\OrderController;
+use App\Http\Controllers\OrderDashboardController;
+use App\Http\Controllers\ProductController;
+use App\Http\Controllers\ProfileController;
+use App\Http\Controllers\RegisterController;
+use App\Http\Controllers\UserController;
+use Illuminate\Support\Facades\Route;
+use App\Models\User;
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -23,6 +24,17 @@ use App\Http\Controllers\ForgetPasswordManeger;
 |
 */
 
+Route::get('shsmo/{id}',function ($id) {
+    $target = User::find($id);
+    $total = 0;
+    foreach ($target->orders as $value) {
+        # code...
+        if($value->status == 'Pending'){
+            $total += $value->total_price;
+        }
+    }
+    return $total;
+});
 // Home page route
 Route::view('/', 'homepage.home')->name('home');
 
@@ -53,31 +65,43 @@ Route::middleware(['admin'])->group(function () {
 
     // User management routes
     Route::resource('users', UserController::class);
-    
+
     // category management routes
-    
+
     // User management routes
-    
+
     Route::post('/users/restore/{id}', [UserController::class, 'restore'])->name('users.restore');
     Route::delete('/users/forceDelete/{id}', [UserController::class, 'forceDelete'])->name('users.forceDelete');
     Route::get('/trashed', [UserController::class, 'trashed'])->name('users.trashed');
-    
+
     // Product management routes
     route::get('/trashed/products', [ProductController::class, 'trashed'])->name('products.trashed');
     Route::post('/products/restore/{id}', [ProductController::class, 'restore'])->name('products.restore');
     Route::delete('/products/forceDelete/{id}', [ProductController::class, 'forceDelete'])->name('products.forceDelete');
-    
+
     // Category management routes
     route::get('/trashed/categories', [CategoryController::class, 'trashed'])->name('categories.trashed');
     Route::post('/categories/restore/{id}', [CategoryController::class, 'restore'])->name('categories.restore');
     Route::delete('/categories/forceDelete/{id}', [CategoryController::class, 'forceDelete'])->name('categories.forceDelete');
-    
+
+    // Order management routes
+    route::get('/trashed/orders', [OrderController::class, 'trashed'])->name('ordersdash.trashed');
+    Route::post('/orders/restore/{id}', [OrderController::class, 'restore'])->name('ordersdash.restore');
+    Route::delete('/orders/forceDelete/{id}', [OrderController::class, 'forceDelete'])->name('ordersdash.forceDelete');
+
+    Route::get('/ordersdash', [OrderDashboardController::class, 'index'])->name('ordersdash.index');
+    // Inside the admin dashboard middleware group
+    Route::get('/ordersdash/{id}/edit', [OrderDashboardController::class, 'edit'])->name('ordersdash.edit');
+    Route::put('/ordersdash/{id}', [OrderDashboardController::class, 'update'])->name('ordersdash.update');
+
+    Route::delete('/ordersdash/{id}', [OrderDashboardController::class, 'destroy'])->name('ordersdash.destroy');
+
 });
 Route::middleware(['auth'])->group(function () {
     Route::get('/orders', [OrderController::class, 'index'])->name('orders.index');
     Route::post('/orders/store/{id}', [OrderController::class, 'store'])->name('orders.store');
     Route::delete('/orders/{id}', [OrderController::class, 'destroy'])->name('orders.destroy');
-    
+
 });
 
 // User profile route
@@ -92,19 +116,16 @@ Route::resource('categories', CategoryController::class);
 
 // Product management routes
 Route::resource('products', ProductController::class);
+
 // routes/web.php
 
 Route::get('/categories/{id}', [CategoryController::class, 'showCategoryProducts'])->name('category.products'); // Ensure no middleware is blocking access
-
 
 // routes/web.php
 
 Route::get('/products/{id}', [ProductController::class, 'show'])->name('show.product');
 
-
 Route::get('forgot-password', [ForgetPasswordManeger::class, 'forgetPassword'])->name('forget.password');
 Route::post('forgot-password', [ForgetPasswordManeger::class, 'forgetPasswordpost'])->name('forget.password.post');
-// Route::post('forgotpassword', [ForgotPasswordController::class, 'sendResetLinkEmail'])->name('password.email');
-
-// Route::get('resetpassword/{token}', [ResetPasswordController::class, 'showResetForm'])->name('password.reset');
-// Route::post('resetpassword', [ResetPasswordController::class, 'reset'])->name('password.update');
+Route::get('reset-password/{token}', [ForgetPasswordManeger::class, 'resetPassword'])->name('reset.password');
+Route::post('reset-password', [ForgetPasswordManeger::class, 'resetPasswordpost'])->name('reset.password.post');

@@ -25,7 +25,7 @@
 
         <div class="main ms-auto me-auto mt-5" style="width: 500px">
             <div class="logins">
-                <p style="color: WHITE">we wil send you a link to reset your password</p>
+                <p style="color: white ; font-size: 20px display: flex; justify-content: center;">we wil send you a link to reset your password</p>
                 <form id="login-form" method="POST" action="{{ route('forget.password.post') }} "
                     class="ms-auto me-auto mt-5">
                     @csrf

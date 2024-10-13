@@ -107,6 +107,27 @@
                         </ul>
                     </div>
                 </li>
+                <li class="nav-item">
+                    <a data-bs-toggle="collapse" href="#orders" aria-expanded="false" aria-controls="orders">
+                        <i class="fa-solid fa-basket-shopping"></i>
+                        <p>orders</p>
+                        <span class="caret"></span>
+                    </a>
+                    <div class="collapse" id="orders">
+                        <ul class="nav nav-collapse">
+                            <li>
+                                <a href="{{ route('ordersdash.index') }}">
+                                    <span class="sub-item">All orders</span>
+                                </a>
+                            </li>
+                            <li>
+                                {{-- <a href="{{ route('orders.create') }}"> --}}
+                                    <span class="sub-item">create orders</span>
+                                </a>
+                            </li>
+                        </ul>
+                    </div>
+                </li>
 
 
 
