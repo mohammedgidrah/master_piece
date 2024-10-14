@@ -24,7 +24,7 @@
                     <div class="card-body text-center">
                         <img class="img-account-profile rounded-circle mb-2"
                             src="{{ asset('storage/' . Auth::user()->image) }}" class="avatar-img rounded-circle"
-                            style="width: 50%" alt="">
+                            style="width: 50%" alt="Profile Image">
 
                         <div class="font-italic text-muted mb-4">{{ Auth::user()->first_name }}
                             {{ Auth::user()->last_name }} </div>
@@ -36,9 +36,8 @@
                 <div class="card mb-4">
                     <div class="card-header">Account Details</div>
                     <div class="card-body">
-                        <!-- Merged Form for both Profile Picture and User Details -->
                         <form action="{{ route('profile.update', Auth::user()->id) }}" method="POST"
-                            enctype="multipart/form-data">
+                            enctype="multipart/form-data" id="profileForm">
                             @csrf
                             @method('PUT')
 
@@ -82,6 +81,7 @@
                                     @error('email')
                                         <div class="text-danger">{{ $message }}</div>
                                     @enderror
+                                    <div class="text-danger" id="emailError"></div> <!-- Added error element -->
                                 </div>
 
                                 <div class="col-md-6">
@@ -106,7 +106,7 @@
 
                                 <div class="col-md-6">
                                     <label class="small mb-1" for="password">Password</label>
-                                    <input class="form-control" id="password" name="password" type="text"
+                                    <input class="form-control" id="password" name="password" type="password"
                                         placeholder="Enter your new password">
                                     @error('password')
                                         <div class="text-danger">{{ $message }}</div>
@@ -124,14 +124,45 @@
 
     <script>
         @if (session('success'))
-                 Swal.fire({
-                    position: "top-end",
-                    icon: "success",
-                    title: "Your work has been saved",
-                    showConfirmButton: false,
-                    timer: 1500
-                });
+            Swal.fire({
+                position: "top-end",
+                icon: "success",
+                title: "Your work has been saved",
+                showConfirmButton: false,
+                timer: 1500
+            });
         @endif
+
+        document.addEventListener('DOMContentLoaded', function() {
+            const form = document.getElementById('profileForm');
+            const emailInput = document.getElementById('inputEmailAddress');
+            const emailErrorElement = document.getElementById('emailError'); // Reference to the error element
+
+            form.addEventListener('submit', function(event) {
+                let isValid = true; // Flag to check if all validations pass
+
+                // Clear previous error messages
+                emailErrorElement.textContent = ''; // Clear error message
+
+                // Email validation
+                const emailPattern = /^[a-zA-Z0-9._%+-]+@gmail\.com$/; // Updated regex pattern
+                if (!emailPattern.test(emailInput.value)) {
+                    emailErrorElement.textContent = 'Please enter a valid email address ending with @gmail.com.';
+                    isValid = false;
+                }
+
+                // If all validations fail, prevent form submission
+                if (!isValid) {
+                    event.preventDefault(); // Prevent the default form submission
+                }
+            });
+
+            // Clear error message when the user starts typing
+            emailInput.addEventListener('input', function() {
+                emailErrorElement.textContent = ''; // Clear error message
+            });
+
+        });
     </script>
     <script src="{{ asset('assets/js/homepage.js') }}"></script>
 </body>

@@ -85,16 +85,16 @@ Route::middleware(['admin'])->group(function () {
     Route::delete('/categories/forceDelete/{id}', [CategoryController::class, 'forceDelete'])->name('categories.forceDelete');
 
     // Order management routes
-    route::get('/trashed/orders', [OrderController::class, 'trashed'])->name('ordersdash.trashed');
-    Route::post('/orders/restore/{id}', [OrderController::class, 'restore'])->name('ordersdash.restore');
-    Route::delete('/orders/forceDelete/{id}', [OrderController::class, 'forceDelete'])->name('ordersdash.forceDelete');
+    route::get('/trashed/orders', [OrderDashboardController::class, 'trashed'])->name('ordersdash.trashed');
+    Route::post('/orders/restore/{id}', [OrderDashboardController::class, 'restore'])->name('ordersdash.restore');
+    Route::delete('/orders/forceDelete/{id}', [OrderDashboardController::class, 'forceDelete'])->name('ordersdash.forceDelete');
 
     Route::get('/ordersdash', [OrderDashboardController::class, 'index'])->name('ordersdash.index');
     // Inside the admin dashboard middleware group
     Route::get('/ordersdash/{id}/edit', [OrderDashboardController::class, 'edit'])->name('ordersdash.edit');
-    Route::put('/ordersdash/{id}', [OrderDashboardController::class, 'update'])->name('ordersdash.update');
-
+    Route::put('/ordersdash/{id}/update-status', [OrderDashboardController::class, 'update'])->name('ordersdash.update');
     Route::delete('/ordersdash/{id}', [OrderDashboardController::class, 'destroy'])->name('ordersdash.destroy');
+    // Route::get('trashed/ordersdash/', [OrderDashboardController::class, 'trashed'])->name('ordersdash.trashed');
 
 });
 Route::middleware(['auth'])->group(function () {
@@ -130,4 +130,4 @@ Route::post('forgot-password', [ForgetPasswordManeger::class, 'forgetPasswordpos
 Route::get('reset-password/{token}', [ForgetPasswordManeger::class, 'resetPassword'])->name('reset.password');
 Route::post('reset-password', [ForgetPasswordManeger::class, 'resetPasswordpost'])->name('reset.password.post');
 
-Route::resource('ordersdash', OrderDashboardController::class);
+// Route::resource('ordersdash', OrderDashboardController::class);

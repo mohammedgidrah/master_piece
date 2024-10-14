@@ -36,14 +36,7 @@
         </div>
 
         <!-- Create Button -->
-        <div class="mb-3 d-flex justify-content-start">
-            <a href="{{ route('categories.create') }}" class="btn btn-primary me-2">
-                <i class="fa fa-plus"></i> Create User
-            </a>
-            <a href="{{ route('categories.trashed') }}" class="btn btn-danger">
-                <i class="fa fa-trash"></i> View Trashed categories
-            </a>
-        </div>
+
 
         <!-- Search and Filter -->
         <div class="mb-3">
@@ -122,6 +115,14 @@
             <div class="mt-3 d-flex justify-content-start">
                 {{ $categories->appends(request()->query())->links('vendor.pagination.bootstrap-4') }}
             </div>
+        </div>
+        <div class="mb-3 d-flex justify-content-end">
+            <a href="{{ route('categories.create') }}" class="btn btn-primary me-2">
+                <i class="fa fa-plus"></i> Create User
+            </a>
+            <a href="{{ route('categories.trashed') }}" class="btn btn-danger">
+                <i class="fa fa-trash"></i> View Trashed categories
+            </a>
         </div>
         
     </div>

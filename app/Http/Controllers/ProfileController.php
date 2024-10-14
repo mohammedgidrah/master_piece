@@ -11,13 +11,23 @@ class ProfileController extends Controller
     public function update(Request $request, $id)
     {
         $request->validate([
+            'image' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048', // Optional, max size 2MB
             'first_name' => 'required|string|max:255',
             'last_name' => 'required|string|max:255',
-            'email' => 'required|email|unique:users,email,' . $id, // Ensure the email is unique except for the current user
+            'email' => 'required|email|unique:users,email,' . $id,
             'address' => 'nullable|string|max:255',
             'phone' => 'nullable|string|max:15',
-            'image' => 'nullable|image|mimes:jpeg,png,jpg,gif,svg|max:5120', // Max 5MB
-            'password' => 'nullable|string|min:8',
+            'password' => [
+                'nullable',
+                'string',
+                'min:8', // Minimum length
+                'regex:/[a-z]/', // At least one lowercase letter
+                'regex:/[A-Z]/', // At least one uppercase letter
+                'regex:/[0-9]/', // At least one number
+                'regex:/[\W_]/', // At least one special character
+            ],
+        ], [
+            'password.regex' => 'Password must be at least 8 characters long and contain at least one uppercase letter, one lowercase letter, one number, and one special character.',
         ]);
     
         $user = User::findOrFail($id);

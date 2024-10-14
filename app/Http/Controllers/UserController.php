@@ -10,43 +10,48 @@ class UserController extends Controller
 {
     public function index(Request $request)
     {
-        // Get the per_page value, defaulting to 20
+        // Get the per_page value, defaulting to 5
         $perPage = $request->input('per_page', 5);
-
+    
         // Cap the maximum number of users displayed to 20
         if ($perPage === 'all' || $perPage > 20) {
             $perPage = 20; // Limit to 20 when 'all' is selected
         }
-
+    
         $roleFilter = $request->input('role');
         $search = $request->input('search');
-
+    
         $query = User::query();
-
+    
         // Apply role filter if provided
-        if ($roleFilter) {
-            $query->where('role', $roleFilter);
+        if ($request->filled('role')) {
+            $query->where('role', $request->role);
         }
-
+    
         // Apply search filter if provided
-        if ($search) {
+        if ($request->filled('search')) {
+            $search = $request->search;
             $query->where(function ($q) use ($search) {
-                $q->where('first_name', 'like', '%' . $search . '%')
-                    ->orWhere('last_name', 'like', '%' . $search . '%')
-                    ->orWhere('email', 'like', '%' . $search . '%')
-                    ->orWhere('address', 'like', '%' . $search . '%');
+                $q->where('first_name', 'like', "%{$search}%")
+                    ->orWhere('last_name', 'like', "%{$search}%")
+                    ->orWhere('email', 'like', "%{$search}%")
+                    ->orWhere('phone', 'like', "%{$search}%")
+                    ->orWhere('address', 'like', "%{$search}%");
             });
         }
-
-        // Get users with pagination
-        $users = $query->paginate($perPage);
+    
+        // Get the total count of users (both active and trashed)
         $totalUsers = User::count();
-
-        $users = User::paginate(5); // For active users
-        $trashedUsers = User::onlyTrashed()->paginate(5); // For trashed users
-
-        return view('dashboard.users.index', compact('users', 'totalUsers'));
+    
+        // Get active users with pagination
+        $users = $query->paginate($perPage);
+    
+        // Get trashed users for separate display or management
+        $trashedUsers = User::onlyTrashed()->paginate(5); // Change the pagination as needed
+    
+        return view('dashboard.users.index', compact('users', 'totalUsers', 'trashedUsers'));
     }
+    
 
     public function trashed(Request $request)
     {

@@ -72,27 +72,28 @@ class OrderDashboardController extends Controller
 
     public function trashed(Request $request)
     {
-        $totaltrashedorders= Order::onlyTrashed()->count();
-     
-        // Fetch trashed users with pagination
+        $totalTrashedOrders = Order::onlyTrashed()->count();
+    
+        // Fetch trashed orders with pagination
         $orders = Order::onlyTrashed()->paginate(5);
     
-        return view('dashboard.orders.trashed', compact('orders', 'totaltrashedorders'));
+        return view('dashboard.orders.trashed', compact('orders', 'totalTrashedOrders'));
     }
+    
 
     public function restore($id)
     {
         $orders = Order::onlyTrashed()->findOrFail($id);
         $orders->restore();
 
-        return redirect()->route('orders.trashed')->with('success', 'orders restored successfully.');
+        return redirect()->route('ordersdash.trashed')->with('success', 'orders restored successfully.');
     }
     public function forceDelete($id)
     {
         $orders = Order::onlyTrashed()->findOrFail($id);
         $orders->forceDelete();
 
-        return redirect()->route('orders.trashed')->with('success', 'orders permanently deleted.');
+        return redirect()->route('ordersdash.trashed')->with('success', 'orders permanently deleted.');
     }
 
     /**
@@ -107,28 +108,37 @@ class OrderDashboardController extends Controller
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit($id)
-    {
-        $order = Order::findOrFail($id);
-        $users = User::all(); // Retrieve all users
-        $categories = Category::all(); // Retrieve all categories
-        $products = Product::all(); // Retrieve all products if needed
-        return view('dashboard.orders.edit', compact('order', 'users', 'categories'));
-    }
+    // public function edit($id)
+    // {
+    //     $order = Order::findOrFail($id);
+    //     $users = User::all(); // Retrieve all users
+    //     $categories = Category::all(); // Retrieve all categories
+    //     $products = Product::all(); // Retrieve all products if needed
+    //     return view('dashboard.orders.edit', compact('order', 'users', 'categories'));
+    // }
     
 
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, string $id)
+    public function update(Request $request, $id)
     {
-        // Validate the incoming request data
+        $request->validate([
+            'order_status' => 'required|in:pending,processing,shipped,delivered,cancelled',
+        ]);
+    
         $order = Order::findOrFail($id);
         $order->order_status = $request->order_status;
-        $order->save();
     
-        return redirect()->route('ordersdash.index')->with('success', 'Order status updated successfully.');
+        if ($order->save()) {
+            return redirect()->route('ordersdash.index')->with('success', 'Order status updated successfully.');
+        } else {
+            return redirect()->route('ordersdash.index')->with('error', 'Failed to update order status.');
+        }
     }
+    
+    
+    
     
     /**
      * Remove the specified resource from storage.

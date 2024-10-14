@@ -86,7 +86,6 @@
         @include('dashboard.footer')
     </div>
     </div>
-    </div>
     
     
 

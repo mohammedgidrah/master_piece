@@ -109,7 +109,7 @@
                 </li>
                 <li class="nav-item">
                     <a data-bs-toggle="collapse" href="#orders" aria-expanded="false" aria-controls="orders">
-                        <i class="fa-solid fa-basket-shopping"></i>
+                        <i class="fa-solid fa-cart-shopping"></i>
                         <p>orders</p>
                         <span class="caret"></span>
                     </a>
@@ -118,11 +118,6 @@
                             <li>
                                 <a href="{{ route('ordersdash.index') }}">
                                     <span class="sub-item">All orders</span>
-                                </a>
-                            </li>
-                            <li>
-                                {{-- <a href="{{ route('orders.create') }}"> --}}
-                                    <span class="sub-item">create orders</span>
                                 </a>
                             </li>
                         </ul>

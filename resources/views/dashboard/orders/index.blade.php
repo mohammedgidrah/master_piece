@@ -34,11 +34,7 @@
     </div>
 
     <!-- Create Button -->
-    <div class="mb-3 d-flex justify-content-start">
-        <a href="{{ route('ordersdash.trashed') }}" class="btn btn-danger">
-            <i class="fa fa-trash"></i> View Trashed Orders
-        </a>
-    </div>
+
 
     <!-- Search and Filter -->
     <div class="mb-3">
@@ -107,11 +103,12 @@
                             <td>{!! wrapText($order->user->first_name, 30) !!} {!! wrapText($order->user->last_name, 30) !!}</td>
                             <td>{!! wrapText($order->product->name, 30) !!}</td>
                             <td>{{ $order->product->price }}</td>
+                            
                             <td>
-                                <form action="{{ route('ordersdash.update', $order->id) }}" method="POST" class="status-form">
+                                <form action="{{ route('ordersdash.update', $order->id) }}" method="POST">
                                     @csrf
                                     @method('PUT')
-                                    <select name="order_status" class="form-control order-status" data-id="{{ $order->id }}">
+                                    <select name="order_status" class="form-control" onchange="this.form.submit()">
                                         <option value="pending" {{ $order->order_status == 'pending' ? 'selected' : '' }}>Pending</option>
                                         <option value="processing" {{ $order->order_status == 'processing' ? 'selected' : '' }}>Processing</option>
                                         <option value="shipped" {{ $order->order_status == 'shipped' ? 'selected' : '' }}>Shipped</option>
@@ -120,11 +117,10 @@
                                     </select>
                                 </form>
                             </td>
+                            
                             <td>
                                 <div class="form-button-action">
-                                    <a href="{{ route('ordersdash.edit', $order->id) }}" class="btn btn-link btn-primary btn-lg" data-original-title="Edit Order">
-                                        <i class="fa fa-edit"></i>
-                                    </a>
+ 
                                     <a href="javascript:void(0);" onclick="event.preventDefault(); document.getElementById('delete-form-{{ $order->id }}').submit();" class="btn btn-link btn-danger btn-lg" data-original-title="Delete Order">
                                         <i class="fa fa-times"></i>
                                     </a>
@@ -149,6 +145,11 @@
         <div class="mt-3 d-flex justify-content-start">
             {{ $orders->appends(request()->query())->links('vendor.pagination.bootstrap-4') }}
         </div>
+    </div>
+    <div class="mb-3 d-flex justify-content-end">
+        <a href="{{ route('ordersdash.trashed') }}" class="btn btn-danger">
+            <i class="fa fa-trash"></i> View Trashed Orders
+        </a>
     </div>
 </div>
 @include('dashboard.footer')
