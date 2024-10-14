@@ -37,7 +37,7 @@
                         @foreach ($orders as $order)
                             <tr>
                                 <td>
-                                    <img src="{{ asset('storage/' . $order->image) }}" style="width: 75px; height: auto;  ">
+                                    <img src="{{ asset('storage/' . $order->product->image) }}" style="width: 75px; height: auto;  ">
                                 </td>
                                 <td>{!! wrapText($order->user->first_name, 30) !!} {!! wrapText($order->user->last_name, 30) !!}</td>
                                 <td>{!! wrapText($order->product->name, 30) !!}</td>
