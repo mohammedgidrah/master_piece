@@ -27,11 +27,18 @@
             <!-- Sign-Up Form -->
             <div class="sign-in-contaner">
                 @if ($errors->has('email'))
-                <p class="error" style="display: flex; align-items: center; justify-content: center; font-size: 12px">{{ $errors->first('email') }}</p>
-            @endif
+                    <p class="error"
+                        style="display: flex; align-items: center; justify-content: center; font-size: 12px">
+                        {{ $errors->first('email') }}</p>
+                @endif
                 @if ($errors->has('password'))
-                <p class="error">{{ $errors->first('password') }}</p>
-            @endif
+                    <p class="error">{{ $errors->first('password') }}</p>
+                @endif
+                @if ($errors->any())
+                    <p class="success">{{ $errors->first() }}</p>
+                @endif
+ 
+ 
                 <form id="sign-up-form" action="{{ route('register') }}" method="POST" enctype="multipart/form-data">
                     @csrf
                     <label class="sign_up" for="chk" aria-hidden="true">SIGN UP</label>
@@ -84,7 +91,7 @@
                     <!-- Error message for password -->
                     <p id="password_error" class="error"></p>
 
-                    <a class="forget_password" href="{{ route('forget.password')}}">Forget password?</a>
+                    <a class="forget_password" href="{{ route('forget.password') }}">Forget password?</a>
                     <button class="login_btn" type="submit">Login</button>
                 </form>
 
@@ -94,7 +101,8 @@
     </div>
     <footer>
         <div style="display: flex; align-items: center; justify-content: center">
-            <p>&copy;2023 All rights reserved | This template is made with <span style="color: red "> ❤</span> by Masa</p>
+            <p>&copy;2023 All rights reserved | This template is made with <span style="color: red "> ❤</span> by Masa
+            </p>
         </div>
     </footer>
 

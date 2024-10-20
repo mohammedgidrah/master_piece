@@ -33,14 +33,7 @@
         </div>
 
         <!-- Create Button -->
-        <div class="mb-3 d-flex justify-content-start" >
-            <a href="{{ route('products.create') }}" class="btn btn-primary me-2">
-                <i class="fa fa-plus"></i> Create User
-            </a>
-            <a href="{{ route('products.trashed') }}" class="btn btn-danger">
-                <i class="fa fa-trash"></i> View Trashed products
-            </a>
-        </div>
+
 
         <!-- Search and Filter -->
         <div class="mb-3">
@@ -57,8 +50,8 @@
                 <div>
                     <select name="stock" class="form-control" onchange="this.form.submit()">
                         <option value="">All stocks</option>
-                        <option value="in_stock" {{ request('stock') == 'in_stock' ? 'selected' : '' }}>in_stock</option>
-                        <option value="out_of_stock" {{ request('stock') == 'out_of_stock' ? 'selected' : '' }}>out_of_stock</option>
+                        <option value="in_stock" {{ request('stock') == 'in_stock' ? 'selected' : '' }}>in stock</option>
+                        <option value="out_of_stock" {{ request('stock') == 'out_of_stock' ? 'selected' : '' }}>out of stock</option>
                     </select>
                 </div>
                 <div class="d-flex align-items-center justify-content-between">
@@ -143,6 +136,14 @@
                 </tbody>
 
             </table>
+            <div class="mb-3 d-flex justify-content-end" >
+                <a href="{{ route('products.create') }}" class="btn btn-primary me-2">
+                    <i class="fa fa-plus"></i> Create product
+                </a>
+                <a href="{{ route('products.trashed') }}" class="btn btn-danger">
+                    <i class="fa fa-trash"></i> View Trashed products
+                </a>
+            </div>
             <!-- Pagination Controls -->
             <div class="mt-3 d-flex justify-content-start">
                 {{ $products->appends(request()->query())->links('vendor.pagination.bootstrap-4') }}

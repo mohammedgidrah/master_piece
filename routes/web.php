@@ -13,6 +13,7 @@ use App\Http\Controllers\RegisterController;
 use App\Http\Controllers\UserController;
 use Illuminate\Support\Facades\Route;
 use App\Models\User;
+
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -131,3 +132,8 @@ Route::get('reset-password/{token}', [ForgetPasswordManeger::class, 'resetPasswo
 Route::post('reset-password', [ForgetPasswordManeger::class, 'resetPasswordpost'])->name('reset.password.post');
 
 // Route::resource('ordersdash', OrderDashboardController::class);
+//  Route::get('register-user',function(){
+//      return view('auth.register');
+//  });
+Route::get('verify-email/{token}', [RegisterController::class, 'verifyAcount'])->name('verify.email');
+//  Route::post('register-user', [Emailcontroller::class, 'storeuser'])->name('store.user');

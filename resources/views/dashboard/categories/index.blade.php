@@ -118,7 +118,7 @@
         </div>
         <div class="mb-3 d-flex justify-content-end">
             <a href="{{ route('categories.create') }}" class="btn btn-primary me-2">
-                <i class="fa fa-plus"></i> Create User
+                <i class="fa fa-plus"></i> Create category
             </a>
             <a href="{{ route('categories.trashed') }}" class="btn btn-danger">
                 <i class="fa fa-trash"></i> View Trashed categories

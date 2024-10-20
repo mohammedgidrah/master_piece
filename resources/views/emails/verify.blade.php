@@ -1,0 +1,1 @@
+<p>please click the link below to verify your email <a href="{{ route('verify.email', $token)}}">verify email</a></p>

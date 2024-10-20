@@ -23,14 +23,17 @@ class UserController extends Controller
     
         $query = User::query();
     
+        // Exclude the logged-in user
+        $loggedInUserId = auth()->id();
+        $query->where('id', '!=', $loggedInUserId);
+    
         // Apply role filter if provided
         if ($request->filled('role')) {
-            $query->where('role', $request->role);
+            $query->where('role', $roleFilter);
         }
     
         // Apply search filter if provided
         if ($request->filled('search')) {
-            $search = $request->search;
             $query->where(function ($q) use ($search) {
                 $q->where('first_name', 'like', "%{$search}%")
                     ->orWhere('last_name', 'like', "%{$search}%")
@@ -40,8 +43,8 @@ class UserController extends Controller
             });
         }
     
-        // Get the total count of users (both active and trashed)
-        $totalUsers = User::count();
+        // Get the total count of users excluding the logged-in user
+        $totalUsers = User::where('id', '!=', $loggedInUserId)->count();
     
         // Get active users with pagination
         $users = $query->paginate($perPage);
