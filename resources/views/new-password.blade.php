@@ -40,7 +40,7 @@
         .login_input {
             width: 100%;
             padding: 10px;
-            margin-top: 50px;
+            margin-top: 30px;
             margin-bottom: 15px;
             border: 1px solid #ced4da;
             border-radius: 5px;
@@ -86,6 +86,7 @@
             text-align: center;
             color: white;
         }
+
         label {
             font-size: 14px;
             /* color: #333; */
@@ -103,31 +104,38 @@
     <div class="wrapper">
         <div class="maina">
             <div class="logins">
-                <form id="login-form" method="POST" action="{{ route('reset.password.post') }}">
+                <form id="login-form" method="POST" action="{{ route('reset.password.post') }}" >
                     @csrf
                     <input type="hidden" name="token" value="{{ $token }}">
 
                     <div class="form-title">Reset Password</div>
+                    
+                    @if ($errors->any())
+                        <div class="alert alert-danger" style="color: red">
+                            <ul>
+                                @foreach ($errors->all() as $error)
+                                    <li>{{ $error }}</li>
+                                @endforeach
+                            </ul>
+                        </div>
+                    @endif
 
                     <!-- Email Input -->
                     <div class="mb-3">
-                        {{-- <label for="email" class="form-label">Email Address</label> --}}
                         <input type="email" class="login_input" name="email" id="email"
-                               placeholder="Enter your email" required>
+                            placeholder="Enter your email" value="{{ old('email') }}" >
                     </div>
 
                     <!-- New Password Input -->
                     <div class="mb-3">
-                        {{-- <label for="password" class="form-label">New Password</label> --}}
                         <input type="password" class="login_input" name="password" id="password"
-                               placeholder="Enter new password" required>
+                            placeholder="Enter new password" >
                     </div>
 
                     <!-- Confirm Password Input -->
                     <div class="mb-3">
-                        {{-- <label for="password_confirmation" class="form-label">Confirm Password</label> --}}
-                        <input type="password" class="login_input" name="password_confirmation" id="password_confirmation"
-                               placeholder="Confirm new password" required>
+                        <input type="password" class="login_input" name="password_confirmation"
+                            id="password_confirmation" placeholder="Confirm new password" >
                     </div>
 
                     <!-- Submit Button -->

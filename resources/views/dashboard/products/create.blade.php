@@ -46,11 +46,12 @@
                     </div>
                     <div class="form-group">
                         <label for="description">Description</label>
-                        <input type="text" class="form-control" id="description" name="description" required>
+                        <input type="text" class="form-control" id="description"  name="description" required>
                     </div>
                     <div class="form-group">
                         <label for="price">Price</label>
-                        <input type="number" class="form-control" id="price" name="price" required>
+
+                        <input type="number" class="form-control" id="price" min="0" step="0.5" name="price" required>
                     </div>
                     <div class="form-group">
                         <label for="image">Product Image</label>
