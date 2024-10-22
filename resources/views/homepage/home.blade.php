@@ -66,8 +66,12 @@
         </section>
     </div>
 
-    <script src="assets/js/homepage.js"></script>
+ 
+    {{-- <script src="{{ asset('assets/js/homepage.js') }}"></script> --}}
     <script src="https://kit.fontawesome.com/a49038f582.js" crossorigin="anonymous"></script>
 </body>
 
 </html>
+
+
+

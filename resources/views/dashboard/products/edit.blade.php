@@ -52,8 +52,8 @@
 
                             <div class="form-group">
                                 <label for="price">Price</label>
-                                <input type="number" class="form-control" id="price" name="price"
-                                    value="{{ $product->price }}">
+        
+                                <input type="number" class="form-control" id="price" min="0" step="0.5" name="price" value="{{ $product->price }}" required>
                                 @error('price')
                                     <div class="text-danger">{{ $message }}</div>
                                 @enderror

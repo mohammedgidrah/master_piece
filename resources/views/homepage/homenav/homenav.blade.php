@@ -69,9 +69,10 @@
     </button>
     <section class="links">
         <a href="{{ route('home') }}">Home</a>
-        <a href="{{ route('orders.index') }}" >Your Orders</a>
+        {{-- <a style="transform: rotateY(180deg)" href="{{ route('orders.index') }}"><i class="fa-solid fa-cart-shopping"></i></a> --}}
         <a href="#">About</a>
         <a href="#">Faq</a>
+        {{-- <a href="{{ route('orders.index') }}" style="transform: rotateY(180deg)" ><i class="fa-solid fa-cart-shopping"></i></a> --}}
 
         @auth <!-- Check if the user is logged in -->
             <div class="dropdown">
@@ -105,6 +106,11 @@
             <!-- Display login link if the user is not logged in -->
             <a href="{{ route('login') }}">Login</a>
         @endauth
+        
     </section>
+    <a style="transform: rotateY(180deg)" href="{{ route('orders.index') }}"><i class="fa-solid fa-cart-shopping" style="color: #d8af53; font-size: 20px"></i></a>
 </header>
+<script src="https://kit.fontawesome.com/a49038f582.js" crossorigin="anonymous"></script>
+<script src="{{ asset('assets/js/homepage.js') }}"></script>
+
 
