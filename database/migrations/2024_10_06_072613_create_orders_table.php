@@ -21,6 +21,8 @@ return new class extends Migration
             $table->string('image')->nullable();
             // Define the 'order_status' as an ENUM type with specific values
             $table->enum('order_status', ['pending', 'processing', 'shipped', 'delivered', 'cancelled'])->default('pending');
+            $table->integer('quantity')->default(1); // Default to 1 or set to whatever makes sense
+
             $table->softDeletes();
             $table->timestamps();
         });

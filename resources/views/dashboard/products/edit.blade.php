@@ -98,6 +98,8 @@
                                     @if ($product->image)
                                         <img src="{{ asset('storage/' . $product->image) }}" alt="{{ $product->name }}"
                                             style="width: 100px; height: auto;" class="img-thumbnail ms-2" id="oldImage" />
+                                            @else
+                                            <p class="mb-0 ms-3">(No image)</p>
                                     @endif
                                     <p class="mb-0 ms-3">New image:</p>
                                     <img id="newImagePreview" style="width: 100px; height: auto; display: none;"

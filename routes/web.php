@@ -101,6 +101,8 @@ Route::middleware(['admin'])->group(function () {
 Route::middleware(['auth'])->group(function () {
     Route::get('/orders', [OrderController::class, 'index'])->name('orders.index');
     Route::post('/orders/store/{id}', [OrderController::class, 'store'])->name('orders.store');
+    // Route::get('/orders/{id}/edit', [OrderController::class, 'edit'])->name('orders.edit');
+    Route::put('/orders/{id}/update-status', [OrderController::class, 'update'])->name('orders.update');
     Route::delete('/orders/{id}', [OrderController::class, 'destroy'])->name('orders.destroy');
 
 });

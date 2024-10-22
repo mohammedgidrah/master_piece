@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+{{-- <!DOCTYPE html>
 <html lang="en">
 
 <head>
@@ -85,36 +85,120 @@
         @endif
     </div>
 
-    <script src="../assets/js/homepage.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
-    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.0.7/dist/umd/popper.min.js"></script>
-    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+  --}}
+  <!DOCTYPE html>
+  <html lang="en">
+  
+  <head>
+      <meta charset="UTF-8">
+      <meta name="viewport" content="width=device-width, initial-scale=1.0">
+      <title>Shopping Cart</title>
+      <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+      <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
+      <link rel="stylesheet" href="{{ asset('assets/css/homepage.css') }}" />
+      <link rel="icon" type="image/png" href="../assets/img/home/masterpeace_logo-removebg-preview.png" />
+      <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/sweetalert2@11/dist/sweetalert2.min.css">
+      <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11/dist/sweetalert2.min.js"></script>
+  </head>
+  
+  <body style="height: 100vh">
+    @include('homepage.homenav.homenav')
+    <div style="padding-top: 100px">
 
-    <script>
-        $(document).ready(function() {
-            // Event listener for the delete button
-            $('.delete-order').on('click', function() {
-                const orderId = $(this).data('id'); // Get the order ID
-                const form = $(this).next('form'); // Get the associated form
-
-                Swal.fire({
-                    title: 'Are you sure?',
-                    text: "You won't be able to revert this!",
-                    icon: 'warning',
-                    showCancelButton: true,
-                    confirmButtonColor: '#d33',
-                    cancelButtonColor: '#3085d6',
-                    confirmButtonText: 'Yes, delete it!'
-                }).then((result) => {
-                    if (result.isConfirmed) {
-                        // Submit the form to delete the order
-                        form.submit();
-                    }
-                });
-            });
-        });
-    </script>
-</body>
-
-</html>
+        <div class="container mt-5 " style="background-color: white;">
+            <h2 class="text-start mb-4">Shopping Cart</h2>
+    
+            @if ($orders->isEmpty())
+                <div class="alert alert-info text-center">
+                    Your cart is empty. <a href="{{ route('home') }}">Continue shopping</a>
+                </div>
+            @else
+                     <div class="table-responsive">
+                        <table class="table">
+                            <thead>
+                                <tr>
+                                  <th style="display: flex; align-items: center; justify-content: center; width: auto;" colspan="2">Product</th>
+                                  <th>Price</th>
+                                    <th>Quantity</th>
+                                    <th>Subtotal</th>
+                                    <th></th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @php
+                                    $total = 0; // Initialize total variable
+                                @endphp
+                                @foreach ($orders as $order)
+                                    @php
+                                        $subtotal = $order->product->price * $order->quantity;
+                                        $total += $subtotal; // Calculate total
+                                    @endphp
+                                    <tr>
+                                        <td>
+                                            <div class="d-flex align-items-center">
+                                                <img src="{{ asset('storage/' . $order->product->image) }}"
+                                                     class="img-fluid" style="width: 80px; height: auto; margin-right: 10px;">
+                                                {{ $order->product->name }}
+                                            </div>
+                                        </td>
+                                        <td>${{ number_format($order->product->price, 2) }}</td>
+                                        <td>
+                                            <form action="{{ route('orders.update', $order->id) }}" method="POST" class="d-inline">
+                                                @csrf
+                                                @method('PUT')
+                                                <input type="number" name="quantity" value="{{ $order->quantity }}" min="1" class="form-control" style="width: 80px; display:inline-block;">
+                                                <button type="submit" class="btn btn-link" data-original-title="Update Quantity">
+                                                    <i class="fa fa-sync-alt"></i>
+                                                </button>
+                                            </form>
+                                        </td>
+                                        <td>${{ number_format($subtotal, 2) }}</td>
+                                        <td>
+                                            <a href="javascript:void(0);" onclick="event.preventDefault(); document.getElementById('delete-form-{{ $order->id }}').submit();" class="btn btn-link btn-lg" data-original-title="Delete User">
+                                                <i class="fa fa-times"></i>
+                                            </a>
+                                            <form id="delete-form-{{ $order->id }}" action="{{ route('orders.destroy', $order->id) }}" method="POST" style="display: none;">
+                                                @csrf
+                                                @method('DELETE')
+                                            </form>
+                                        </td>
+                                    </tr>
+                                @endforeach
+                            </tbody>
+                        </table>
+                    </div>
+    
+                    <div class="row my-4 d-flex align-items-center justify-content-end">
+                        <div class="col-md-6 text-right">
+                            <button type="submit" class="btn btn-primary">UPDATE CART</button>
+                        </div>
+                    </div>
+     
+                <div class="row">
+                    <div class="col-md-4 ml-auto">
+                        <div class="border p-4">
+                            <h5>Cart totals</h5>
+                            <ul class="list-unstyled">
+                                <li class="d-flex justify-content-between">
+                                    <span>Subtotal:</span>
+                                    <span>${{ number_format($total, 2) }}</span>
+                                </li>
+                                <li class="d-flex justify-content-between">
+                                    <span>Total:</span>
+                                    <span>${{ number_format($total, 2) }}</span>
+                                </li>
+                            </ul>
+                            <button class="btn btn-primary btn-block">PROCEED TO CHECKOUT</button>
+                        </div>
+                    </div>
+                </div>
+            @endif
+        </div>
+    </div>
+  
+      <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+      <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+  </body>
+  
+  </html>
+  

@@ -108,11 +108,11 @@
                                 <form action="{{ route('ordersdash.update', $order->id) }}" method="POST">
                                     @csrf
                                     @method('PUT')
-                                    <select name="order_status" class="form-control" onchange="this.form.submit()">
+                                    <select style="background-color: rgb(0 0 0 / 5%)" name="order_status" class="form-control" onchange="this.form.submit()">
                                         <option value="pending" {{ $order->order_status == 'pending' ? 'selected' : '' }}>Pending</option>
                                         <option value="processing" {{ $order->order_status == 'processing' ? 'selected' : '' }}>Processing</option>
                                         <option value="shipped" {{ $order->order_status == 'shipped' ? 'selected' : '' }}>Shipped</option>
-                                        <option value="delivered" {{ $order->order_status == 'delivered' ? 'selected' : '' }}>Delivered</option>
+                                        <option style="    background-color: #31ce36; " value="delivered" {{ $order->order_status == 'delivered' ? 'selected' : '' }}>Delivered</option>
                                         <option value="cancelled" {{ $order->order_status == 'cancelled' ? 'selected' : '' }}>Cancelled</option>
                                     </select>
                                 </form>
