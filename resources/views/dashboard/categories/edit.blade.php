@@ -3,7 +3,7 @@
 @section('content')
     {{-- <div class="page-inner" > --}}
         <div class="page-inner d-flex justify-content-start align-items-start" style="padding-top:  75px">
-            <h3 class="fw-bold mb-3">Edit User</h3>
+            <h3 class="fw-bold mb-3">Edit category</h3>
             <ul class="breadcrumbs mb-3">
                 <li class="nav-home">
                     <a href="#">

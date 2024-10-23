@@ -96,3 +96,26 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     });
 });
+// document.getElementById('toggle-password').addEventListener('click', function () {
+//     const passwordInput = document.getElementById('password-input-login');
+//     const type = passwordInput.getAttribute('type') === 'password' ? 'text' : 'password';
+//     passwordInput.setAttribute('type', type);
+//     // Toggle the eye / eye-slash icon
+//     this.classList.toggle('fa-eye-slash');
+// });
+ 
+function togglePasswordVisibility(inputId, icon) {
+    const passwordInput = document.getElementById(inputId);
+    const type = passwordInput.getAttribute('type') === 'password' ? 'text' : 'password';
+    passwordInput.setAttribute('type', type);
+
+    // Toggle the icon class between fa-eye and fa-eye-slash
+    const iconElement = icon.querySelector('i');
+    if (type === 'password') {
+        iconElement.classList.remove('fa-eye-slash');
+        iconElement.classList.add('fa-eye');
+    } else {
+        iconElement.classList.remove('fa-eye');
+        iconElement.classList.add('fa-eye-slash');
+    }
+}

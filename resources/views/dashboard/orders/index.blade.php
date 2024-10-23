@@ -95,7 +95,7 @@
             </tfoot>
             <tbody>
                 @if ($orders->isNotEmpty())
-                    @foreach ($orders as $order)
+                     @foreach ($orders as $order)
                         <tr>
                             <td>
                                 <img src="{{ asset('storage/' . $order->product->image) }}" style="width: 75px; height: auto;">

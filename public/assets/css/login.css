@@ -2,6 +2,8 @@
     margin: 0;
     padding: 0;
     box-sizing: border-box;
+    font-family: "Public Sans", sans-serif;
+    font-weight: 400;
 }
 :root {
     /* dark */
@@ -20,18 +22,15 @@
 }
 
 body {
-      /* display: flex;
-      justify-content: center;
-      align-items: center; */
-      height: 100vh;
+    height: 100vh;
     background: linear-gradient(to bottom, #0f0c29, #302b63, #24243e);
-  }
+}
 .wrapper {
     display: flex;
     justify-content: center;
     align-items: center;
     height: 100vh;
-    padding-top:110px ;
+    padding-top: 110px;
 }
 .main {
     width: 350px;
@@ -98,7 +97,8 @@ input::placeholder {
     color: white;
 }
 
-.login_btn,.sign_up_btn {
+.login_btn,
+.sign_up_btn {
     width: 28%;
     height: 30px;
     margin: 10px auto;
@@ -116,13 +116,14 @@ input::placeholder {
     cursor: pointer;
 }
 
-.login_btn,.sign_up_btn :hover {
+.login_btn,
+.sign_up_btn :hover {
     background: #6d44b8;
 }
 
 .login {
     height: 460px;
-    background-color: #F2F0E6;
+    background-color: #f2f0e6;
     border-radius: 60%/10%;
     transform: translateY(-180px);
     transition: 0.8s ease-in-out;
@@ -135,7 +136,7 @@ input::placeholder {
     font-size: 60px;
 }
 
-.forget_password{
+.forget_password {
     display: flex;
     justify-content: flex-end;
     padding-right: 70px;
@@ -172,15 +173,14 @@ p {
     margin: 20px 0;
     color: #8f00ff;
 }
-.sign_up_p{
+.sign_up_p {
     display: flex;
     justify-content: center;
     align-items: center;
     margin: 20px 0;
     color: white;
-
 }
-.sign_in_p{
+.sign_in_p {
     display: flex;
     justify-content: center;
     align-items: center;

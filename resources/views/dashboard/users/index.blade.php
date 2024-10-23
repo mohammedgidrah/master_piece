@@ -104,7 +104,7 @@
                                 <td>{{ $user->address }}</td>
                                 <td>{{ $user->role }}</td>
                                 <td>
-                                    <div class="form-button-action d-flex justify-content-center">
+                                    <div class="form-button-action d-flex justify-content-start">
                                         <a href="{{ route('users.edit', $user->id) }}"
                                             class="btn btn-link btn-primary btn-lg" data-original-title="Edit User">
                                             <i class="fa fa-edit"></i>

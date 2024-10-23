@@ -26,8 +26,7 @@ class OrderDashboardController extends Controller
     
         $query = Order::query();
     
-        // Assuming the orders table has a user_id column referencing the users table, and a product_id column referencing the products table
-        $query->join('users', 'orders.customer_id', '=', 'users.id') // Correcting the join to use 'user_id'
+         $query->join('users', 'orders.customer_id', '=', 'users.id') 
               ->join('products', 'orders.product_id', '=', 'products.id')
               ->select('orders.*', 'users.first_name', 'users.last_name', 'products.name as product_name');
     
@@ -40,6 +39,8 @@ class OrderDashboardController extends Controller
                   ->orWhere('products.name', 'like', '%' . $search . '%');
             });
         }
+
+ 
     
         $orders = $query->paginate($perPage);
         $totalOrders = Order::count();
@@ -68,8 +69,7 @@ class OrderDashboardController extends Controller
             'product_id' => 'required|exists:products,id',
             'total_price' => 'required|numeric',
             'order_status' => 'required|string',
-            // Add more validation rules as needed
-        ]);
+         ]);
 
         if ($validator->fails()) {
             return redirect()->back()->withErrors($validator)->withInput();
@@ -84,8 +84,7 @@ class OrderDashboardController extends Controller
     {
         $totalTrashedOrders = Order::onlyTrashed()->count();
     
-        // Fetch trashed orders with pagination
-        $orders = Order::onlyTrashed()->paginate(5);
+         $orders = Order::onlyTrashed()->paginate(5);
     
         return view('dashboard.orders.trashed', compact('orders', 'totalTrashedOrders'));
     }
@@ -106,27 +105,7 @@ class OrderDashboardController extends Controller
         return redirect()->route('ordersdash.trashed')->with('success', 'orders permanently deleted.');
     }
 
-    /**
-     * Display the specified resource.
-     */
-    // public function show(string $id)
-    // {
-    //     $order = Order::findOrFail($id);
-    //     return view('dashboard.orders.show', compact('order'));
-    // }
-
-    /**
-     * Show the form for editing the specified resource.
-     */
-    // public function edit($id)
-    // {
-    //     $order = Order::findOrFail($id);
-    //     $users = User::all(); // Retrieve all users
-    //     $categories = Category::all(); // Retrieve all categories
-    //     $products = Product::all(); // Retrieve all products if needed
-    //     return view('dashboard.orders.edit', compact('order', 'users', 'categories'));
-    // }
-    
+  
 
     /**
      * Update the specified resource in storage.
