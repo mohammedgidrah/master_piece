@@ -76,6 +76,7 @@
                         <th>description</th>
                         <th>price</th>
                         <th>stock</th>
+                        <th>quantity</th>
                         <th>category</th>
                         <th style="width: 10%">Action</th>
                     </tr>
@@ -87,6 +88,7 @@
                         <th>description</th>
                         <th>price</th>
                         <th>stock</th>
+                        <th>quantity</th>
                         <th>category</th>
                         <th>Action</th>
                     </tr>
@@ -105,6 +107,7 @@
                                 <td>{!! wrapText($product->description, 30) !!}</td>
                                 <td>{{ $product->price }}</td>
                                 <td>{{ $product->stock }}</td>
+                                <td>{{ $product->quantity }}</td>
                                 <td>{{ $product->category ? $product->category->name : 'No Category' }}</td>
 
                                 <td>

@@ -30,6 +30,7 @@
                         <th>Description</th>
                         <th>Price</th>
                         <th>Stock</th>
+                        <th>Quantity</th>
                         <th>Category</th>
                         <th>Action</th>
                     </tr>
@@ -46,6 +47,7 @@
                                 <td>{{ $product->description }}</td>
                                 <td>{{ $product->price }}</td>
                                 <td>{{ $product->stock }}</td>
+                                <td>{{ $product->quantity }}</td>
                                 <td>{{ $product->category->name }}</td>
                                 <td>
                                     <form action="{{ route('products.restore', $product->id) }}" method="POST"

@@ -1,4 +1,4 @@
- <div class="main-panel">
+ {{-- <div class="main-panel"> --}}
      <div class="main-header">
          <div class="main-header-logo">
              <!-- Logo Header -->
@@ -155,4 +155,4 @@
          <!-- End Navbar -->
      </div>
 
- </div>
+ {{-- </div> --}}

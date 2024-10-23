@@ -78,6 +78,8 @@ class ProductController extends Controller
             'price' => 'required|numeric|min:0',
             'stock' => 'required|in:in_stock,out_of_stock',
             'image' => 'nullable|mimes:png,jpg,jpeg,webp|max:2048',
+            'quantity' => 'required|numeric|min:0',
+
         ]);
 
         $imagePath = null;
@@ -93,6 +95,7 @@ class ProductController extends Controller
             'price' => $request->price,
             'stock' => $request->stock,
             'image' => $imagePath,
+            'quantity' => $request->quantity
         ]);
 
         return redirect()->route('products.index')->with('success', 'Product created successfully!');
@@ -133,6 +136,7 @@ class ProductController extends Controller
             'price' => 'required|numeric|min:0',
             'stock' => 'required|in:in_stock,out_of_stock',
             'image' => 'nullable|mimes:png,jpg,jpeg,webp',
+            'quantity' => 'required|numeric|min:0',
         ]);
 
         $product = Product::findOrFail($id);
@@ -157,6 +161,7 @@ class ProductController extends Controller
         $product->description = $request->description;
         $product->price = $request->price;
         $product->stock = $request->stock;
+        $product->quantity = $request->quantity;
         $product->save();
 
         return redirect()->route('products.index')->with('success', 'Product updated successfully!');
@@ -165,7 +170,7 @@ class ProductController extends Controller
     public function destroy(Product $product)
     {
         $product->delete();
-        return redirect()->route('products.index')->with('success', 'Product deleted successfully!');
+        return redirect()->back()->with('success', 'Product deleted successfully!');
     }
 
 }

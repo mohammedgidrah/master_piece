@@ -11,40 +11,60 @@ class OrderController extends Controller
 {
     public function index(Request $request)
     {
-        // Fetch paginated orders
-        $orders = Order::all(); // Adjust as necessary
+        $search = $request->input('search');
+        $orders = Order::with('product')
+            ->when($search, function ($query, $search) {
+                return $query->whereHas('product', function ($query) use ($search) {
+                    $query->where('name', 'like', '%' . $search . '%');
+                });
+            })
+            ->paginate(1); // Adjust the number of items per page as needed
+    
         return view('homepage.orders.index', compact('orders'));
     }
+    
 
     public function store(Request $request, $id)
     {
         // Ensure the user is authenticated
         if (!auth()->check()) {
-            return redirect()->route('login')->with('error', 'You need to log in first to place an orders.');
+            return redirect()->route('login')->with('error', 'You need to log in first to place an order.');
         }
-
+    
         // Validate the incoming request
         $request->validate([
             'product_id' => 'required|exists:products,id', // Ensure product_id is required and valid
             'total_price' => 'required|numeric',
             'order_status' => 'in:pending,processing,shipped,delivered,cancelled',
         ]);
-
-        // Create a new orders
-        $orders = Order::create([
+    
+        // Check if the product is already in the user's orders
+        $existingOrder = Order::where('customer_id', auth()->user()->id)
+            ->where('product_id', $request->product_id)
+            ->first();
+    
+        if ($existingOrder) {
+            // If the product is already in the cart, show a message
+            return redirect()->back()->with('error', 'The product is already in your cart.');
+        }
+    
+        // Create a new order
+        $order = Order::create([
             'customer_id' => auth()->user()->id, // Fallback to the authenticated user ID
             'total_price' => $request->total_price,
             'order_status' => $request->order_status ?? 'pending',
             'product_id' => $request->product_id,
+            'quantity' => 1, // You might want to set a default quantity for a new order
         ]);
-
-        // Check if the orders was created successfully
-        if ($orders) {
-            return redirect()->back()->with('success', 'Product has been added to your orders.');
+    
+        // Check if the order was created successfully
+        if ($order) {
+            return redirect()->back()->with('success', 'Product has been added to your cart.');
         } else {
-            return redirect()->back()->with('error', 'Failed to create orders. Please try again.');
+            return redirect()->back()->with('error', 'Failed to add the product to your cart. Please try again.');
         }
     }
+    
 
     public function update(Request $request, $id)
     {
@@ -91,6 +111,6 @@ class OrderController extends Controller
         }
 
         // Redirect back with an error message if not found
-        return redirect()->route('orders.index')->with('error', 'Order not found.');
+        return redirect()->back()->with('error', 'Order not found.');
     }
 }

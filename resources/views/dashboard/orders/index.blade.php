@@ -44,7 +44,7 @@
                     <option value="5" {{ request('per_page') == '5' ? 'selected' : '' }}>5</option>
                     <option value="10" {{ request('per_page') == '10' ? 'selected' : '' }}>10</option>
                     <option value="15" {{ request('per_page') == '15' ? 'selected' : '' }}>15</option>
-                    <option value="{{ $totalorders }}" {{ request('per_page') == $totalorders ? 'selected' : '' }}>
+                    <option value="{{ $totalOrders }}" {{ request('per_page') == $totalOrders ? 'selected' : '' }}>
                         All
                     </option>
                 </select>
@@ -68,7 +68,7 @@
 
     <!-- Total Orders Display -->
     <div class="mb-3">
-        <h5>Total Orders: {{ $totalorders }}</h5>
+        <h5>Total Orders: {{ $totalOrders}}</h5>
     </div>
 
     <div class="table-responsive">

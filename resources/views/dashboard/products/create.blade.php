@@ -54,9 +54,15 @@
                         <input type="number" class="form-control" id="price" min="0" step="0.5" name="price" required>
                     </div>
                     <div class="form-group">
+                        <label for="quantity">quantity</label>
+
+                        <input type="number" class="form-control" id="quantity" min="0" step="0.5" name="quantity" required>
+                    </div>
+                    <div class="form-group">
                         <label for="image">Product Image</label>
                         <input type="file" class="form-control" id="image" name="image" accept="image/*">
                     </div>
+
                     <div class="form-group">
                         <label for="stock">Stock</label>
                         <select class="form-control" id="stock" name="stock" required>

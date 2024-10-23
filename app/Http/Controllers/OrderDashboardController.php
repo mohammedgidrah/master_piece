@@ -17,28 +17,38 @@ class OrderDashboardController extends Controller
     public function index(Request $request)
     {
         $perPage = $request->input('per_page', 5);
-
+    
         if ($perPage === 'all' || $perPage > 20) {
             $perPage = 20;
         }
-
+    
         $search = $request->input('search');
-
+    
         $query = Order::query();
-
+    
+        // Assuming the orders table has a user_id column referencing the users table, and a product_id column referencing the products table
+        $query->join('users', 'orders.customer_id', '=', 'users.id') // Correcting the join to use 'user_id'
+              ->join('products', 'orders.product_id', '=', 'products.id')
+              ->select('orders.*', 'users.first_name', 'users.last_name', 'products.name as product_name');
+    
         if ($search) {
             $query->where(function ($q) use ($search) {
-                $q->where('total_price', 'like', '%' . $search . '%');
-                // You may add more search conditions here
+                $q->where('orders.total_price', 'like', '%' . $search . '%')
+                  ->orWhere('orders.order_status', 'like', '%' . $search . '%')
+                  ->orWhere('users.first_name', 'like', '%' . $search . '%')
+                  ->orWhere('users.last_name', 'like', '%' . $search . '%')
+                  ->orWhere('products.name', 'like', '%' . $search . '%');
             });
         }
-
+    
         $orders = $query->paginate($perPage);
-        $totalorders = Order::count();
-
-        return view('dashboard.orders.index', compact('orders', 'totalorders'));
+        $totalOrders = Order::count();
+    
+        return view('dashboard.orders.index', compact('orders', 'totalOrders'));
     }
-
+    
+    
+    
     /**
      * Show the form for creating a new resource.
      */

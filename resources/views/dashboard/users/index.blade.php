@@ -32,13 +32,6 @@
             </ul>
         </div>
 
-        <!-- Create Button -->
-
-
-
-
-        <!-- Search and Filter -->
-        <!-- Search and Filter -->
         <div class="mb-3">
             <form action="{{ route('users.index') }}" method="GET" class="d-flex justify-content-between">
                 <div>
@@ -65,8 +58,6 @@
             </form>
         </div>
 
-
-        <!-- Total Users Display -->
         <div class="mb-3">
             <h5>Total Users: {{ $totalUsers }}</h5>
         </div>
@@ -113,22 +104,24 @@
                                 <td>{{ $user->address }}</td>
                                 <td>{{ $user->role }}</td>
                                 <td>
-                                    <div class="form-button-action">
+                                    <div class="form-button-action d-flex justify-content-center">
                                         <a href="{{ route('users.edit', $user->id) }}"
                                             class="btn btn-link btn-primary btn-lg" data-original-title="Edit User">
                                             <i class="fa fa-edit"></i>
                                         </a>
-                                        <a href="javascript:void(0);"
-                                            onclick="event.preventDefault(); document.getElementById('delete-form-{{ $user->id }}').submit();"
-                                            class="btn btn-link btn-danger btn-lg" data-original-title="Delete User">
-                                            <i class="fa fa-times"></i>
-                                        </a>
-                                        <form id="delete-form-{{ $user->id }}"
-                                            action="{{ route('users.destroy', $user->id) }}" method="POST"
-                                            style="display: none;">
-                                            @csrf
-                                            @method('DELETE')
-                                        </form>
+                                        @if ($user->role !== 'admin')
+                                            <a href="javascript:void(0);"
+                                                onclick="event.preventDefault(); document.getElementById('delete-form-{{ $user->id }}').submit();"
+                                                class="btn btn-link btn-danger btn-lg" data-original-title="Delete User">
+                                                <i class="fa fa-times"></i>
+                                            </a>
+                                            <form id="delete-form-{{ $user->id }}"
+                                                action="{{ route('users.destroy', $user->id) }}" method="POST"
+                                                style="display: none;">
+                                                @csrf
+                                                @method('DELETE')
+                                            </form>
+                                        @endif
                                     </div>
                                 </td>
                             </tr>
@@ -139,9 +132,7 @@
                         </tr>
                     @endif
                 </tbody>
-
             </table>
-            <!-- Pagination Controls -->
             <div class="mt-3 d-flex justify-content-start">
                 {{ $users->appends(request()->query())->links('vendor.pagination.bootstrap-4') }}
             </div>
@@ -157,10 +148,5 @@
     </div>
     @include('dashboard.footer')
     </div>
-    {{-- @php
-    function wrapText($text, $length = 50)
-    {
-        return nl2br(wordwrap($text, $length, "\n", true));
-    }
-@endphp --}}
+
 @endsection

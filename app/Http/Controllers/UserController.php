@@ -12,26 +12,26 @@ class UserController extends Controller
     {
         // Get the per_page value, defaulting to 5
         $perPage = $request->input('per_page', 5);
-    
+
         // Cap the maximum number of users displayed to 20
         if ($perPage === 'all' || $perPage > 20) {
             $perPage = 20; // Limit to 20 when 'all' is selected
         }
-    
+
         $roleFilter = $request->input('role');
         $search = $request->input('search');
-    
+
         $query = User::query();
-    
+
         // Exclude the logged-in user
         $loggedInUserId = auth()->id();
         $query->where('id', '!=', $loggedInUserId);
-    
+
         // Apply role filter if provided
         if ($request->filled('role')) {
             $query->where('role', $roleFilter);
         }
-    
+
         // Apply search filter if provided
         if ($request->filled('search')) {
             $query->where(function ($q) use ($search) {
@@ -42,30 +42,29 @@ class UserController extends Controller
                     ->orWhere('address', 'like', "%{$search}%");
             });
         }
-    
+
         // Get the total count of users excluding the logged-in user
         $totalUsers = User::where('id', '!=', $loggedInUserId)->count();
-    
+
         // Get active users with pagination
         $users = $query->paginate($perPage);
-    
+
         // Get trashed users for separate display or management
         $trashedUsers = User::onlyTrashed()->paginate(5); // Change the pagination as needed
-    
+
         return view('dashboard.users.index', compact('users', 'totalUsers', 'trashedUsers'));
     }
-    
 
     public function trashed(Request $request)
     {
-        $totaltrashedUsers= User::onlyTrashed()->count();
-     
+        $totaltrashedUsers = User::onlyTrashed()->count();
+
         // Fetch trashed users with pagination
         $users = User::onlyTrashed()->paginate(5);
-    
+
         return view('dashboard.users.trashed', compact('users', 'totaltrashedUsers'));
     }
-    
+
     // Restore a soft deleted user
     public function restore($id)
     {
@@ -100,12 +99,22 @@ class UserController extends Controller
         $request->validate([
             'last_name' => 'required|string|max:255',
             'first_name' => 'required|string|max:255',
-            'email' => 'required|string|email|max:255|unique:users',
+            'email' => 'required|email|unique:users,email,',
             'role' => 'required|in:admin,user',
             'address' => 'nullable|string|max:255',
             'phone' => 'nullable|string|max:255',
-            'password' => 'required|string|min:8',
             'image' => 'nullable|mimes:png,jpg,jpeg,webp',
+            'password' => [
+                'nullable',
+                'string',
+                'min:8', // Minimum length
+                'regex:/[a-z]/', // At least one lowercase letter
+                'regex:/[A-Z]/', // At least one uppercase letter
+                'regex:/[0-9]/', // At least one number
+                'regex:/[\W_]/', // At least one special character
+            ],
+        ], [
+            'password.regex' => 'Password must be at least 8 characters long and contain at least one uppercase letter, one lowercase letter, one number, and one special character.',
         ]);
 
         if ($request->hasFile('image')) {
@@ -138,11 +147,10 @@ class UserController extends Controller
         $request->validate([
             'first_name' => 'required|string|max:255',
             'last_name' => 'required|string|max:255',
-            'email' => 'required|string|email|max:255|unique:users,email,' . $id, // Ensure unique email
+            'email' => 'required|email|unique:users,email,' . $id,
             'address' => 'nullable|string|max:255',
             'phone' => 'nullable|string|max:255',
             'image' => 'nullable|image|mimes:jpeg,png,jpg,gif',
-            'password' => 'nullable|string|min:8',
             'role' => 'required|in:admin,user',
         ]);
 

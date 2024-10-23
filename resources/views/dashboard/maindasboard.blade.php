@@ -40,9 +40,9 @@
 
 <body>
     <div class="wrapper">
-        @include('dashboard.navbar')
-
+        
         <div class="main-panel">
+            @include('dashboard.navbar')
             @yield('content')  
             @include('dashboard.sidebar')  
         </div>

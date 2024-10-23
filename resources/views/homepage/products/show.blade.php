@@ -18,7 +18,7 @@
         <div class="product_detail_container">
             <h1 class="product_name">{!! wrapText($product->name, 30) !!}</h1>
             <div class="product_details">
-                <img src="{{ asset('storage/' . $product->image) }}" alt="{{ $product->name }}" class="product_image"   />
+                <img src="{{ asset('storage/' . $product->image) }}" alt="{{ $product->name }}" class="product_image" />
                 <div class="description">
                     <h2>Description:</h2>
                     <p style="text-align: justify" class="product_description">{!! wrapText($product->description, 40) !!}</p>
@@ -27,13 +27,20 @@
             <p class="product_price">Price: <span class="price_value">${{ $product->price }}</span></p>
             <div class="button-container">
                 @if(auth()->check())
-                    <!-- Form is available only to logged-in users -->
+                    <!-- Display success message if available -->
                     @if (session('success'))
                         <div class="alert alert-success" style="height: 40px; margin-top: 17px; display: flex; align-items: center">
                             {{ session('success') }}
                         </div>
                     @endif
-                    
+
+                    <!-- Display error message if available -->
+                    @if (session('error'))
+                        <div class="alert alert-danger" style="height: 40px; margin-top: 17px; display: flex; align-items: center">
+                            {{ session('error') }}
+                        </div>
+                    @endif
+
                     <form action="{{ route('orders.store', $product->id) }}" method="POST" class="order_form">
                         @csrf
             
@@ -51,15 +58,14 @@
                         <input type="hidden" name="product_id" value="{{ $product->id }}">
                         <input type="hidden" name="total_price" value="{{ $product->price }}">
                         <input type="hidden" name="customer_id" value="{{ auth()->user()->id }}">
-                        <button type="submit" class="btn btn-primary">Store Product in Order</button>
+                        <button type="submit" class="btn btn-primary">Store Product in Cart</button>
                     </form>
                 @else
                     <!-- Show message if the user is not logged in -->
                     <p class="alert alert-warning" style="height: 40px; margin-top: 17px; display: flex; align-items: center">
-                        You need to <a href="{{ route('login') }}" style="text-decoration: none">log in</a> first to place an order.
+                        You need to <a href="{{ route('login') }}" style="text-decoration: none">log in</a> first to place in the cart.
                     </p>
                 @endif
-            
                 <a href="{{ route('category.products', $product->category->id) }}" class="btn btn-secondary">Back to Category</a>
             </div>
             
