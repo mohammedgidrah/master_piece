@@ -138,4 +138,7 @@ Route::post('reset-password', [ForgetPasswordManeger::class, 'resetPasswordpost'
 //      return view('auth.register');
 //  });
 Route::get('verify-email/{token}', [RegisterController::class, 'verifyAcount'])->name('verify.email');
-//  Route::post('register-user', [Emailcontroller::class, 'storeuser'])->name('store.user');
+ 
+
+// web.php
+Route::post('/checkout', [OrderController::class, 'checkout'])->name('checkout');

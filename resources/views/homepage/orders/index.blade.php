@@ -8,40 +8,61 @@
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
     <link rel="stylesheet" href="{{ asset('assets/css/homepage.css') }}" />
-    <link rel="icon" type="image/png" href="../assets/img/home/masterpeace_logo-removebg-preview.png" />
+    <link rel="icon" type="image/png" href="{{ asset('assets/img/home/masterpeace_logo-removebg-preview.png') }}" />
 </head>
 
 <body style="height: 100vh">
     @include('homepage.homenav.homenav')
-    <div style="padding-top: 100px">
 
+    <div style="padding-top: 100px">
         <div class="container mt-5" style="background-color: white;">
             <h1 class="mb-4">Cart</h1>
+
+            <!-- Error Handling -->
+            @if ($errors->any())
+                <div class="alert alert-danger">
+                    <ul>
+                        @foreach ($errors->all() as $error)
+                            <li>{{ $error }}</li>
+                        @endforeach
+                    </ul>
+                </div>
+            @endif
+
+            @if (session('error'))
+                <div class="alert alert-danger">
+                    {{ session('error') }}
+                </div>
+            @endif
+
+            @if (session('success'))
+                <div class="alert alert-success">
+                    {{ session('success') }}
+                </div>
+            @endif
 
             <!-- Search Form -->
             <form method="GET" action="{{ route('orders.index') }}" class="mb-4">
                 <div class="input-group">
-                    <input type="text" name="search" class="form-control" placeholder="Search product..."
-                        value="{{ request('search') }}">
+                    <input type="text" name="search" class="form-control" placeholder="Search product..." value="{{ request('search') }}">
                     <div class="input-group-append">
                         <button class="btn btn-primary" type="submit">Search</button>
                     </div>
                 </div>
             </form>
 
-            <!-- Check if there are no products in the cart -->
-            @if ($orders->isEmpty())
+            <!-- Cart Content -->
+            @if (isset($orders) && $orders->isEmpty())
                 <div class="alert alert-info text-center">
                     Your cart is empty. <a href="{{ route('home') }}">Continue shopping</a>
                 </div>
-            @else
+            @elseif (isset($orders))
                 <!-- Cart Table -->
                 <div class="table-responsive">
                     <table class="table cart-table">
                         <thead>
                             <tr>
-                                <th style="display: flex; align-items: center; justify-content: center; width: auto;"
-                                    colspan="2">Product</th>
+                                <th colspan="2" style="text-align: center;">Product</th>
                                 <th scope="col">Price</th>
                                 <th scope="col">Quantity</th>
                                 <th scope="col">Subtotal</th>
@@ -49,9 +70,7 @@
                             </tr>
                         </thead>
                         <tbody>
-                            @php
-                                $total = 0;
-                            @endphp
+                            @php $total = 0; @endphp
                             @foreach ($orders as $order)
                                 @php
                                     $subtotal = $order->product->price * $order->quantity;
@@ -59,34 +78,23 @@
                                 @endphp
                                 <tr>
                                     <td>
-                                        <img src="{{ asset('storage/' . $order->product->image) }}"
-                                            alt="{{ $order->product->name }}"
-                                            style="width: 80px; height: auto; margin-right: 10px;">
-                                        {{ $order->product->name }}
+                                        <img src="{{ asset('storage/' . $order->product->image) }}" alt="{{ $order->product->name }}" style="width: 80px; height: auto; margin-right: 10px;">
                                     </td>
-                                    <td style="vertical-align: middle">
-                                        {{ $order->product->price }}
-                                    </td>
-                                    <td style="vertical-align: middle">
+                                    <td>{{ $order->product->name }}</td>
+                                    <td>{{ $order->product->price }}</td>
+                                    <td>
                                         <form action="{{ route('orders.update', $order->id) }}" method="POST">
                                             @csrf
                                             @method('PUT')
-                                            <input type="number" name="quantity" class="form-control"
-                                                value="{{ $order->quantity }}" style="width: 60px;" min="1"
-                                                onchange="this.form.submit()">
+                                            <input type="number" name="quantity" class="form-control" value="{{ $order->quantity }}" style="width: 60px;" min="1" onchange="this.form.submit()">
                                         </form>
                                     </td>
-
-                                    <td style="vertical-align: middle">${{ number_format($subtotal, 2) }}</td>
-                                    <td style="vertical-align: middle">
-                                        <a href="javascript:void(0);"
-                                            onclick="event.preventDefault(); document.getElementById('delete-form-{{ $order->id }}').submit();"
-                                            class="btn btn-link btn-lg" data-original-title="Delete User">
+                                    <td>${{ number_format($subtotal, 2) }}</td>
+                                    <td>
+                                        <a href="javascript:void(0);" onclick="event.preventDefault(); document.getElementById('delete-form-{{ $order->id }}').submit();" class="btn btn-link btn-lg">
                                             <i class="fa fa-times"></i>
                                         </a>
-                                        <form id="delete-form-{{ $order->id }}"
-                                            action="{{ route('orders.destroy', $order->id) }}" method="POST"
-                                            style="display: none;">
+                                        <form id="delete-form-{{ $order->id }}" action="{{ route('orders.destroy', $order->id) }}" method="POST" style="display: none;">
                                             @csrf
                                             @method('DELETE')
                                         </form>
@@ -97,6 +105,7 @@
                     </table>
                 </div>
 
+                <!-- Cart Totals -->
                 <div class="row">
                     <div class="col-md-4 ml-auto">
                         <div class="border p-4">
@@ -111,7 +120,11 @@
                                     <span>${{ number_format($total, 2) }}</span>
                                 </li>
                             </ul>
-                            <button class="btn btn-primary btn-block">PROCEED TO CHECKOUT</button>
+                            <!-- Checkout Button -->
+                            <form action="{{ route('checkout') }}" method="POST">
+                                @csrf
+                                <button type="submit" class="btn btn-primary btn-block">PROCEED TO CHECKOUT</button>
+                            </form>
                         </div>
                     </div>
                 </div>
