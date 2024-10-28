@@ -78,7 +78,7 @@
                     <th>Image</th>
                     <th>Customer Name</th>
                     <th>Product Name</th>
-                    <th>Total Price</th>
+                    <th> Price</th>
                     <th>Order Status</th>
                     <th style="width: 10%">Action</th>
                 </tr>
@@ -88,7 +88,7 @@
                     <th>Image</th>
                     <th>Customer Name</th>
                     <th>Product Name</th>
-                    <th>Total Price</th>
+                    <th> Price</th>
                     <th>Order Status</th>
                     <th>Action</th>
                 </tr>
@@ -98,7 +98,11 @@
                      @foreach ($orders as $order)
                         <tr>
                             <td>
-                                <img src="{{ asset('storage/' . $order->product->image) }}" style="width: 75px; height: auto;">
+                                @if($order->product && $order->product->image)
+                                    <img src="{{ asset('storage/' . $order->product->image) }}" alt="{{ $order->product->name }}" style="width: 75px; height: auto;">
+                                @else
+                                    <img src="{{ asset('images/default-product.png') }}" alt="Default Image" style="width: 75px; height: auto;">
+                                @endif
                             </td>
                             <td>{!! wrapText($order->user->first_name, 30) !!} {!! wrapText($order->user->last_name, 30) !!}</td>
                             <td>{!! wrapText($order->product->name, 30) !!}</td>
@@ -120,16 +124,23 @@
                             
                             <td>
                                 <div class="form-button-action">
- 
+                                    <!-- Show Button -->
+                                    <a href="{{ route('ordersdash.show', $order->id) }}" class="btn btn-link btn-info btn-lg" data-original-title="View Order">
+                                        <i class="fa fa-eye"></i>
+                                    </a>
+                            
+                                    <!-- Delete Button -->
                                     <a href="javascript:void(0);" onclick="event.preventDefault(); document.getElementById('delete-form-{{ $order->id }}').submit();" class="btn btn-link btn-danger btn-lg" data-original-title="Delete Order">
                                         <i class="fa fa-times"></i>
                                     </a>
+                                    
                                     <form id="delete-form-{{ $order->id }}" action="{{ route('ordersdash.destroy', $order->id) }}" method="POST" style="display: none;">
                                         @csrf
                                         @method('DELETE')
                                     </form>
                                 </div>
                             </td>
+                            
                         </tr>
                     @endforeach
                 @else

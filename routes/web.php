@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\AdminController;
+use App\Http\Controllers\BillingController;
 use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\ForgetPasswordManeger;
 use App\Http\Controllers\HomeCategoryController;
@@ -12,7 +13,6 @@ use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\RegisterController;
 use App\Http\Controllers\UserController;
 use Illuminate\Support\Facades\Route;
-use App\Models\User;
 
 /*
 |--------------------------------------------------------------------------
@@ -23,19 +23,19 @@ use App\Models\User;
 | routes are loaded by the RouteServiceProvider and all of them will
 | be assigned to the "web" middleware group. Make something great!
 |
-*/
+ */
 
-Route::get('shsmo/{id}',function ($id) {
-    $target = User::find($id);
-    $total = 0;
-    foreach ($target->orders as $value) {
-        # code...
-        if($value->status == 'Pending'){
-            $total += $value->total_price;
-        }
-    }
-    return $total;
-});
+// Route::get('shsmo/{id}', function ($id) {
+//     $target = User::find($id);
+//     $total = 0;
+//     foreach ($target->orders as $value) {
+//         # code...
+//         if ($value->status == 'Pending') {
+//             $total += $value->total_price;
+//         }
+//     }
+//     return $total;
+// });
 // Home page route
 Route::view('/', 'homepage.home')->name('home');
 
@@ -95,16 +95,19 @@ Route::middleware(['admin'])->group(function () {
     Route::get('/ordersdash/{id}/edit', [OrderDashboardController::class, 'edit'])->name('ordersdash.edit');
     Route::put('/ordersdash/{id}/update-status', [OrderDashboardController::class, 'update'])->name('ordersdash.update');
     Route::delete('/ordersdash/{id}', [OrderDashboardController::class, 'destroy'])->name('ordersdash.destroy');
-    // Route::get('trashed/ordersdash/', [OrderDashboardController::class, 'trashed'])->name('ordersdash.trashed');
+    Route::get('/orders/{id}', [OrderDashboardController::class, 'show'])->name('ordersdash.show');
+
+    Route::post('/checkout', [OrderDashboardController::class, 'checkout'])->name('checkout');
 
 });
 Route::middleware(['auth'])->group(function () {
     Route::get('/orders', [OrderController::class, 'index'])->name('orders.index');
     Route::post('/orders/store/{id}', [OrderController::class, 'store'])->name('orders.store');
-    // Route::get('/orders/{id}/edit', [OrderController::class, 'edit'])->name('orders.edit');
     Route::put('/orders/{id}/update-status', [OrderController::class, 'update'])->name('orders.update');
     Route::delete('/orders/{id}', [OrderController::class, 'destroy'])->name('orders.destroy');
-
+    Route::post('/billing', [BillingController::class, 'store'])->name('billing.store');
+    Route::get('/billing/{orderId}/{productId}', [BillingController::class, 'showBillingForm'])->name('billing.create');
+    
 });
 
 // User profile route
@@ -133,12 +136,6 @@ Route::post('forgot-password', [ForgetPasswordManeger::class, 'forgetPasswordpos
 Route::get('reset-password/{token}', [ForgetPasswordManeger::class, 'resetPassword'])->name('reset.password');
 Route::post('reset-password', [ForgetPasswordManeger::class, 'resetPasswordpost'])->name('reset.password.post');
 
-// Route::resource('ordersdash', OrderDashboardController::class);
-//  Route::get('register-user',function(){
-//      return view('auth.register');
-//  });
 Route::get('verify-email/{token}', [RegisterController::class, 'verifyAcount'])->name('verify.email');
- 
 
-// web.php
-Route::post('/checkout', [OrderController::class, 'checkout'])->name('checkout');
+ 

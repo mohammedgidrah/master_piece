@@ -33,7 +33,8 @@ class Product extends Model
 
     public function orderItems()
     {
-        return $this->hasMany(OrderItem::class);
+        return $this->belongsToMany(Order::class, 'order_items')
+                    ->withPivot('quantity', 'price_per_unit', 'total_price');
     }
 
     public function shoppingCart()

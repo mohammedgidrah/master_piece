@@ -18,6 +18,8 @@ class ProductFactory extends Factory
             'price' => $this->faker->randomFloat(2, 1, 1000), // Random price between 1 and 1000
             'stock' => $this->faker->randomElement(['in_stock', 'out_of_stock']), // Random stock status
             // 'image' => 'uploads/products/' . fake()->image('public/storage/uploads/products'), // Dynamically generated image name
+
+            'quantity' => $this->faker->randomNumber(2),
             'created_at' => now(),
             'updated_at' => now(),
         ];

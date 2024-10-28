@@ -37,27 +37,27 @@
                         @foreach ($orders as $order)
                             <tr>
                                 <td>
-                                    <img src="{{ asset('storage/' . $order->product->image) }}" style="width: 75px; height: auto;  ">
+                                    @if ($order->product && $order->product->image)
+                                        <img src="{{ asset('storage/' . $order->product->image) }}" style="width: 75px; height: auto;">
+                                    @else
+                                        <img src="{{ asset('path/to/placeholder.jpg') }}" style="width: 75px; height: auto;" alt="No Image">
+                                    @endif
                                 </td>
                                 <td>{!! wrapText($order->user->first_name, 30) !!} {!! wrapText($order->user->last_name, 30) !!}</td>
                                 <td>{!! wrapText($order->product->name, 30) !!}</td>
                                 <td>{{ $order->product->price }}</td>
                                 <td>{{ $order->order_status }}</td>
                                 <td>
-                                    <form action="{{ route('ordersdash.restore', $order->id) }}" method="POST"
-                                        class="d-inline" id="restore-form-{{ $order->id }}">
+                                    <form action="{{ route('ordersdash.restore', $order->id) }}" method="POST" class="d-inline" id="restore-form-{{ $order->id }}">
                                         @csrf
-                                        <button type="button" class="btn btn-success"
-                                            onclick="confirmRestore({{ $order->id }})">
+                                        <button type="button" class="btn btn-success" onclick="confirmRestore({{ $order->id }})">
                                             <i class="fas fa-undo"></i>
                                         </button>
                                     </form>
-                                    <form action="{{ route('ordersdash.forceDelete', $order->id) }}" method="POST"
-                                        class="d-inline" id="delete-form-{{ $order->id }}">
+                                    <form action="{{ route('ordersdash.forceDelete', $order->id) }}" method="POST" class="d-inline" id="delete-form-{{ $order->id }}">
                                         @csrf
                                         @method('DELETE')
-                                        <button type="button" class="btn btn-danger"
-                                            onclick="confirmDelete({{ $order->id }})">
+                                        <button type="button" class="btn btn-danger" onclick="confirmDelete({{ $order->id }})">
                                             <i class="fas fa-trash-alt"></i>
                                         </button>
                                     </form>
@@ -72,6 +72,7 @@
                         </tr>
                     @endif
                 </tbody>
+                
             </table>
             <div class="mt-3 d-flex justify-content-start">
                 {{ $orders->appends(request()->query())->links('vendor.pagination.bootstrap-4') }}
