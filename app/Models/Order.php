@@ -22,6 +22,7 @@ class Order extends Model
         return $this->belongsTo(User::class, 'customer_id');
     }
 
+// In Order.php model
     public function items()
     {
         return $this->hasMany(OrderItem::class);
@@ -34,7 +35,7 @@ class Order extends Model
     public function Allproducts()
     {
         return $this->belongsToMany(Product::class, 'order_items')
-                    ->withPivot('quantity', 'price_per_unit', 'total_price'); // Adjust according to your pivot table structure
+            ->withPivot('quantity', 'price_per_unit', 'total_price'); // Adjust according to your pivot table structure
     }
 
     public function shipping()

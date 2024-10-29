@@ -34,7 +34,7 @@ class OrderController extends Controller
         $request->validate([
             'product_id' => 'required|exists:products,id',
             'total_price' => 'required|numeric',
-            'order_status' => 'in:pending,processing,shipped,delivered,cancelled',
+            'order_status' => 'in:pending,processing,delivered,cancelled',
         ]);
 
         $existingOrder = Order::where('customer_id', auth()->user()->id)

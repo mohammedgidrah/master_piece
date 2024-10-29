@@ -31,10 +31,14 @@ class Product extends Model
         return $this->hasMany(Review::class);
     }
 
-    public function orderItems()
+    // public function orderItems()
+    // {
+    //     return $this->belongsToMany(Order::class, 'order_items')
+    //                 ->withPivot('quantity', 'price_per_unit', 'total_price');
+    // }
+    public function orders()
     {
-        return $this->belongsToMany(Order::class, 'order_items')
-                    ->withPivot('quantity', 'price_per_unit', 'total_price');
+        return $this->hasMany(Order::class);
     }
 
     public function shoppingCart()

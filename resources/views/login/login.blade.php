@@ -83,14 +83,14 @@
             <!-- Sign-Up Form -->
             <div class="sign-in-contaner">
                 @if ($errors->has('email'))
-                    <p class="error">{{ $errors->first('email') }}</p>
+                    <p class="error" style="display: flex; justify-content: center; align-items: center">{{ $errors->first('email') }}</p>
                 @endif
                 @if ($errors->has('password'))
-                    <p class="error">{{ $errors->first('password') }}</p>
+                    <p class="error" style="display: flex; justify-content: center; align-items: center">{{ $errors->first('password') }}</p>
                 @endif
-                @if ($errors->any())
+                {{-- @if ($errors->any())
                     <p class="success">{{ $errors->first() }}</p>
-                @endif
+                @endif --}}
 
                 <form id="sign-up-form" action="{{ route('register') }}" method="POST" enctype="multipart/form-data">
                     @csrf

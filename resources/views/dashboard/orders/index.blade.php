@@ -1,177 +1,142 @@
 @extends('dashboard.maindasboard')
 
 @section('content')
-<div class="page-inner" style="padding-top: 100px">
-    @if (session('success'))
-        <div class="alert alert-success alert-dismissible fade show bg-light" role="alert">
-            {{ session('success') }}
-            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+    <div class="page-inner" style="padding-top: 100px">
+        @if (session('success'))
+            <div class="alert alert-success alert-dismissible fade show bg-light" role="alert">
+                {{ session('success') }}
+                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+            </div>
+        @endif
+
+        @if (session('error'))
+            <div class="alert alert-danger alert-dismissible fade show bg-light" role="alert">
+                {{ session('error') }}
+                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+            </div>
+        @endif
+
+        <div class="page-header">
+            <h3 class="fw-bold mb-3">Order Management</h3>
+            <ul class="breadcrumbs mb-3">
+                <li class="nav-home">
+                    <a href="{{ route('dashboard.maindasboard') }}">
+                        <i class="icon-home"></i>
+                    </a>
+                </li>
+            </ul>
         </div>
-    @endif
 
-    @if (session('error'))
-        <div class="alert alert-danger alert-dismissible fade show bg-light" role="alert">
-            {{ session('error') }}
-            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-        </div>
-    @endif
-
-    <div class="page-header">
-        <h3 class="fw-bold mb-3">Order Management</h3>
-        <ul class="breadcrumbs mb-3">
-            <li class="nav-home">
-                <a href="{{ route('dashboard.maindasboard') }}">
-                    <i class="icon-home"></i>
-                </a>
-            </li>
-            <li class="separator">
-                <i class="icon-arrow-right"></i>
-            </li>
-            <li class="nav-item">
-                <a href="{{ route('ordersdash.index') }}">Orders</a>
-            </li>
-        </ul>
-    </div>
-
-    <!-- Create Button -->
-
-
-    <!-- Search and Filter -->
-    <div class="mb-3">
-        <form action="{{ route('ordersdash.index') }}" method="GET" class="d-flex justify-content-between">
-            <div>
-                <select name="per_page" class="form-control" onchange="this.form.submit()">
-                    <option value="5" {{ request('per_page') == '5' ? 'selected' : '' }}>5</option>
-                    <option value="10" {{ request('per_page') == '10' ? 'selected' : '' }}>10</option>
-                    <option value="15" {{ request('per_page') == '15' ? 'selected' : '' }}>15</option>
-                    <option value="{{ $totalOrders }}" {{ request('per_page') == $totalOrders ? 'selected' : '' }}>
-                        All
-                    </option>
-                </select>
-            </div>
-            <div>
-                <select name="order_status" class="form-control" onchange="this.form.submit()">
-                    <option value="">All Status</option>
-                    <option value="pending" {{ request('order_status') == 'pending' ? 'selected' : '' }}>Pending</option>
-                    <option value="processing" {{ request('order_status') == 'processing' ? 'selected' : '' }}>Processing</option>
-                    <option value="shipped" {{ request('order_status') == 'shipped' ? 'selected' : '' }}>Shipped</option>
-                    <option value="delivered" {{ request('order_status') == 'delivered' ? 'selected' : '' }}>Delivered</option>
-                    <option value="cancelled" {{ request('order_status') == 'cancelled' ? 'selected' : '' }}>Cancelled</option>
-                </select>
-            </div>
-            <div class="d-flex align-items-center">
-                <input type="text" name="search" placeholder="Search..." class="form-control" value="{{ request('search') }}">
-                <button type="submit" class="btn btn-primary ms-2">Search</button>
-            </div>
-        </form>
-    </div>
-
-    <!-- Total Orders Display -->
-    <div class="mb-3">
-        <h5>Total Orders: {{ $totalOrders}}</h5>
-    </div>
-
-    <div class="table-responsive">
-        <table id="add-row" class="display table table-striped table-hover">
-            <thead>
-                <tr>
-                    <th>Image</th>
-                    <th>Customer Name</th>
-                    <th>Product Name</th>
-                    <th> Price</th>
-                    <th>Order Status</th>
-                    <th style="width: 10%">Action</th>
-                </tr>
-            </thead>
-            <tfoot>
-                <tr>
-                    <th>Image</th>
-                    <th>Customer Name</th>
-                    <th>Product Name</th>
-                    <th> Price</th>
-                    <th>Order Status</th>
-                    <th>Action</th>
-                </tr>
-            </tfoot>
-            <tbody>
-                @if ($orders->isNotEmpty())
-                     @foreach ($orders as $order)
-                        <tr>
-                            <td>
-                                @if($order->product && $order->product->image)
-                                    <img src="{{ asset('storage/' . $order->product->image) }}" alt="{{ $order->product->name }}" style="width: 75px; height: auto;">
-                                @else
-                                    <img src="{{ asset('images/default-product.png') }}" alt="Default Image" style="width: 75px; height: auto;">
-                                @endif
-                            </td>
-                            <td>{!! wrapText($order->user->first_name, 30) !!} {!! wrapText($order->user->last_name, 30) !!}</td>
-                            <td>{!! wrapText($order->product->name, 30) !!}</td>
-                            <td>{{ $order->product->price }}</td>
-                            
-                            <td>
-                                <form action="{{ route('ordersdash.update', $order->id) }}" method="POST">
-                                    @csrf
-                                    @method('PUT')
-                                    <select style="background-color: rgb(0 0 0 / 5%)" name="order_status" class="form-control" onchange="this.form.submit()">
-                                        <option value="pending" {{ $order->order_status == 'pending' ? 'selected' : '' }}>Pending</option>
-                                        <option value="processing" {{ $order->order_status == 'processing' ? 'selected' : '' }}>Processing</option>
-                                        <option value="shipped" {{ $order->order_status == 'shipped' ? 'selected' : '' }}>Shipped</option>
-                                        <option style="    background-color: #31ce36; " value="delivered" {{ $order->order_status == 'delivered' ? 'selected' : '' }}>Delivered</option>
-                                        <option value="cancelled" {{ $order->order_status == 'cancelled' ? 'selected' : '' }}>Cancelled</option>
-                                    </select>
-                                </form>
-                            </td>
-                            
-                            <td>
-                                <div class="form-button-action">
-                                    <!-- Show Button -->
-                                    <a href="{{ route('ordersdash.show', $order->id) }}" class="btn btn-link btn-info btn-lg" data-original-title="View Order">
-                                        <i class="fa fa-eye"></i>
-                                    </a>
-                            
-                                    <!-- Delete Button -->
-                                    <a href="javascript:void(0);" onclick="event.preventDefault(); document.getElementById('delete-form-{{ $order->id }}').submit();" class="btn btn-link btn-danger btn-lg" data-original-title="Delete Order">
-                                        <i class="fa fa-times"></i>
-                                    </a>
-                                    
-                                    <form id="delete-form-{{ $order->id }}" action="{{ route('ordersdash.destroy', $order->id) }}" method="POST" style="display: none;">
-                                        @csrf
-                                        @method('DELETE')
-                                    </form>
-                                </div>
-                            </td>
-                            
-                        </tr>
-                    @endforeach
-                @else
+        <div class="table-responsive">
+            <table id="add-row" class="display table table-striped table-hover">
+                <thead>
                     <tr>
-                        <td colspan="7" class="text-center">No orders found.</td>
+                        <th>Customer</th>
+                        <th>Total Price</th>
+                        <th>Order Status</th>
+                        <th style="width: 10%">Action</th>
                     </tr>
-                @endif
-            </tbody>
-            
-        </table>
-
-        <!-- Pagination Controls -->
-        <div class="mt-3 d-flex justify-content-start">
-            {{ $orders->appends(request()->query())->links('vendor.pagination.bootstrap-4') }}
+                </thead>
+                <tbody>
+                    @foreach ($orders->groupBy('order_id') as $orderGroup)
+                    @php
+                        $firstOrder = $orderGroup->first();
+                        $totalPrice = $orderGroup->sum(
+                            fn($order) => $order->product?->price * $order->quantity ?? 0
+                        );
+                    @endphp
+                    <tr>
+                        <td class="d-flex align-items-center">
+                            @if ($firstOrder->user)
+                                <img src="{{ asset('storage/' . $firstOrder->user->image) }}"
+                                     alt="{{ $firstOrder->user->first_name }} {{ $firstOrder->user->last_name }}"
+                                     style="width: 50px; height: auto; border-radius: 50%;" />
+                                <span>{{ $firstOrder->user->first_name }} {{ $firstOrder->user->last_name }}</span>
+                            @else
+                                <img src="{{ asset('images/default-user.png') }}" alt="Default User"
+                                     style="width: 50px; height: auto; border-radius: 50%;" />
+                                <span>N/A</span>
+                            @endif
+                        </td>
+                
+                        <td>${{ number_format($totalPrice, 2) }}</td>
+                        <td>
+                            <form action="{{ route('ordersdash.update', $firstOrder->order_id) }}" method="POST">
+                                @csrf
+                                @method('PUT')
+                                <select name="order_status" class="form-control" onchange="this.form.submit()">
+                                    @foreach (['pending', 'processing', 'delivered', 'cancelled'] as $status)
+                                        <option value="{{ $status }}" {{ $firstOrder->order->order_status === $status ? 'selected' : '' }}>
+                                            {{ ucfirst($status) }}
+                                        </option>
+                                    @endforeach
+                                </select>
+                                
+                            </form>
+                        </td>
+                        
+                        
+                        
+                        
+                        
+                        <td>
+                            <div class="form-button-action">
+                                <button type="button" class="btn btn-link btn-info btn-lg" data-bs-toggle="modal"
+                                        data-bs-target="#orderModal{{ $firstOrder->id }}" title="View Products">
+                                    <i class="fa fa-eye"></i>
+                                </button>
+                                <a href="javascript:void(0);"
+                                   onclick="event.preventDefault(); document.getElementById('delete-form-{{ $firstOrder->id }}').submit();"
+                                   class="btn btn-link btn-danger btn-lg" title="Delete Order">
+                                    <i class="fa fa-times"></i>
+                                </a>
+                                <form id="delete-form-{{ $firstOrder->id }}"
+                                      action="{{ route('ordersdash.destroy', $firstOrder->id) }}" method="POST"
+                                      style="display: none;">
+                                    @csrf
+                                    @method('DELETE')
+                                </form>
+                            </div>
+                        </td>
+                    </tr>
+                
+                    <!-- Modal for displaying products in the order -->
+                    <div class="modal fade" id="orderModal{{ $firstOrder->id }}" tabindex="-1"
+                         aria-labelledby="orderModalLabel{{ $firstOrder->id }}" aria-hidden="true">
+                        <div class="modal-dialog">
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                    <h5 class="modal-title" id="orderModalLabel{{ $firstOrder->id }}">Order Products</h5>
+                                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                </div>
+                                <div class="modal-body">
+                                    <ul>
+                                        @foreach ($orderGroup as $order)
+                                            <li class="d-flex align-items-center mb-2">
+                                                <img src="{{ isset($order->product->image) ? asset('storage/' . $order->product->image) : asset('images/default-product.png') }}"
+                                                     alt="{{ $order->product?->name ?? 'N/A' }}"
+                                                     style="width: 50px; height: 50px; object-fit: cover; margin-right: 10px;">
+                                                <span>{{ $order->product?->name ?? 'N/A' }} :
+                                                    ${{ number_format($order->product?->price ?? 0, 2) }} x
+                                                    {{ $order->quantity }} =
+                                                    ${{ number_format(($order->product?->price ?? 0) * $order->quantity, 2) }}</span>
+                                            </li>
+                                        @endforeach
+                                    </ul>
+                                </div>
+                                <div class="modal-footer">
+                                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                @endforeach
+                
+                </tbody>
+            </table>
         </div>
     </div>
-    <div class="mb-3 d-flex justify-content-end">
-        <a href="{{ route('ordersdash.trashed') }}" class="btn btn-danger">
-            <i class="fa fa-trash"></i> View Trashed Orders
-        </a>
-    </div>
-</div>
-@include('dashboard.footer')
-</div>
 
-@php
-if (!function_exists('wrapText')) {
-    function wrapText($text, $length = 50) {
-        return nl2br(wordwrap($text, $length, "\n", true));
-    }
-}
-@endphp
-
+    @include('dashboard.footer')
+</div>
 @endsection

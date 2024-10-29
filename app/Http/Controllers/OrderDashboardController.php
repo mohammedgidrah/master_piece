@@ -2,15 +2,15 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\User;
 use App\Models\Order;
+use App\Models\OrderItem;
 use App\Models\Product;
-use App\Models\Category;
+use App\Models\User;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Validator;
-use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
+use Illuminate\Support\Facades\Validator;
 
 class OrderDashboardController extends Controller
 {
@@ -20,35 +20,35 @@ class OrderDashboardController extends Controller
     public function index(Request $request)
     {
         $perPage = $request->input('per_page', 5);
-    
+
         if ($perPage === 'all' || $perPage > 20) {
             $perPage = 20;
         }
-    
+
         $search = $request->input('search');
-    
-        $query = Order::query();
-    
-        $query->join('users', 'orders.customer_id', '=', 'users.id') 
-              ->join('products', 'orders.product_id', '=', 'products.id')
-              ->select('orders.*', 'users.first_name', 'users.last_name', 'products.name as product_name');
-    
+
+        $query = OrderItem::with(['product', 'order.user']) // Eager-load relationships
+            ->join('orders', 'order_items.order_id', '=', 'orders.id')
+            ->join('products', 'order_items.product_id', '=', 'products.id')
+            ->join('users', 'orders.customer_id', '=', 'users.id')
+            ->select('order_items.*', 'users.first_name', 'users.last_name', 'products.name as product_name', 'products.image', 'products.price', 'orders.order_status');
+
         if ($search) {
             $query->where(function ($q) use ($search) {
-                $q->where('orders.total_price', 'like', '%' . $search . '%')
-                  ->orWhere('orders.order_status', 'like', '%' . $search . '%')
-                  ->orWhere('users.first_name', 'like', '%' . $search . '%')
-                  ->orWhere('users.last_name', 'like', '%' . $search . '%')
-                  ->orWhere('products.name', 'like', '%' . $search . '%');
+                $q->where('order_items.total_price', 'like', '%' . $search . '%')
+                    ->orWhere('orders.order_status', 'like', '%' . $search . '%')
+                    ->orWhere('users.first_name', 'like', '%' . $search . '%')
+                    ->orWhere('users.last_name', 'like', '%' . $search . '%')
+                    ->orWhere('products.name', 'like', '%' . $search . '%');
             });
         }
-    
+
         $orders = $query->paginate($perPage);
-        $totalOrders = Order::count();
-    
+        $totalOrders = OrderItem::count();
+
         return view('dashboard.orders.index', compact('orders', 'totalOrders'));
     }
-    
+
     /**
      * Show the form for creating a new resource.
      */
@@ -134,6 +134,7 @@ class OrderDashboardController extends Controller
                 $totalPrice = $product->price * $quantity;
 
                 OrderItem::create([
+                    'user_id' => $user->id,
                     'order_id' => $order->id,
                     'product_id' => $productId,
                     'quantity' => $quantity,
@@ -145,6 +146,7 @@ class OrderDashboardController extends Controller
                 $product->save();
             }
 
+            // Assuming the Billing model exists
             $billing = new Billing();
             $billing->user_id = $user->id;
             $billing->first_name = $validatedData['first_name'];
@@ -180,46 +182,52 @@ class OrderDashboardController extends Controller
 
     public function restore($id)
     {
-        $orders = Order::onlyTrashed()->findOrFail($id);
-        $orders->restore();
+        $order = Order::onlyTrashed()->findOrFail($id);
+        $order->restore();
 
-        return redirect()->route('ordersdash.trashed')->with('success', 'Orders restored successfully.');
+        return redirect()->route('ordersdash.trashed')->with('success', 'Order restored successfully.');
     }
 
     public function forceDelete($id)
     {
-        $orders = Order::onlyTrashed()->findOrFail($id);
-        $orders->forceDelete();
+        $order = Order::onlyTrashed()->findOrFail($id);
+        $order->forceDelete();
 
-        return redirect()->route('ordersdash.trashed')->with('success', 'Orders permanently deleted.');
+        return redirect()->route('ordersdash.trashed')->with('success', 'Order permanently deleted.');
     }
 
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, $id)
+    public function update(Request $request, $orderId)
     {
+        // Validate the incoming request
         $request->validate([
-            'order_status' => 'required|in:pending,processing,shipped,delivered,cancelled',
+            'order_status' => 'required|in:pending,processing,delivered,cancelled',
         ]);
     
-        $order = Order::findOrFail($id);
-        $order->order_status = $request->order_status;
+        // Update the status for all order items with this order_id
+        $updated = OrderItem::where('order_id', $orderId)
+                    ->update(['order_status' => $request->order_status]);
     
-        if ($order->save()) {
+        // Check if any records were updated
+        if ($updated) {
             return redirect()->route('ordersdash.index')->with('success', 'Order status updated successfully.');
-        } else {
-            return redirect()->route('ordersdash.index')->with('error', 'Failed to update order status.');
         }
+    
+        // If no records were updated, handle it appropriately
+        return redirect()->route('ordersdash.index')->with('error', 'No order items were updated.');
     }
     
+    
+
     /**
      * Remove the specified resource from storage.
      */
     public function destroy(string $id)
     {
-        $order = Order::findOrFail($id);
-        $order->delete();
+        $orderItem = OrderItem::findOrFail($id);
+        $orderItem->delete();
 
         return redirect()->route('ordersdash.index')->with('success', 'Order deleted successfully!');
     }

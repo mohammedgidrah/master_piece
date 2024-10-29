@@ -17,6 +17,7 @@ class Billing extends Model
         'last_name',
         'email',
         'phone',
+        'order_status',
         'billing_city',
         'billing_address',
         

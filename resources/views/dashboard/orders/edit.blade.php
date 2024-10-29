@@ -74,8 +74,7 @@
                             <select class="form-control" id="order_status" name="order_status">
                                 <option value="pending" {{ $order->order_status == 'pending' ? 'selected' : '' }}>Pending</option>
                                 <option value="processing" {{ $order->order_status == 'processing' ? 'selected' : '' }}>Processing</option>
-                                <option value="shipped" {{ $order->order_status == 'shipped' ? 'selected' : '' }}>Shipped</option>
-                                <option value="delivered" {{ $order->order_status == 'delivered' ? 'selected' : '' }}>Delivered</option>
+                                 <option value="delivered" {{ $order->order_status == 'delivered' ? 'selected' : '' }}>Delivered</option>
                                 <option value="cancelled" {{ $order->order_status == 'cancelled' ? 'selected' : '' }}>Cancelled</option>
                             </select>
                             @error('order_status')
