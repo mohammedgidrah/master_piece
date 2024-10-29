@@ -23,9 +23,9 @@ class Order extends Model
     }
 
 // In Order.php model
-    public function items()
+    public function orderItems()
     {
-        return $this->hasMany(OrderItem::class);
+        return $this->hasMany(OrderItem::class, 'order_id'); // Assuming 'order_id' is the foreign key in OrderItem
     }
 
     public function product()

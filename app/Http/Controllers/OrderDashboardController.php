@@ -19,36 +19,49 @@ class OrderDashboardController extends Controller
      */
     public function index(Request $request)
     {
+        // Get pagination setting
         $perPage = $request->input('per_page', 5);
-
+        
+        // Set maximum per page limit
         if ($perPage === 'all' || $perPage > 20) {
             $perPage = 20;
         }
-
+        
+        // Get search input and order status filter
         $search = $request->input('search');
-
-        $query = OrderItem::with(['product', 'order.user']) // Eager-load relationships
+        $orderStatus = $request->input('order_status');
+        
+        // Build the query
+        $query = OrderItem::with(['order.user', 'product'])
             ->join('orders', 'order_items.order_id', '=', 'orders.id')
-            ->join('products', 'order_items.product_id', '=', 'products.id')
             ->join('users', 'orders.customer_id', '=', 'users.id')
+            ->join('products', 'order_items.product_id', '=', 'products.id')
             ->select('order_items.*', 'users.first_name', 'users.last_name', 'products.name as product_name', 'products.image', 'products.price', 'orders.order_status');
-
+        
+        // Apply search filters
         if ($search) {
             $query->where(function ($q) use ($search) {
                 $q->where('order_items.total_price', 'like', '%' . $search . '%')
-                    ->orWhere('orders.order_status', 'like', '%' . $search . '%')
-                    ->orWhere('users.first_name', 'like', '%' . $search . '%')
-                    ->orWhere('users.last_name', 'like', '%' . $search . '%')
-                    ->orWhere('products.name', 'like', '%' . $search . '%');
+                  ->orWhere('users.first_name', 'like', '%' . $search . '%')
+                  ->orWhere('users.last_name', 'like', '%' . $search . '%');
             });
         }
-
+        
+        // Apply order status filter
+        if ($orderStatus) {
+            $query->where('orders.order_status', $orderStatus);
+        }
+        
+        // Pagination
         $orders = $query->paginate($perPage);
         $totalOrders = OrderItem::count();
-
+        
         return view('dashboard.orders.index', compact('orders', 'totalOrders'));
     }
-
+    
+    
+    
+    
     /**
      * Show the form for creating a new resource.
      */
@@ -84,105 +97,18 @@ class OrderDashboardController extends Controller
         return view('dashboard.orders.show', compact('order'));
     }
 
-    public function checkout(Request $request)
-    {
-        $validatedData = $request->validate([
-            'product_id' => 'required|array',
-            'product_id.*' => 'exists:products,id',
-            'quantity' => 'required|array',
-            'quantity.*' => 'integer|min:1',
-            'first_name' => 'required|string|max:255',
-            'last_name' => 'required|string|max:255',
-            'email' => 'required|email',
-            'phone' => 'required|string',
-            'billing_city' => 'required|string',
-            'billing_address' => 'required|string',
-        ]);
-
-        DB::beginTransaction();
-
-        try {
-            $totalPrice = 0;
-            $user = Auth::user();
-            $orders = $user->orders()->with('product')->get();
-
-            if ($orders->isEmpty()) {
-                return redirect()->route('orders.index')->with('error', 'Your cart is empty.');
-            }
-
-            foreach ($validatedData['product_id'] as $index => $productId) {
-                $quantity = $validatedData['quantity'][$index];
-                $product = Product::find($productId);
-                $totalPrice += $product->price * $quantity;
-
-                if ($product->quantity < $quantity) {
-                    DB::rollBack();
-                    Log::error('Checkout Error: Not enough stock for ' . $product->name);
-                    return redirect()->route('orders.index')->with('error', 'Not enough stock for ' . $product->name);
-                }
-            }
-
-            $order = Order::create([
-                'customer_name' => $validatedData['first_name'] . ' ' . $validatedData['last_name'],
-                'total_price' => $totalPrice,
-                'order_status' => 'pending',
-            ]);
-
-            foreach ($validatedData['product_id'] as $index => $productId) {
-                $quantity = $validatedData['quantity'][$index];
-                $product = Product::find($productId);
-                $totalPrice = $product->price * $quantity;
-
-                OrderItem::create([
-                    'user_id' => $user->id,
-                    'order_id' => $order->id,
-                    'product_id' => $productId,
-                    'quantity' => $quantity,
-                    'price_per_unit' => $product->price,
-                    'total_price' => $totalPrice,
-                ]);
-
-                $product->quantity -= $quantity;
-                $product->save();
-            }
-
-            // Assuming the Billing model exists
-            $billing = new Billing();
-            $billing->user_id = $user->id;
-            $billing->first_name = $validatedData['first_name'];
-            $billing->last_name = $validatedData['last_name'];
-            $billing->email = $validatedData['email'];
-            $billing->phone = $validatedData['phone'];
-            $billing->billing_city = $validatedData['billing_city'];
-            $billing->billing_address = $validatedData['billing_address'];
-            $billing->order_id = $order->id;
-            $billing->save();
-
-            foreach ($orders as $orderToDelete) {
-                $orderToDelete->delete();
-            }
-
-            DB::commit();
-
-            return redirect()->route('orders.index')->with('success', 'Checkout completed successfully. Billing details saved.');
-
-        } catch (\Exception $e) {
-            DB::rollBack();
-            Log::error('Checkout Error: ' . $e->getMessage());
-            return redirect()->route('orders.index')->with('error', 'An error occurred during checkout. Please try again. Details: ' . $e->getMessage());
-        }
-    }
+ 
 
     public function trashed(Request $request)
     {
-        $totalTrashedOrders = Order::onlyTrashed()->count();
-        $orders = Order::onlyTrashed()->paginate(5);
+        $totalTrashedOrders = OrderItem::onlyTrashed()->count();
+        $orders = OrderItem::onlyTrashed()->paginate(5);
         return view('dashboard.orders.trashed', compact('orders', 'totalTrashedOrders'));
     }
 
     public function restore($id)
     {
-        $order = Order::onlyTrashed()->findOrFail($id);
+        $order = OrderItem::onlyTrashed()->findOrFail($id);
         $order->restore();
 
         return redirect()->route('ordersdash.trashed')->with('success', 'Order restored successfully.');
@@ -190,7 +116,7 @@ class OrderDashboardController extends Controller
 
     public function forceDelete($id)
     {
-        $order = Order::onlyTrashed()->findOrFail($id);
+        $order = OrderItem::onlyTrashed()->findOrFail($id);
         $order->forceDelete();
 
         return redirect()->route('ordersdash.trashed')->with('success', 'Order permanently deleted.');
@@ -201,25 +127,40 @@ class OrderDashboardController extends Controller
      */
     public function update(Request $request, $orderId)
     {
-        // Validate the incoming request
         $request->validate([
             'order_status' => 'required|in:pending,processing,delivered,cancelled',
         ]);
     
-        // Update the status for all order items with this order_id
-        $updated = OrderItem::where('order_id', $orderId)
-                    ->update(['order_status' => $request->order_status]);
+        DB::beginTransaction();
+        try {
+            // Check if the order is soft-deleted
+            $order = Order::withTrashed()->find($orderId);
     
-        // Check if any records were updated
-        if ($updated) {
-            return redirect()->route('ordersdash.index')->with('success', 'Order status updated successfully.');
+            if ($order) {
+                $order->order_status = $request->order_status;
+                $order->save();
+    
+                // Update order items if order exists
+                $updatedItems = OrderItem::where('order_id', $orderId)
+                                ->update(['order_status' => $request->order_status]);
+    
+                DB::commit();
+                return redirect()->route('ordersdash.index')->with('success', 'Order status updated successfully.');
+            } else {
+                DB::rollBack();
+                return redirect()->route('ordersdash.index')->with('error', 'Order not found.');
+            }
+        } catch (\Exception $e) {
+            DB::rollBack();
+            return redirect()->route('ordersdash.index')->with('error', 'An error occurred: ' . $e->getMessage());
         }
-    
-        // If no records were updated, handle it appropriately
-        return redirect()->route('ordersdash.index')->with('error', 'No order items were updated.');
     }
     
-    
+
+    /**
+     * Update the status of a soft-deleted order.
+     */
+  
 
     /**
      * Remove the specified resource from storage.

@@ -99,6 +99,9 @@ Route::middleware(['admin'])->group(function () {
 
     Route::post('/checkout', [OrderDashboardController::class, 'checkout'])->name('checkout');
 
+    Route::put('/orderItems/{orderItem}', [OrderDashboardController::class, 'update'])->name('orderItems.update');
+
+
 });
 Route::middleware(['auth'])->group(function () {
     Route::get('/orders', [OrderController::class, 'index'])->name('orders.index');

@@ -20,11 +20,13 @@ return new class extends Migration
             $table->foreign('order_id')->references('id')->on('orders')->onDelete('set null');
             $table->foreign('product_id')->references('id')->on('products')->onDelete('set null');
             $table->foreign('user_id')->references('id')->on('users')->onDelete('set null');
-            $table->enum('order_status', ['pending', 'processing',  'delivered', 'cancelled'])->default('pending');
+            $table->enum('order_status', ['pending', 'processing', 'delivered', 'cancelled'])->default('pending');
 
             $table->integer('quantity');
-            $table->decimal('price_per_unit', 10, 2); // Adjust precision as needed
+            $table->decimal('price_per_unit', 10, 2);
             $table->decimal('total_price', 10, 2);
+            $table->softDeletes();
+
             $table->timestamps();
         });
     }
