@@ -23,12 +23,13 @@
         <table class="display table table-striped table-hover">
             <thead>
                 <tr>
+                    <th>Order ID</th>
                     <th>Image</th>
                     <th>Customer Name</th>
                     <th>Product Name</th>
-                    <th>Quantity</th> <!-- Added Quantity column -->
-                    <th>Price per Item</th> <!-- Added Price per Item column -->
-                    <th>Total Price</th> <!-- Total Price is already included -->
+                    <th>Quantity</th> 
+                    <th>Price per Item</th> 
+                    <th>Total Price</th> 
                     <th>Order Status</th>
                     <th>Action</th>
                 </tr>
@@ -37,6 +38,7 @@
                 @if ($orders->isNotEmpty())
                     @foreach ($orders as $order)
                         <tr>
+                            <td>{{ $order->order_id }}</td>
                             <td>
                                 @if ($order->product && $order->product->image)
                                     <img src="{{ asset('storage/' . $order->product->image) }}" style="width: 75px; height: auto;">
@@ -46,30 +48,23 @@
                             </td>
                             <td>{!! wrapText($order->user->first_name, 30) !!} {!! wrapText($order->user->last_name, 30) !!}</td>
                             <td>{!! wrapText($order->product->name, 30) !!}</td>
-                            <td>{{ $order->quantity }}</td> <!-- Display Quantity -->
-                            <td>{{ $order->product->price }}</td> <!-- Price per Item -->
-                            <td>{{ $order->total_price }}</td> <!-- Total Price -->
+                            <td>{{ $order->quantity }}</td> 
+                            <td>{{ $order->product->price }}</td> 
+                            <td>{{ $order->total_price }}</td> 
                             <td>{{ $order->order_status }}</td>
                             <td>
-                                <form action="{{ route('ordersdash.restore', $order->id) }}" method="POST" class="d-inline" id="restore-form-{{ $order->id }}">
-                                    @csrf
-                                    <button type="button" class="btn btn-success" onclick="confirmRestore({{ $order->id }})">
-                                        <i class="fas fa-undo"></i>
-                                    </button>
-                                </form>
-                                <form action="{{ route('ordersdash.forceDelete', $order->id) }}" method="POST" class="d-inline" id="delete-form-{{ $order->id }}">
-                                    @csrf
-                                    @method('DELETE')
-                                    <button type="button" class="btn btn-danger" onclick="confirmDelete({{ $order->id }})">
-                                        <i class="fas fa-trash-alt"></i>
-                                    </button>
-                                </form>
+                                <button class="btn btn-success" onclick="showRestoreModal({{ $order->id }})">
+                                    <i class="fas fa-undo"></i>
+                                </button>
+                                <button class="btn btn-danger" onclick="showDeleteModal({{ $order->id }})">
+                                    <i class="fas fa-trash-alt"></i>
+                                </button>
                             </td>
                         </tr>
                     @endforeach
                 @else
                     <tr>
-                        <td colspan="8" class="text-center">
+                        <td colspan="9" class="text-center">
                             No trashed products found. (back to <a href="{{ route('ordersdash.index') }}">orders</a>)
                         </td>
                     </tr>
@@ -81,35 +76,62 @@
         </div>
     </div>
 
+    <!-- Restore Modal -->
+    <div class="modal fade" id="restoreModal" tabindex="-1" aria-labelledby="restoreModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="restoreModalLabel">Restore Order</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    Are you sure you want to restore this order? It will become active again.
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+                    <form id="restore-form" action="" method="POST" class="d-inline">
+                        @csrf
+                        <button type="submit" class="btn btn-success">Restore</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Delete Modal -->
+    <div class="modal fade" id="deleteModal" tabindex="-1" aria-labelledby="deleteModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="deleteModalLabel">Delete Order</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    Are you sure you want to delete this order? This action cannot be undone.
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+                    <form id="delete-form" action="" method="POST" class="d-inline">
+                        @csrf
+                        @method('DELETE')
+                        <button type="submit" class="btn btn-danger">Delete</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
     <script>
-        function confirmRestore(productId) {
-            swal({
-                    title: "Are you sure?",
-                    text: "Once restored, this order will be active again!",
-                    icon: "warning",
-                    buttons: true,
-                    dangerMode: true,
-                })
-                .then((willRestore) => {
-                    if (willRestore) {
-                        document.getElementById('restore-form-' + productId).submit();
-                    }
-                });
+        function showRestoreModal(orderId) {
+            document.getElementById('restore-form').action = '{{ route('ordersdash.restore', '') }}' + '/' + orderId;
+            var restoreModal = new bootstrap.Modal(document.getElementById('restoreModal'));
+            restoreModal.show();
         }
 
-        function confirmDelete(productId) {
-            swal({
-                    title: "Are you sure?",
-                    text: "Once deleted, this order cannot be restored!",
-                    icon: "warning",
-                    buttons: true,
-                    dangerMode: true,
-                })
-                .then((willDelete) => {
-                    if (willDelete) {
-                        document.getElementById('delete-form-' + productId).submit();
-                    }
-                });
+        function showDeleteModal(orderId) {
+            document.getElementById('delete-form').action = '{{ route('ordersdash.forceDelete', '') }}' + '/' + orderId;
+            var deleteModal = new bootstrap.Modal(document.getElementById('deleteModal'));
+            deleteModal.show();
         }
     </script>
 @endsection

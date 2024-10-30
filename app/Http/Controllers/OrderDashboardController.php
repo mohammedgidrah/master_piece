@@ -99,13 +99,18 @@ class OrderDashboardController extends Controller
 
  
 
-    public function trashed(Request $request)
+ 
+    public function trashed()
     {
-        $totalTrashedOrders = OrderItem::onlyTrashed()->count();
-        $orders = OrderItem::onlyTrashed()->paginate(5);
-        return view('dashboard.orders.trashed', compact('orders', 'totalTrashedOrders'));
+        // Assuming you have a relationship set up for OrderItems in your Order model
+        // You can adjust this to fit your actual model structure
+        $orders = OrderItem::onlyTrashed()
+            ->with(['order', 'product', 'order.user']) // Load related models
+            ->paginate(10);
+    
+        return view('dashboard.orders.trashed', compact('orders'));
     }
-
+    
     public function restore($id)
     {
         $order = OrderItem::onlyTrashed()->findOrFail($id);
@@ -165,11 +170,41 @@ class OrderDashboardController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(string $id)
+    public function destroy($orderId)
     {
-        $orderItem = OrderItem::findOrFail($id);
-        $orderItem->delete();
-
-        return redirect()->route('ordersdash.index')->with('success', 'Order deleted successfully!');
+        // Find the orders associated with the given order ID
+        $orders = Orderitem::where('order_id', $orderId)->get();
+    
+        if ($orders->isNotEmpty()) {
+            // Delete all associated orders
+            foreach ($orders as $order) {
+                $order->delete();
+            }
+    
+            return redirect()->route('ordersdash.index')->with('success', 'All orders deleted successfully.');
+        }
+    
+        return redirect()->route('ordersdash.index')->with('error', 'No orders found to delete.');
     }
+    
+    public function deleteProduct($id)
+    {
+        // Log the incoming ID for debugging
+        \Log::info('Attempting to delete order with ID: ' . $id);
+    
+        $order = Orderitem::find($id);
+    
+        if (!$order) {
+            \Log::warning('Order not found for ID: ' . $id);
+            return redirect()->back()->with('error', 'Order not found.');
+        }
+    
+        $order->delete(); // Delete the order
+        return redirect()->route('ordersdash.index')->with('success', 'Order deleted successfully.');
+    }
+    
+    
+    
+    
+    
 }

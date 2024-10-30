@@ -39,7 +39,7 @@
             @endif
 
             <!-- Billing form -->
-            <form action="{{ route('billing.store') }}" method="POST" class="needs-validation" novalidate>
+            <form action="{{ route('checkout.store', ['orderId' => $order->id]) }}" method="POST">
                 @csrf
                 
                 <input type="hidden" name="order_id" value="{{ $order->id }}">

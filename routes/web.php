@@ -94,8 +94,10 @@ Route::middleware(['admin'])->group(function () {
     // Inside the admin dashboard middleware group
     Route::get('/ordersdash/{id}/edit', [OrderDashboardController::class, 'edit'])->name('ordersdash.edit');
     Route::put('/ordersdash/{id}/update-status', [OrderDashboardController::class, 'update'])->name('ordersdash.update');
-    Route::delete('/ordersdash/{id}', [OrderDashboardController::class, 'destroy'])->name('ordersdash.destroy');
+    Route::delete('/orders/{orderId}', [OrderDashboardController::class, 'destroy'])->name('ordersdash.destroy');
+
     Route::get('/orders/{id}', [OrderDashboardController::class, 'show'])->name('ordersdash.show');
+    Route::delete('/orders/product/{id}', [OrderDashboardController::class, 'deleteProduct'])->name('ordersdash.deleteProduct');
 
     Route::post('/checkout', [OrderDashboardController::class, 'checkout'])->name('checkout');
 
@@ -108,7 +110,7 @@ Route::middleware(['auth'])->group(function () {
     Route::post('/orders/store/{id}', [OrderController::class, 'store'])->name('orders.store');
     Route::put('/orders/{id}/update-status', [OrderController::class, 'update'])->name('orders.update');
     Route::delete('/orders/{id}', [OrderController::class, 'destroy'])->name('orders.destroy');
-    Route::post('/billing', [BillingController::class, 'store'])->name('billing.store');
+    Route::post('/checkout/{orderId}', [BillingController::class, 'store'])->name('checkout.store');
     Route::get('/billing/{orderId}/{productId}', [BillingController::class, 'showBillingForm'])->name('billing.create');
     
 });
