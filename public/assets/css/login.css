@@ -191,3 +191,94 @@ p {
 .sign_up {
     margin: 20px;
 }
+.error {
+    color: red;
+    font-size: 12px;
+}
+
+.user-box {
+    position: relative;
+}
+
+.password-toggle-icon {
+    position: absolute;
+    top: 50%;
+    right: 78px;
+    transform: translateY(-50%);
+    cursor: pointer;
+}
+
+.password-toggle-icon i {
+    font-size: 18px;
+    color: white;
+    transition: color 0.3s ease;
+}
+
+.social-btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    color: white;
+    font-size: 14px;
+    padding: 10px;
+    width: 150px;
+    margin: 5px;
+    border-radius: 5px;
+    text-decoration: none;
+}
+
+.google-btn {
+    background-color: #db4437;
+}
+
+.facebook-btn {
+    background-color: #3b5998;
+}
+
+.social-btn i {
+    margin-right: 8px;
+    font-size: 16px;
+}
+
+@media (max-width: 768px) {
+    .password-toggle-icon {
+        position: absolute;
+        top: 50%;
+        right: 10px;
+        transform: translateY(-50%);
+        cursor: pointer;
+    }
+
+    .password-toggle-icon i {
+        font-size: 20px;
+        color: #999;
+        transition: color 0.3s ease;
+    }
+
+    .user-box {
+        position: relative;
+    }
+
+    .password-toggle-icon {
+        position: absolute;
+        top: 50%;
+        right: 10px;
+        transform: translateY(-50%);
+        cursor: pointer;
+    }
+}
+.forget_password {
+    display: block;
+    margin-top: -30px;
+    color: #8f00ff;
+    text-decoration: none;
+    font-size: 14px;
+    transition: color 0.3s ease;
+    text-align: center;
+    margin-right: 25px;
+}
+
+.forget_password:hover {
+    color: #0056b3;
+    text-decoration: underline;
+}

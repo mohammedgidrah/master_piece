@@ -9,67 +9,7 @@
     <link rel="stylesheet" href="assets/css/login.css">
     <!-- Font Awesome -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
-    <style>
-         .error {
-            color: red;
-            font-size: 12px;
-        }
 
-        .user-box {
-            position: relative;
-        }
-
-        .password-toggle-icon {
-            position: absolute;
-            top: 50%;
-            right: 78px;
-            transform: translateY(-50%);
-            cursor: pointer;
-        }
-
-        .password-toggle-icon i {
-            font-size: 18px;
-            color: white;
-            transition: color 0.3s ease;
-        }
-
- 
-
-        @media (max-width: 768px) {
-            .password-toggle-icon {
-                position: absolute;
-                top: 50%;
-                right: 10px;
-                transform: translateY(-50%);
-                cursor: pointer;
-            }
-
-            .password-toggle-icon i {
-                font-size: 20px;
-                color: #999;
-                transition: color 0.3s ease;
-            }
-
- 
-
-            .user-box {
-                position: relative;
-
-            }
-
-            .password-toggle-icon {
-                position: absolute;
-                top: 50%;
-                right: 10px;
-                transform: translateY(-50%);
-                cursor: pointer;
-            }
-
-
- 
-
-        }
-    </style>
 </head>
 
 <body style="height: 100vh">
@@ -83,10 +23,12 @@
             <!-- Sign-Up Form -->
             <div class="sign-in-contaner">
                 @if ($errors->has('email'))
-                    <p class="error" style="display: flex; justify-content: center; align-items: center">{{ $errors->first('email') }}</p>
+                    <p class="error" style="display: flex; justify-content: center; align-items: center">
+                        {{ $errors->first('email') }}</p>
                 @endif
                 @if ($errors->has('password'))
-                    <p class="error" style="display: flex; justify-content: center; align-items: center">{{ $errors->first('password') }}</p>
+                    <p class="error" style="display: flex; justify-content: center; align-items: center">
+                        {{ $errors->first('password') }}</p>
                 @endif
                 {{-- @if ($errors->any())
                     <p class="success">{{ $errors->first() }}</p>
@@ -96,28 +38,38 @@
                     @csrf
                     <label class="sign_up" for="chk" aria-hidden="true">SIGN UP</label>
 
-                    <input class="sign_up_input" type="text" id="firstName-input-sign-up" name="first_name" placeholder="First name">
+                    <input class="sign_up_input" type="text" id="firstName-input-sign-up" name="first_name"
+                        placeholder="First name">
                     <p id="fname-error" class="error"></p>
 
-                    <input class="sign_up_input" type="text" id="lastName-input-sign-up" name="last_name" placeholder="Last name">
+                    <input class="sign_up_input" type="text" id="lastName-input-sign-up" name="last_name"
+                        placeholder="Last name">
                     <p id="lname-error" class="error"></p>
 
-                    <input class="sign_up_input" type="email" id="email-input-sign-up" name="email" placeholder="Email">
+                    <input class="sign_up_input" type="email" id="email-input-sign-up" name="email"
+                        placeholder="Email">
                     <p id="email-error" class="error"></p>
 
                     <div class="user-box">
-                        <input class="sign_up_input" type="password" id="password-input-sign-up" name="password" placeholder="Password">
-                        <span onclick="togglePasswordVisibility('password-input-sign-up', this)" class="password-toggle-icon">
+                        <input class="sign_up_input" type="password" id="password-input-sign-up" name="password"
+                            placeholder="Password">
+                        <span onclick="togglePasswordVisibility('password-input-sign-up', this)"
+                            class="password-toggle-icon">
                             <i class="fa-solid fa-eye" id="toggle-password"></i>
-                         </span>
+                        </span>
                     </div>
                     <p id="password-error" class="error"></p>
 
                     <button class="sign_up_btn" type="submit">SIGN UP</button>
                     <p class="sign_up_p">or sign up with</p>
                     <div class="svg_contaner">
-                        <!-- SVG icons here -->
+                        <a href="/auth/google" class="social-btn google-btn">
+                            <i class="fab fa-google"></i> Google
+                        </a>
+
+
                     </div>
+
                 </form>
             </div>
 
@@ -131,8 +83,10 @@
                     <p id="email_error" class="error"></p>
 
                     <div class="user-box">
-                        <input class="login_input" type="password" id="password-input-login" name="password" placeholder="Password">
-                        <span onclick="togglePasswordVisibility('password-input-login', this)" class="password-toggle-icon">
+                        <input class="login_input" type="password" id="password-input-login" name="password"
+                            placeholder="Password">
+                        <span onclick="togglePasswordVisibility('password-input-login', this)"
+                            class="password-toggle-icon">
                             <i class="fas fa-eye" id="toggle-password" style="color: black"></i>
                         </span>
                     </div>
@@ -147,7 +101,8 @@
 
     <footer>
         <div style="display: flex; align-items: center; justify-content: center">
-            <p>&copy;2023 All rights reserved | This template is made with <span style="color: red "> ❤</span> by Masa</p>
+            <p>&copy;2023 All rights reserved | This template is made with <span style="color: red "> ❤</span> by Masa
+            </p>
         </div>
     </footer>
 

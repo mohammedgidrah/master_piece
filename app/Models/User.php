@@ -27,6 +27,8 @@ class User extends Authenticatable implements MustVerifyEmail
         'password',
         'image',
         'role',
+        'social_id',
+        'social_type',
     ];
 
     public function isAdmin()

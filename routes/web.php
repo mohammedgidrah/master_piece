@@ -1,18 +1,19 @@
 <?php
 
+use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\UserController;
 use App\Http\Controllers\AdminController;
-use App\Http\Controllers\BillingController;
-use App\Http\Controllers\CategoryController;
-use App\Http\Controllers\ForgetPasswordManeger;
-use App\Http\Controllers\HomeCategoryController;
 use App\Http\Controllers\LoginController;
 use App\Http\Controllers\OrderController;
-use App\Http\Controllers\OrderDashboardController;
+use App\Http\Controllers\BillingController;
 use App\Http\Controllers\ProductController;
 use App\Http\Controllers\ProfileController;
+use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\RegisterController;
-use App\Http\Controllers\UserController;
-use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\SocialiteController;
+use App\Http\Controllers\ForgetPasswordManeger;
+use App\Http\Controllers\HomeCategoryController;
+use App\Http\Controllers\OrderDashboardController;
 
 /*
 |--------------------------------------------------------------------------
@@ -143,4 +144,9 @@ Route::post('reset-password', [ForgetPasswordManeger::class, 'resetPasswordpost'
 
 Route::get('verify-email/{token}', [RegisterController::class, 'verifyAcount'])->name('verify.email');
 
- 
+    
+Route::get('auth/google', [SocialiteController::class, 'redirectToGoogle'])->name('auth.google');
+Route::get('auth/google/callback', [SocialiteController::class, 'handleGoogleCallback']);
+
+Route::get('auth/facebook', [SocialiteController::class, 'redirectToFacebook'])->name('auth.facebook');
+Route::get('auth/facebook/callback', [SocialiteController::class, 'handleFacebookCallback']);
