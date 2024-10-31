@@ -12,7 +12,7 @@ return [
     | location for this type of information, allowing packages to have
     | a conventional file to locate the various service credentials.
     |
-    */
+     */
 
     'mailgun' => [
         'domain' => env('MAILGUN_DOMAIN'),
@@ -35,7 +35,13 @@ return [
         'client_secret' => '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',
         'redirect' => 'http://127.0.0.1:8000/auth/google/callback',
     ],
- 
 
- 
+    // config/services.php
+
+    'google' => [
+        'client_id' => env('GOOGLE_CLIENT_ID'),
+        'client_secret' => env('GOOGLE_CLIENT_SECRET'),
+        'redirect' => env('GOOGLE_REDIRECT_URL'),
+    ],
+
 ];
