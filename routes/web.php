@@ -14,6 +14,7 @@ use App\Http\Controllers\SocialiteController;
 use App\Http\Controllers\ForgetPasswordManeger;
 use App\Http\Controllers\HomeCategoryController;
 use App\Http\Controllers\OrderDashboardController;
+use App\Http\Controllers\NotificationController;
 
 /*
 |--------------------------------------------------------------------------
@@ -148,5 +149,8 @@ Route::get('verify-email/{token}', [RegisterController::class, 'verifyAcount'])-
 Route::get('auth/google', [SocialiteController::class, 'redirectToGoogle'])->name('auth.google');
 Route::get('auth/google/callback', [SocialiteController::class, 'handleGoogleCallback']);
 
-Route::get('auth/facebook', [SocialiteController::class, 'redirectToFacebook'])->name('auth.facebook');
-Route::get('auth/facebook/callback', [SocialiteController::class, 'handleFacebookCallback']);
+// routes/web.php
+Route::get('/notifications', [RegisterController::class, 'fetchNotifications'])->name('notifications');
+Route::post('/notifications/mark-read', [NotificationController::class, 'markAsRead'])->name('notifications.markRead');
+
+

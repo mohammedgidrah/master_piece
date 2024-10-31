@@ -10,13 +10,14 @@ class Order extends Model
 {
     use HasFactory, SoftDeletes;
 
-    protected $fillable = [
-        'id',
-        'customer_id',
-        'total_price',
-        'order_status',
-        'product_id',
-    ];
+    // protected $fillable = [
+    //     'id',
+    //     'customer_id',
+    //     'total_price',
+    //     'order_status',
+    //     'product_id',
+    // ];
+    protected $guarded = [];
     public function user()
     {
         return $this->belongsTo(User::class, 'customer_id');

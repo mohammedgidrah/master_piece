@@ -9,12 +9,12 @@ class ShoppingCart extends Model
 {
     use HasFactory;
 
-    protected $fillable = [
-        'customer_id',
-        'product_id',
-        'quantity',
-    ];
-
+    // protected $fillable = [
+    //     'customer_id',
+    //     'product_id',
+    //     'quantity',
+    // ];
+    protected $guarded = [];
     public function customer()
     {
         return $this->belongsTo(Customer::class);

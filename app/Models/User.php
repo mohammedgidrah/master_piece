@@ -18,19 +18,19 @@ class User extends Authenticatable implements MustVerifyEmail
      *
      * @var array<int, string>
      */
-    protected $fillable = [
-        'first_name',
-        'last_name',
-        'email',
-        'phone',
-        'address',
-        'password',
-        'image',
-        'role',
-        'social_id',
-        'social_type',
-    ];
-
+    // protected $fillable = [
+    //     'first_name',
+    //     'last_name',
+    //     'email',
+    //     'phone',
+    //     'address',
+    //     'password',
+    //     'image',
+    //     'role',
+    //     'social_id',
+    //     'social_type',
+    // ];
+    protected $guarded = [];
     public function isAdmin()
     {
         return $this->role === 'admin'; // or however you define admin roles

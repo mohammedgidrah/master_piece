@@ -10,11 +10,12 @@ class Category extends Model
 {
     use HasFactory, SoftDeletes;
 
-    protected $fillable = [
-        'name',
-        'description',
-        'image',
-    ];
+    // protected $fillable = [
+    //     'name',
+    //     'description',
+    //     'image',
+    // ];
+    protected $guarded = [];
     protected $table = 'categories';
 
 

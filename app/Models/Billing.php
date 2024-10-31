@@ -10,18 +10,19 @@ class Billing extends Model
 {
     use HasFactory;
 
-    protected $fillable = [
-        'user_id',
-        'order_id',
-        'first_name',
-        'last_name',
-        'email',
-        'phone',
-        'order_status',
-        'billing_city',
-        'billing_address',
+    // protected $fillable = [
+    //     'user_id',
+    //     'order_id',
+    //     'first_name',
+    //     'last_name',
+    //     'email',
+    //     'phone',
+    //     'order_status',
+    //     'billing_city',
+    //     'billing_address',
         
-    ];
+    // ];
+    protected $guarded = [];
 
     // Define a relationship to the User model
     public function user()

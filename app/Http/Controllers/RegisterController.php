@@ -3,11 +3,12 @@
 namespace App\Http\Controllers;
 
 use App\Models\User;
+use Illuminate\Support\Str;
+use App\Models\Notification;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Mail;
-use Illuminate\Support\Str;
 
 class RegisterController extends Controller
 {
@@ -74,6 +75,14 @@ class RegisterController extends Controller
             'password' => Hash::make($request->password), // Hash the password
             'image' => $imagePath, // Store the path of the uploaded or default image
         ]);
+
+        Notification::create([
+            'user_id' => $user->id, // Use the newly created user's ID
+            'type' => 'New Registration',
+            'data' => json_encode(['message' => 'Welcome to the platform!']),
+            'is_read' => false,
+        ]);
+
 
         // Log the user in automatically
         auth()->login($user);

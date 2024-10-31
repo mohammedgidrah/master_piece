@@ -13,16 +13,16 @@ class OrderItem extends Model
     use HasFactory, SoftDeletes;
 
 // In OrderItem.php
-    protected $fillable = [
-        'user_id',
-        'product_id',
-        'order_id',
-        'order_status',
-        'quantity',
-        'price_per_unit',
-        'total_price', // Add total_price to fillable properties
-    ];
-
+    // protected $fillable = [
+    //     'user_id',
+    //     'product_id',
+    //     'order_id',
+    //     'order_status',
+    //     'quantity',
+    //     'price_per_unit',
+    //     'total_price', // Add total_price to fillable properties
+    // ];
+    protected $guarded = [];
 // In the OrderItem model
     public function firstOrder()
     {
