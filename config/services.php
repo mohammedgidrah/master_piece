@@ -40,4 +40,5 @@ return [
         'redirect' => env('GOOGLE_REDIRECT_URL'),
     ],
 
+    
 ];
