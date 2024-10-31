@@ -23,6 +23,7 @@ return new class extends Migration
             $table->string('address')->nullable(); // Optional for customers/users
             $table->timestamp('email_verified_at')->nullable(); // For email verification
             $table->string('image')->default('uploads/usersprofiles/defultimage/userimage.png'); // For profile/customer image
+            $table->boolean('is_verified')->default(false); // Add the is_verified column   
             $table->softDeletes(); // Adds the deleted_at column for soft delete functionality
             $table->rememberToken(); // Token for "remember me" sessions
             $table->timestamps(); // Created and updated timestamps

@@ -9,18 +9,21 @@ return new class extends Migration
     /**
      * Run the migrations.
      */
-    public function up(): void
+    public function up()
     {
         Schema::create('notifications', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('user_id')->constrained()->onDelete('cascade'); // User receiving the notification
-            $table->string('type'); // Type of notification
-            $table->text('data'); // Notification message or data
-            $table->boolean('is_read')->default(false); // Read/unread status
+            $table->unsignedBigInteger('user_id');
+            $table->string('type');
+            $table->json('data'); // This should be JSON
+            $table->boolean('is_read')->default(false);
             $table->timestamps();
+    
+            $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');
         });
-        
     }
+    
+    
 
     /**
      * Reverse the migrations.

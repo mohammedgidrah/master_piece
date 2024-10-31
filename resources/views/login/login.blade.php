@@ -63,7 +63,7 @@
                     <button class="sign_up_btn" type="submit">SIGN UP</button>
                     <p class="sign_up_p">or sign up with</p>
                     <div class="svg_contaner">
-                        <a href="/auth/google" class="social-btn google-btn">
+                        <a href="/auth/google" class="social-btn google-btn" style="background-color: #8f00ff">
                             <i class="fab fa-google"></i> Google
                         </a>
 

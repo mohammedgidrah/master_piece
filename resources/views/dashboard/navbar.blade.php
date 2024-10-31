@@ -13,50 +13,33 @@
         </div>
         <!-- End Logo Header -->
     </div>
+
     <!-- Navbar Header -->
     <nav class="navbar navbar-header navbar-header-transparent navbar-expand-lg border-bottom">
         <div class="container-fluid">
             <ul class="navbar-nav topbar-nav ms-md-auto align-items-center">
-                <!-- Search Icon -->
-                <li class="nav-item topbar-icon dropdown hidden-caret d-flex d-lg-none">
-                    <a class="nav-link dropdown-toggle" data-bs-toggle="dropdown" href="#" role="button" aria-expanded="false" aria-haspopup="true">
-                        <i class="fa fa-search"></i>
-                    </a>
-                    <ul class="dropdown-menu dropdown-search animated fadeIn">
-                        <form class="navbar-left navbar-form nav-search">
-                            <div class="input-group">
-                                <input type="text" placeholder="Search ..." class="form-control" />
-                            </div>
-                        </form>
-                    </ul>
-                </li>
                 <!-- Notifications -->
                 <li class="nav-item topbar-icon dropdown hidden-caret">
                     <a class="nav-link dropdown-toggle" href="#" id="notifDropdown" role="button" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                         <i class="fa fa-bell"></i>
-                        <span class="notification">4</span>
+                        {{-- <span class="notification">{{ $notifications->count() }}</span> --}}
                     </a>
                     <ul class="dropdown-menu notif-box animated fadeIn" aria-labelledby="notifDropdown">
-                        <li><div class="dropdown-title">You have 4 new notifications</div></li>
+                        <li>
+                            {{-- <div class="dropdown-title">You have {{ $notifications->count() }} new notifications</div> --}}
+                        </li>
                         <li>
                             <div class="notif-scroll scrollbar-outer">
                                 <div class="notif-center">
-                                    <a href="#">
-                                        <div class="notif-icon notif-primary"><i class="fa fa-user-plus"></i></div>
-                                        <div class="notif-content"><span class="block">New user registered</span><span class="time">5 minutes ago</span></div>
-                                    </a>
-                                    <a href="#">
-                                        <div class="notif-icon notif-success"><i class="fa fa-comment"></i></div>
-                                        <div class="notif-content"><span class="block">Rahmad commented on Admin</span><span class="time">12 minutes ago</span></div>
-                                    </a>
-                                    <a href="#">
-                                        <div class="notif-img"><img src="{{ asset('assets/img/profile2.jpg') }}" alt="Img Profile" /></div>
-                                        <div class="notif-content"><span class="block">Reza sent messages to you</span><span class="time">12 minutes ago</span></div>
-                                    </a>
-                                    <a href="#">
-                                        <div class="notif-icon notif-danger"><i class="fa fa-heart"></i></div>
-                                        <div class="notif-content"><span class="block">Farrah liked Admin</span><span class="time">17 minutes ago</span></div>
-                                    </a>
+                                    {{-- @foreach($notifications as $notification) --}}
+                                        <a href="#">
+                                            <div class="notif-icon notif-primary"><i class="fa fa-comment"></i></div>
+                                            <div class="notif-content">
+                                                {{-- <span class="block">{{ json_decode($notification->data)->message ?? 'No message' }}</span> --}}
+                                                {{-- <span class="time">{{ $notification->created_at->diffForHumans() }}</span> --}}
+                                            </div>
+                                        </a>
+                                    {{-- @endforeach --}}
                                 </div>
                             </div>
                         </li>
@@ -67,11 +50,7 @@
                 <li class="nav-item topbar-user dropdown hidden-caret">
                     <a class="dropdown-toggle profile-pic" data-bs-toggle="dropdown" href="#" aria-expanded="false">
                         <div class="avatar-sm">
-                            @if (Auth::check() && Auth::user()->image)
-                                <img src="{{ asset('storage/' . Auth::user()->image) }}" alt="User Avatar" class="avatar-img rounded-circle" />
-                            @else
-                                <img src="{{ asset('assets/img/default-avatar.png') }}" alt="Default Avatar" class="avatar-img rounded-circle" />
-                            @endif
+                            <img src="{{ Auth::user()->image ? asset('storage/' . Auth::user()->image) : asset('assets/img/default-avatar.png') }}" alt="User Avatar" class="avatar-img rounded-circle" />
                         </div>
                         <span class="profile-username">
                             <span class="op-7">Hi,</span>
@@ -83,11 +62,7 @@
                             <li>
                                 <div class="user-box">
                                     <div class="avatar-lg">
-                                        @if (Auth::check() && Auth::user()->image)
-                                            <img src="{{ asset('storage/' . Auth::user()->image) }}" alt="User Avatar" class="avatar-img rounded-circle" />
-                                        @else
-                                            <img src="{{ asset('assets/img/default-avatar.png') }}" alt="Default Avatar" class="avatar-img rounded-circle" />
-                                        @endif
+                                        <img src="{{ Auth::user()->image ? asset('storage/' . Auth::user()->image) : asset('assets/img/default-avatar.png') }}" alt="User Avatar" class="avatar-img rounded-circle" />
                                     </div>
                                     <div class="u-text">
                                         <h4>{{ Auth::user()->first_name }} {{ Auth::user()->last_name }}</h4>
@@ -116,39 +91,3 @@
     </nav>
     <!-- End Navbar -->
 </div>
-
-<script>
-    async function fetchNotifications() {
-        try {
-            console.log("Fetching notifications...");
-            const response = await fetch("{{ route('notifications') }}");
-            if (!response.ok) throw new Error('Network response was not ok');
-            const notifications = await response.json();
-
-            console.log(notifications); // Log notifications to check their format
-
-            let notificationList = document.querySelector('.notif-center');
-            notificationList.innerHTML = ''; // Clear existing notifications
-
-            notifications.forEach(notification => {
-                const notifItem = `
-                    <a href="#">
-                        <div class="notif-icon notif-primary"><i class="fa fa-comment"></i></div>
-                        <div class="notif-content">
-                            <span class="block">${JSON.parse(notification.data).message}</span>
-                            <span class="time">${new Date(notification.created_at).toLocaleTimeString()}</span>
-                        </div>
-                    </a>
-                `;
-                notificationList.insertAdjacentHTML('beforeend', notifItem);
-            });
-            document.querySelector('.notification').textContent = notifications.length; // Update notification count
-        } catch (error) {
-            console.error("Error fetching notifications:", error);
-        }
-    }
-
-    // Call the function on page load or periodically to refresh notifications
-    document.addEventListener('DOMContentLoaded', fetchNotifications);
-    setInterval(fetchNotifications, 60000); // Refresh every minute
-</script>

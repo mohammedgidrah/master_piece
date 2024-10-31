@@ -26,6 +26,8 @@ class UserNotification extends Notification
     {
         return [
             'message' => $this->data['message'],  // Customize message data as needed
+            'type' => $this->data['type'],         // Optional: Type of notification (e.g., 'registration', 'order')
+            'data' => $this->data['data'] ?? null, // Additional data if needed
         ];
     }
 }

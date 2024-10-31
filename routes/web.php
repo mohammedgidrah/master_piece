@@ -143,14 +143,15 @@ Route::post('forgot-password', [ForgetPasswordManeger::class, 'forgetPasswordpos
 Route::get('reset-password/{token}', [ForgetPasswordManeger::class, 'resetPassword'])->name('reset.password');
 Route::post('reset-password', [ForgetPasswordManeger::class, 'resetPasswordpost'])->name('reset.password.post');
 
-Route::get('verify-email/{token}', [RegisterController::class, 'verifyAcount'])->name('verify.email');
+Route::get('verify-email/{token}', [RegisterController::class, 'verifyAccount'])->name('verify.email');
 
     
 Route::get('auth/google', [SocialiteController::class, 'redirectToGoogle'])->name('auth.google');
 Route::get('auth/google/callback', [SocialiteController::class, 'handleGoogleCallback']);
 
 // routes/web.php
-Route::get('/notifications', [RegisterController::class, 'fetchNotifications'])->name('notifications');
+// web.php
+Route::get('/notifications', [NotificationController::class, 'index'])->name('notifications');
 Route::post('/notifications/mark-read', [NotificationController::class, 'markAsRead'])->name('notifications.markRead');
 
 

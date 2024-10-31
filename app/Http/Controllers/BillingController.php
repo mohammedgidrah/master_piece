@@ -2,17 +2,18 @@
 
 namespace App\Http\Controllers;
 
-use App\Mail\BillingDetailsEmail;
-use App\Models\Billing;
-use App\Models\Order;
-use App\Models\OrderItem;
 use App\Models\User;
-use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\DB;
-use Illuminate\Support\Facades\Log; // Import the new mail class
-use Illuminate\Support\Facades\Mail;
+use App\Models\Order;
+use App\Models\Billing;
 use App\Models\Product;
+use App\Models\OrderItem;
+use App\Models\Notification;
+use Illuminate\Http\Request;
+use App\Mail\BillingDetailsEmail;
+use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Mail;
+use Illuminate\Support\Facades\Log; // Import the new mail class
 
 
 // Import Mail facade
@@ -129,6 +130,7 @@ class BillingController extends Controller
                 $orderItem->order_status = 'processing';
                 $orderItem->save();
 
+
                 // Update product stock
                 $product->quantity -= $order->quantity;
 
@@ -141,6 +143,13 @@ class BillingController extends Controller
 
                 // Delete processed order
                 $order->delete();
+
+                Notification::create([
+                    'user_id' => $user->id, // Use the authenticated user's ID
+                    'type' => 'New Order', // Type of notification
+                    'data' => json_encode(['message' => 'Your order has been placed successfully!', 'order_id' => $orderId]), // Notification message and order ID
+                    'is_read' => false, // Set as unread
+                ]);
             }
 
             // Update order status to "processing"
