@@ -3,12 +3,11 @@
 @section('content')
     <div class="page-inner" style="padding-top: 100px">
         @if (session('success'))
-            <div class="alert alert-success alert-dismissible fade show bg-light" role="alert">
-                {{ session('success') }}
-                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-            </div>
-        @endif
-
+        <div class="alert alert-success alert-dismissible fade show" role="alert">
+            {{ session('success') }}
+            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+        </div>
+    @endif
         @if (session('error'))
             <div class="alert alert-danger alert-dismissible fade show bg-light" role="alert">
                 {{ session('error') }}
@@ -103,7 +102,7 @@
                                     <form action="{{ route('ordersdash.update', $firstOrder->order_id) }}" method="POST">
                                         @csrf
                                         @method('PUT')
-                                        <select name="order_status" class="form-control" onchange="this.form.submit()">
+                                        <select id="order-row-{{ $firstOrder->id }}" name="order_status" class="form-control" onchange="this.form.submit()">
                                             @foreach (['pending', 'processing', 'delivered', 'cancelled'] as $status)
                                                 <option value="{{ $status }}" {{ $firstOrder->order_status === $status ? 'selected' : '' }}>
                                                     {{ ucfirst($status) }}
@@ -191,5 +190,31 @@
         @include('dashboard.footer')
     </div>
 
- 
+    <script>
+        function updateOrderStatus(selectElement, orderId) {
+            // Select the row using the data-order-id attribute
+            const row = document.querySelector(`tr[data-order-id="${orderId}"]`);
+            const selectedStatus = selectElement.value;
+    
+            // Change the background color based on the selected status
+            switch (selectedStatus) {
+                case 'pending':
+                    row.style.backgroundColor = 'lightblue'; // Light blue for pending
+                    break;
+                case 'processing':
+                    row.style.backgroundColor = 'lightyellow'; // Light yellow for processing
+                    break;
+                case 'delivered':
+                    row.style.backgroundColor = 'lightgreen'; // Light green for delivered
+                    break;
+                case 'cancelled':
+                    row.style.backgroundColor = 'lightcoral'; // Light coral for cancelled
+                    break;
+                default:
+                    row.style.backgroundColor = ''; // Reset to default
+            }
+        }
+    </script>
+    
+    
 @endsection

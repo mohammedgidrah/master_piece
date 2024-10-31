@@ -44,7 +44,7 @@ class UserController extends Controller
         }
 
         // Get the total count of users excluding the logged-in user
-        $totalUsers = User::where('id', '!=', $loggedInUserId)->count();
+        $totalUsers = User::count();
 
         // Get active users with pagination
         $users = $query->paginate($perPage);

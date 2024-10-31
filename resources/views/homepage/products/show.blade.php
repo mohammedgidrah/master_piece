@@ -24,7 +24,19 @@
                     <p style="text-align: justify" class="product_description">{!! wrapText($product->description, 40) !!}</p>
                 </div>
             </div>
-            <p class="product_price">Price: <span class="price_value">${{ $product->price }}</span></p>
+            <p class="product_price">Price: <span class="price_value">${{ $product->price }}</span>  </p>
+
+            <!-- Alert for low stock -->
+            @if ($product->quantity <= 0)
+                <div class="alert alert-danger" style="height: 40px; margin-top: 17px; display: flex; align-items: center">
+                    This product is out of stock!
+                </div>
+            @elseif ($product->quantity < 3)
+                <div class="alert alert-warning" style="height: 40px; margin-top: 17px; display: flex; align-items: center">
+                    Only {{ $product->quantity }} left in stock! Hurry up!
+                </div>
+            @endif
+
             <div class="button-container">
                 @if(auth()->check())
                     <!-- Display success message if available -->
@@ -41,25 +53,28 @@
                         </div>
                     @endif
 
-                    <form action="{{ route('orders.store', $product->id) }}" method="POST" class="order_form">
-                        @csrf
-            
-                        <!-- Display Validation Errors -->
-                        @if ($errors->any())
-                            <div class="alert alert-danger" style="height: 40px; margin-top: 17px; display: flex; align-items: center">
-                                <ul>
-                                    @foreach ($errors->all() as $error)
-                                        <li>{{ $error }}</li>
-                                    @endforeach
-                                </ul>
-                            </div>
-                        @endif
-            
-                        <input type="hidden" name="product_id" value="{{ $product->id }}">
-                        <input type="hidden" name="total_price" value="{{ $product->price }}">
-                        <input type="hidden" name="customer_id" value="{{ auth()->user()->id }}">
-                        <button type="submit" class="btn btn-primary">Store Product in Cart</button>
-                    </form>
+                    <!-- Check if the product is in stock before displaying the order form -->
+                    @if ($product->quantity > 0)
+                        <form action="{{ route('orders.store', $product->id) }}" method="POST" class="order_form">
+                            @csrf
+                
+                            <!-- Display Validation Errors -->
+                            @if ($errors->any())
+                                <div class="alert alert-danger" style="height: 40px; margin-top: 17px; display: flex; align-items: center">
+                                    <ul>
+                                        @foreach ($errors->all() as $error)
+                                            <li>{{ $error }}</li>
+                                        @endforeach
+                                    </ul>
+                                </div>
+                            @endif
+                
+                            <input type="hidden" name="product_id" value="{{ $product->id }}">
+                            <input type="hidden" name="total_price" value="{{ $product->price }}">
+                            <input type="hidden" name="customer_id" value="{{ auth()->user()->id }}">
+                            <button type="submit" class="btn btn-primary">Store Product in Cart</button>
+                        </form>
+                    @endif
                 @else
                     <!-- Show message if the user is not logged in -->
                     <p class="alert alert-warning" style="height: 40px; margin-top: 17px; display: flex; align-items: center">
@@ -68,12 +83,9 @@
                 @endif
                 <a href="{{ route('category.products', $product->category->id) }}" class="btn btn-secondary">Back to Category</a>
             </div>
-            
         </div>
     </section>
     
-
-    <!-- Fix the JavaScript link -->
     <script src="{{ asset('./assets/js/homepage.js') }}"></script>
     <script>
         document.querySelector('.order_form').addEventListener('submit', function() {

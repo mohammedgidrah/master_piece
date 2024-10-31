@@ -1,32 +1,33 @@
 @extends('dashboard.maindasboard')
 
 @section('content')
-{{-- <div class="main-panel" style="padding-top: 75px"> --}}
-    <div class="page-inner d-flex  justify-content-start align-items-start" style="padding-top: 75px"  >
+    {{-- <div class="main-panel" style="padding-top: 75px"> --}}
+    <div class="page-inner d-flex  justify-content-start align-items-start" style="padding-top: 100px">
         {{-- <div class="page-header" > --}}
-            <h3 class="fw-bold mb-3">Create products</h3>
-            <ul class="breadcrumbs mb-3">
-                <li class="nav-home">
-                    <a href={{ route('dashboard.maindasboard') }}>
-                        <i class="icon-home"></i>
-                    </a>
-                </li>
-                <li class="separator">
-                    <i class="icon-arrow-right"></i>
-                </li>
-                <li class="nav-item">
-                    <a href={{ route('products.index') }}>products</a>
-                </li>
-                <li class="separator">
-                    <i class="icon-arrow-right"></i>
-                </li>
-                <li class="nav-item">
-                    <a href={{ route('products.create') }}>Create</a>
-                </li>
-            </ul>
-        </div>
+        <h3 class="fw-bold mb-3">Create products</h3>
+        <ul class="breadcrumbs mb-3">
+            <li class="nav-home">
+                <a href={{ route('dashboard.maindasboard') }}>
+                    <i class="icon-home"></i>
+                </a>
+            </li>
+            <li class="separator">
+                <i class="icon-arrow-right"></i>
+            </li>
+            <li class="nav-item">
+                <a href={{ route('products.index') }}>products</a>
+            </li>
+            <li class="separator">
+                <i class="icon-arrow-right"></i>
+            </li>
+            <li class="nav-item">
+                <a href={{ route('products.create') }}>Create</a>
+            </li>
+        </ul>
+    </div>
+    <div class=" p-4">
 
-        <div class="card">
+        <div class="card ">
             <div class="card-body">
                 <form action="{{ route('products.store') }}" method="POST" enctype="multipart/form-data">
                     @csrf
@@ -46,17 +47,19 @@
                     </div>
                     <div class="form-group">
                         <label for="description">Description</label>
-                        <input type="text" class="form-control" id="description"  name="description" required>
+                        <input type="text" class="form-control" id="description" name="description" required>
                     </div>
                     <div class="form-group">
                         <label for="price">Price</label>
 
-                        <input type="number" class="form-control" id="price" min="0" step="0.5" name="price" required>
+                        <input type="number" class="form-control" id="price" min="0" step="0.5"
+                            name="price" required>
                     </div>
                     <div class="form-group">
                         <label for="quantity">quantity</label>
 
-                        <input type="number" class="form-control" id="quantity" min="0" step="0.5" name="quantity" required>
+                        <input type="number" class="form-control" id="quantity" min="0" step="0.5"
+                            name="quantity" required>
                     </div>
                     <div class="form-group">
                         <label for="image">Product Image</label>
@@ -70,7 +73,7 @@
                             <option value="out_of_stock">Out of Stock</option>
                         </select>
                     </div>
-                    
+
                     <!-- Create and Back Buttons -->
                     <div class="d-flex gap-3 justify-content-start mt-4">
                         <button type="submit" class="btn btn-primary">Create Product</button>
@@ -79,6 +82,7 @@
                 </form>
             </div>
         </div>
-        @include('dashboard.footer')    
+    </div>
+    @include('dashboard.footer')
     </div>
 @endsection

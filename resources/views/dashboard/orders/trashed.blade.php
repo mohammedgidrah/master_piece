@@ -2,8 +2,20 @@
 
 @section('content')
 
-    <div class="page-inner d-flex justify-content-start align-items-start" style="padding-top: 75px">
+<div   style="padding-top: 75px" >
+
+    @if (session('success'))
+            <div class="alert alert-success alert-dismissible fade show" role="alert">
+                {{ session('success') }}
+                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+            </div>
+        @endif
+</div>
+<div class="page-inner ps-3 d-flex justify-content-start align-items-start  "    >
         <h3 class="fw-bold mb-3">Trashed orders</h3>
+
+        <!-- Display Success Message -->
+
         <ul class="breadcrumbs mb-3">
             <li class="nav-home">
                 <a href={{ route('dashboard.maindasboard') }}>
@@ -19,7 +31,7 @@
         </ul>
     </div>
 
-    <div class="table-responsive">
+    <div class="table-responsive p-4">
         <table class="display table table-striped table-hover">
             <thead>
                 <tr>
@@ -27,9 +39,9 @@
                     <th>Image</th>
                     <th>Customer Name</th>
                     <th>Product Name</th>
-                    <th>Quantity</th> 
-                    <th>Price per Item</th> 
-                    <th>Total Price</th> 
+                    <th>Quantity</th>
+                    <th>Price per Item</th>
+                    <th>Total Price</th>
                     <th>Order Status</th>
                     <th>Action</th>
                 </tr>
@@ -41,16 +53,18 @@
                             <td>{{ $order->order_id }}</td>
                             <td>
                                 @if ($order->product && $order->product->image)
-                                    <img src="{{ asset('storage/' . $order->product->image) }}" style="width: 75px; height: auto;">
+                                    <img src="{{ asset('storage/' . $order->product->image) }}"
+                                        style="width: 75px; height: auto;">
                                 @else
-                                    <img src="{{ asset('path/to/placeholder.jpg') }}" style="width: 75px; height: auto;" alt="No Image">
+                                    <img src="{{ asset('path/to/placeholder.jpg') }}" style="width: 75px; height: auto;"
+                                        alt="No Image">
                                 @endif
                             </td>
                             <td>{!! wrapText($order->user->first_name, 30) !!} {!! wrapText($order->user->last_name, 30) !!}</td>
                             <td>{!! wrapText($order->product->name, 30) !!}</td>
-                            <td>{{ $order->quantity }}</td> 
-                            <td>{{ $order->product->price }}</td> 
-                            <td>{{ $order->total_price }}</td> 
+                            <td>{{ $order->quantity }}</td>
+                            <td>{{ $order->product->price }}</td>
+                            <td>{{ $order->total_price }}</td>
                             <td>{{ $order->order_status }}</td>
                             <td>
                                 <button class="btn btn-success" onclick="showRestoreModal({{ $order->id }})">
@@ -120,6 +134,9 @@
             </div>
         </div>
     </div>
+    @include('dashboard.footer');
+    </div>
+
 
     <script>
         function showRestoreModal(orderId) {

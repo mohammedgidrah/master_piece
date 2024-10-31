@@ -2,14 +2,14 @@
 
 @section('content')
 <div class="page-inner " style="padding-top: 75px">
-        @if (session('success'))
+    @if (session('success'))
             <div class="alert alert-success alert-dismissible fade show" role="alert">
                 {{ session('success') }}
                 <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
             </div>
         @endif
 
-        <div class="page-header d-flex justify-content-start align-items-start"  >
+        <div class="page-header "  >
             <h3 class="fw-bold mb-3">Trashed Users</h3>
             <ul class="breadcrumbs mb-3">
                 <li class="nav-home">
@@ -27,7 +27,7 @@
         </div>
     </div>
 
-    <div class="table-responsive" style="padding: 10px 10px">
+    <div class="table-responsive ps-4"  >
         <table class="display table table-striped table-hover">
             <thead>
                 <tr>
@@ -43,7 +43,7 @@
                     @foreach ($users as $user)
                         <tr>
                             <td>
-                                <img src="{{ asset('storage/' . $user->image) }}" style="width: 100px; height: auto; border-radius: 50%;">
+                                <img src="{{ asset('storage/' . $user->image) }}" style="width: 75px; height: auto; border-radius: 50%;">
                             </td>
                             <td>{{ $user->first_name }}</td>
                             <td>{{ $user->last_name }}</td>

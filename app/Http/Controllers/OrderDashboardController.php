@@ -21,41 +21,45 @@ class OrderDashboardController extends Controller
     {
         // Get pagination setting
         $perPage = $request->input('per_page', 5);
-        
+
         // Set maximum per page limit
         if ($perPage === 'all' || $perPage > 20) {
             $perPage = 20;
         }
-        
+
         // Get search input and order status filter
         $search = $request->input('search');
         $orderStatus = $request->input('order_status');
-        
+
         // Build the query
         $query = OrderItem::with(['order.user', 'product'])
             ->join('orders', 'order_items.order_id', '=', 'orders.id')
             ->join('users', 'orders.customer_id', '=', 'users.id')
-            ->join('products', 'order_items.product_id', '=', 'products.id')
-            ->select('order_items.*', 'users.first_name', 'users.last_name', 'products.name as product_name', 'products.image', 'products.price', 'orders.order_status');
-        
-        // Apply search filters
+        // ->join('products', 'order_items.product_id', '=', 'products.id')
+            ->select(
+                'order_items.*',
+                'users.first_name',
+                'users.last_name',
+             );
+
+        // Apply search filters for order item total price, user's first name, and last name
         if ($search) {
-            $query->where(function ($q) use ($search) {
-                $q->where('order_items.total_price', 'like', '%' . $search . '%')
-                  ->orWhere('users.first_name', 'like', '%' . $search . '%')
-                  ->orWhere('users.last_name', 'like', '%' . $search . '%');
+            $query->where(function ($query) use ($search) {
+                $query->where('order_items.total_price', 'like', '%' . $search . '%')
+                    ->orWhere('users.first_name', 'like', '%' . $search . '%')
+                    ->orWhere('users.last_name', 'like', '%' . $search . '%');
             });
         }
-        
+
         // Apply order status filter
         if ($orderStatus) {
             $query->where('orders.order_status', $orderStatus);
         }
-        
+
         // Pagination
         $orders = $query->paginate($perPage);
         $totalOrders = OrderItem::count();
-        
+
         return view('dashboard.orders.index', compact('orders', 'totalOrders'));
     }
     
@@ -88,7 +92,7 @@ class OrderDashboardController extends Controller
 
         Order::create($request->all());
 
-        return redirect()->route('ordersdash.index')->with('success', 'Order created successfully!');
+        return redirect()->back()->with('success', 'Order created successfully!');
     }
 
     public function show($id)
@@ -150,14 +154,14 @@ class OrderDashboardController extends Controller
                                 ->update(['order_status' => $request->order_status]);
     
                 DB::commit();
-                return redirect()->route('ordersdash.index')->with('success', 'Order status updated successfully.');
+                return redirect()->back()->with('success', 'Order status updated successfully.');
             } else {
                 DB::rollBack();
-                return redirect()->route('ordersdash.index')->with('error', 'Order not found.');
+                return redirect()->back()->with('error', 'Order not found.');
             }
         } catch (\Exception $e) {
             DB::rollBack();
-            return redirect()->route('ordersdash.index')->with('error', 'An error occurred: ' . $e->getMessage());
+            return redirect()->back()->with('error', 'An error occurred: ' . $e->getMessage());
         }
     }
     
@@ -181,10 +185,10 @@ class OrderDashboardController extends Controller
                 $order->delete();
             }
     
-            return redirect()->route('ordersdash.index')->with('success', 'All orders deleted successfully.');
+            return redirect()->back()->with('success', 'All orders deleted successfully.');
         }
     
-        return redirect()->route('ordersdash.index')->with('error', 'No orders found to delete.');
+        return redirect()->back()->with('error', 'No orders found to delete.');
     }
     
     public function deleteProduct($id)
@@ -200,7 +204,7 @@ class OrderDashboardController extends Controller
         }
     
         $order->delete(); // Delete the order
-        return redirect()->route('ordersdash.index')->with('success', 'Order deleted successfully.');
+        return redirect()->back()->with('success', 'Order deleted successfully.');
     }
     
     

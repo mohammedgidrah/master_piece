@@ -26,7 +26,15 @@ class ProductController extends Controller
         if ($search) {
             $query->where(function ($q) use ($search) {
                 $q->where('name', 'like', '%' . $search . '%')
-                    ->orWhere('description', 'like', '%' . $search . '%');
+                    ->orWhere('description', 'like', '%' . $search . '%')
+                    ->orWhere('price', 'like', '%' . $search . '%')
+                    ->orWhere('stock', 'like', '%' . $search . '%')
+                    ->orWhere('quantity', 'like', '%' . $search . '%')
+                    ->orWhereHas('category', function ($q) use ($search) {
+                        $q->where('name', 'like', '%' . $search . '%');
+                    });
+                    
+
             });
         }
 
@@ -134,38 +142,48 @@ class ProductController extends Controller
             'name' => 'required|string|max:100',
             'description' => 'nullable|string',
             'price' => 'required|numeric|min:0',
-            'stock' => 'required|in:in_stock,out_of_stock',
+            'stock' => 'required|in:in_stock,out_of_stock', // Keep this for validation but will be updated below
             'image' => 'nullable|mimes:png,jpg,jpeg,webp',
             'quantity' => 'required|numeric|min:0',
         ]);
-
+    
         $product = Product::findOrFail($id);
-
+    
         $currentImagePath = $product->image;
-
+    
+        // Handle image upload
         if ($request->hasFile('image')) {
-
             if ($currentImagePath && \Storage::disk('public')->exists($currentImagePath)) {
                 \Storage::disk('public')->delete($currentImagePath);
             }
-
+    
             $imagePath = $request->file('image')->store('uploads/products', 'public');
             $product->image = $imagePath;
         } else {
-
             $product->image = $currentImagePath;
         }
-
+    
+        // Update product details
         $product->category_id = $request->category_id;
         $product->name = $request->name;
         $product->description = $request->description;
         $product->price = $request->price;
-        $product->stock = $request->stock;
+    
+        // Update stock and quantity logic
         $product->quantity = $request->quantity;
+    
+        // Set stock status based on quantity
+        if ($product->quantity <= 0) {
+            $product->stock = 'out_of_stock';
+        } else {
+            $product->stock = 'in_stock';
+        }
+    
         $product->save();
-
+    
         return redirect()->route('products.index')->with('success', 'Product updated successfully!');
     }
+    
 
     public function destroy(Product $product)
     {

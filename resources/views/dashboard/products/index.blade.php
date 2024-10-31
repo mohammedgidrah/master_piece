@@ -3,11 +3,11 @@
 @section('content')
     <div class="page-inner" style="padding-top: 75px">
         @if (session('success'))
-            <div class="alert alert-success alert-dismissible fade show" role="alert">
-                {{ session('success') }}
-                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-            </div>
-        @endif
+        <div class="alert alert-success alert-dismissible fade show" role="alert">
+            {{ session('success') }}
+            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+        </div>
+    @endif
 
         @if (session('error'))
             <div class="alert alert-danger alert-dismissible fade show" role="alert">
@@ -16,7 +16,7 @@
             </div>
         @endif
 
-        <div class="page-header">
+        <div class="page-header  ">
             <h3 class="fw-bold mb-3">Products Management</h3>
             <ul class="breadcrumbs mb-3">
                 <li class="nav-home">
@@ -34,7 +34,7 @@
         </div>
 
         <!-- Search and Filter -->
-        <div class="mb-3 ps-4">
+        <div class="mb-3 ">
             <form action="{{ route('products.index') }}" method="GET" class="d-flex justify-content-between">
                 <div>
                     <select name="per_page" class="form-control" onchange="this.form.submit()">
@@ -62,12 +62,12 @@
         </div>
 
         <!-- Total Products Display -->
-        <div class="mb-3 ps-4">
+        <div class="mb-3  ">
             <h5>Total Products: {{ $totalProducts }}</h5>
         </div>
 
         @if ($products->isNotEmpty())
-            <div class="table-responsive ps-4">
+            <div class="table-responsive ">
                 <table id="add-row" class="display table table-striped table-hover">
                     <thead>
                         <tr>
@@ -98,7 +98,7 @@
                             <tr>
                                 <td>
                                     <img src="{{ asset('storage/' . $product->image) }}"
-                                        style="width: 75px; height: auto;">
+                                        style="width: 75px; height: auto; border-radius: 50%;">
                                 </td>
                                 <td>{!! wrapText($product->name, 30) !!}</td>
                                 <td>{!! wrapText($product->description, 30) !!}</td>
@@ -156,7 +156,7 @@
                         @endforeach
                     </tbody>
                 </table>
-                <div class="mt-3 d-flex justify-content-end ps-4">
+                <div class="  d-flex justify-content-between p-4">
                     {{ $products->appends(request()->query())->links('vendor.pagination.bootstrap-4') }}
 
                     <div class="  d-flex justify-content-end  ">
@@ -176,6 +176,7 @@
         @endif
     </div>
     @include('dashboard.footer')
+</div>
 
     @php
         if (!function_exists('wrapText')) {

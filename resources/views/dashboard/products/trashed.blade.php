@@ -2,13 +2,14 @@
 
 @section('content')
 
-<div class="page-inner ps-3  " style="padding-top: 75px">
+<div class="page-inner " style="padding-top: 75px">
     @if (session('success'))
-        <div class="alert alert-success" role="alert">
-            {{ session('success') }}
-        </div>
-    @endif
-    <div class="page-header" style="padding-top: 75px">
+            <div class="alert alert-success alert-dismissible fade show" role="alert">
+                {{ session('success') }}
+                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+            </div>
+        @endif
+    <div class="page-header"  >
         <h3 class="fw-bold mb-3">Trashed products</h3>
         <ul class="breadcrumbs mb-3">
             <li class="nav-home">
@@ -29,7 +30,7 @@
 
     <!-- Success Message -->
 
-    <div class="table-responsive">
+    <div class="table-responsive p-4">
         <table class="display table table-striped table-hover">
             <thead>
                 <tr>
@@ -49,7 +50,7 @@
                         <tr>
                             <td>
                                 <img src="{{ asset('storage/' . $product->image) }}"
-                                     style="width: 75px; height: auto;">
+                                     style="width: 75px; height: auto; border-radius: 50%;">
                             </td>
                             <td>{{ $product->name }}</td>
                             <td>{{ $product->description }}</td>

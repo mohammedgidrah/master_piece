@@ -3,11 +3,11 @@
 @section('content')
     <div class="page-inner" style="padding-top: 75px">
         @if (session('success'))
-            <div class="alert alert-success alert-dismissible fade show bg-light mt-5" role="alert">
-                {{ session('success') }}
-                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-            </div>
-        @endif
+        <div class="alert alert-success alert-dismissible fade show" role="alert">
+            {{ session('success') }}
+            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+        </div>
+    @endif
 
         @if (session('error'))
             <div class="alert alert-danger alert-dismissible fade show bg-light mt-5" role="alert">
@@ -35,7 +35,7 @@
     </div>
 
     <!-- Search and Filter -->
-    <div class="mb-3">
+    <div class="mb-3 ps-4">
         <form action="{{ route('categories.index') }}" method="GET" class="d-flex justify-content-between">
             <div>
                 <select name="per_page" class="form-control" onchange="this.form.submit()">
@@ -53,11 +53,11 @@
     </div>
 
     <!-- Total Categories Display -->
-    <div class="mb-3">
+    <div class="mb-3 ps-4">
         <h5>Total categories: {{ $totalcategories }}</h5>
     </div>
 
-    <div class="table-responsive">
+    <div class="table-responsive p-3"  style="border-radius: 50px">
         @if ($categories->isNotEmpty())
             <table id="add-row" class="display table table-striped table-hover">
                 <thead>
@@ -80,7 +80,7 @@
                     @foreach ($categories as $category)
                         <tr>
                             <td>
-                                <img src="{{ asset('storage/' . $category->image) }}" style="width: 50px; height: auto; border-radius: 50%;" />
+                                <img src="{{ asset('storage/' . $category->image) }}" style="width: 75px; height: auto; border-radius: 50%;" />
                             </td>
                             <td>{!! wrapText($category->name, 30) !!}</td>
                             <td>{!! wrapText($category->description, 30) !!}</td>
@@ -110,13 +110,16 @@
     </div>
 
     <!-- Pagination Controls -->
-    <div class="d-flex justify-content-between pt-4 pb-4">
-        {{ $categories->appends(request()->query())->links('vendor.pagination.bootstrap-4') }}
-        <div class="d-flex justify-content-end">
-            <a href="{{ route('categories.create') }}" class="btn btn-primary me-2">
+    <div class="d-flex justify-content-between align-items-center  p-4  ">
+        {{-- <div class="d-flex justify-content-center align-items-center"> --}}
+
+            {{ $categories->appends(request()->query())->links('vendor.pagination.bootstrap-4') }}
+        {{-- </div> --}}
+        <div class="d-flex justify-content-end align-items-center">
+            <a href="{{ route('categories.create') }}" class="btn btn-primary me-2 d-flex align-items-center ">
                 <i class="fa fa-plus"></i> Create Category
             </a>
-            <a href="{{ route('categories.trashed') }}" class="btn btn-danger">
+            <a href="{{ route('categories.trashed') }}" class="btn btn-danger d-flex align-items-center">
                 <i class="fa fa-trash"></i> View Trashed Categories
             </a>
         </div>

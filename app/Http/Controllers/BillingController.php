@@ -12,6 +12,8 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log; // Import the new mail class
 use Illuminate\Support\Facades\Mail;
+use App\Models\Product;
+
 
 // Import Mail facade
 
@@ -55,28 +57,28 @@ class BillingController extends Controller
     public function store(Request $request, $orderId = null)
     {
         $user = Auth::user();
-    
+
         // Log the received order ID
         Log::info('Received Order ID: ' . $orderId);
-    
+
         // Fallback: fetch the latest order if orderId is null or invalid
         if (!$orderId) {
             $order = $user->orders()->latest()->first();
             $orderId = $order ? $order->id : null;
         }
-    
+
         // Check if the order exists in the database
         $orderToUpdate = Order::find($orderId);
         if (!$orderToUpdate) {
             Log::error('Order not found for ID: ' . $orderId);
             return redirect()->route('orders.index')->with('error', 'Order not found.');
         }
-    
+
         $orders = $user->orders()->with('product')->get();
         if ($orders->isEmpty()) {
             return redirect()->route('orders.index')->with('error', 'Your cart is empty.');
         }
-    
+
         $request->validate([
             'first_name' => 'required|string|max:255',
             'last_name' => 'required|string|max:255',
@@ -85,9 +87,9 @@ class BillingController extends Controller
             'billing_city' => 'required|string',
             'billing_address' => 'required|string',
         ]);
-    
+
         DB::beginTransaction();
-    
+
         try {
             // Save billing details
             $billing = new Billing();
@@ -100,7 +102,7 @@ class BillingController extends Controller
             $billing->billing_address = $request->billing_address;
             $billing->order_id = $orderId;
             $billing->save();
-    
+
             // Process each order item
             foreach ($orders as $order) {
                 $product = $order->product;
@@ -109,13 +111,13 @@ class BillingController extends Controller
                     Log::error('Product not found for order ID: ' . $order->id);
                     return redirect()->route('orders.index')->with('error', 'Product not found for order: ' . $order->id);
                 }
-    
+
                 if ($product->quantity < $order->quantity) {
                     DB::rollBack();
                     Log::error('Not enough stock for ' . $product->name);
                     return redirect()->route('orders.index')->with('error', 'Not enough stock for ' . $product->name);
                 }
-    
+
                 // Save order item details
                 $orderItem = new OrderItem();
                 $orderItem->user_id = $user->id;
@@ -124,37 +126,43 @@ class BillingController extends Controller
                 $orderItem->quantity = $order->quantity;
                 $orderItem->price_per_unit = $product->price;
                 $orderItem->total_price = $product->price * $order->quantity;
+                $orderItem->order_status = 'processing';
                 $orderItem->save();
-    
+
                 // Update product stock
                 $product->quantity -= $order->quantity;
+
+                // Check if stock is now zero
+                if ($product->quantity <= 0) {
+                    $product->stock = 'out_of_stock'; // Assuming 'stock' is the column name for the status
+                }
+
                 $product->save();
-    
+
                 // Delete processed order
                 $order->delete();
             }
-    
+
             // Update order status to "processing"
             if ($orderToUpdate) {
                 $orderToUpdate->order_status = 'processing';
                 $orderToUpdate->save();
                 Log::info('Order Status Updated to Processing for Order ID: ' . $orderId);
             }
-    
+
             DB::commit();
-    
+
             // Send billing details email
             Mail::to($user->email)->send(new BillingDetailsEmail($billing, $orders));
-    
+
             return redirect()->route('orders.index')->with('success', 'Checkout completed successfully. Billing details saved.');
-    
+
         } catch (\Exception $e) {
             DB::rollBack();
             Log::error('Checkout Error: ' . $e->getMessage());
             return redirect()->route('orders.index')->with('error', 'An error occurred during checkout. Please try again.');
         }
     }
-    
     
     
 
