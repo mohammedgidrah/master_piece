@@ -153,7 +153,7 @@ Route::get('auth/google/callback', [SocialiteController::class, 'handleGoogleCal
 // web.php
 Route::get('/notifications', [NotificationController::class, 'index'])->name('notifications');
 // Route::post('/notifications/mark-read', [NotificationController::class, 'markAsRead'])->name('notifications.markRead');
-Route::get('/notifications/{id}/{order_id}', [NotificationController::class, 'handleorder'])->name('orders.handle');
+Route::get('/usersnotifications/{id}/{user_id}', [NotificationController::class, 'handleUserProfile'])->name('users.handle');
+Route::get('/ordernotifications/{id}/{order_id}', [NotificationController::class, 'handleorder'])->name('orders.handle');
  
-Route::get('notifications/{id}/{user_id}', [NotificationController::class, 'handleUserProfile'])->name('users.handle');
 

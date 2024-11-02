@@ -49,7 +49,7 @@
     </div>
 
     <!-- Custom Settings Template -->
-    <div class="custom-template">
+    {{-- <div class="custom-template">
         <div class="title">Settings</div>
         <div class="custom-content">
             <div class="switcher">
@@ -147,7 +147,7 @@
         document.querySelector('.saveSideBarColor').addEventListener('click', function() {
             saveColor('.changeSideBarColor', 'sideBarColor', '.sidebar');
         });
-    </script>
+    </script> --}}
 
     <!-- Core JS Files -->
     <script src="{{ asset('assets/js/core/jquery-3.7.1.min.js') }}"></script>

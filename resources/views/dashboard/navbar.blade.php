@@ -43,7 +43,8 @@
                                             $orderId = $notificationData->order_id ?? null; // Ensure order_id is retrieved
                                         @endphp
                                         @if ($orderId)
-                                            <a href="{{ route('orders.handle', ['id' => $notification->id, 'order_id' => $orderId]) }}">
+                                            <a
+                                                href="{{ route('orders.handle', ['id' => $notification->id, 'order_id' => $orderId]) }}">
                                                 <div class="notif-content">
                                                     <div class="d-flex align-items-center">
                                                         <div class="avatar-xs me-2">
@@ -51,17 +52,23 @@
                                                                 alt="User Image" class="avatar-img rounded-circle" />
                                                         </div>
                                                         <div>
-                                                            <span class="block">{{ $notificationData->message ?? 'No message' }}</span>
-                                                            <span class="block">User: {{ $notificationData->user_name ?? 'Unknown User' }}</span>
-                                                            <span class="block">Email: {{ $notificationData->user_email ?? 'No Email' }}</span>
-                                                            <span class="time">{{ $notification->created_at->diffForHumans() }}</span>
+                                                            <span
+                                                                class="block">{{ $notificationData->message ?? 'No message' }}</span>
+                                                            <span class="block">User:
+                                                                {{ $notificationData->user_name ?? 'Unknown User' }}</span>
+                                                            <span class="block">Email:
+                                                                {{ $notificationData->user_email ?? 'No Email' }}</span>
+                                                            <span
+                                                                class="time">{{ $notification->created_at->diffForHumans() }}</span>
+                                                                
+                                                            </div>
                                                         </div>
-                                                    </div>
+                                                        <div class="dropdown-divider"></div>
                                                 </div>
                                             </a>
                                         @endif
                                     @empty
-                                     @endforelse
+                                    @endforelse
                                 </div>
                             </div>
                         </li>
@@ -104,7 +111,8 @@
                                         @endphp
 
                                         @if ($newUserId)
-                                            <a href="{{ route('users.handle', ['id' => $notification->id, 'user_id' => $newUserId]) }}">
+                                            <a
+                                                href="{{ route('users.handle', ['id' => $notification->id, 'user_id' => $newUserId]) }}">
                                                 <div class="notif-content">
                                                     <div class="d-flex align-items-center">
                                                         <div class="avatar-xs me-2">
@@ -112,19 +120,22 @@
                                                                 alt="User Image" class="avatar-img rounded-circle" />
                                                         </div>
                                                         <div>
-                                                            <span class="block">{{ $notificationData->message ?? 'No message' }}</span>
-                                                            <br>
-                                                            <span class="block">Full Name: {{ $notificationData->user_name ?? 'Unknown User' }}</span>
-                                                            <br>
-                                                            <span class="block">Email: {{ $notificationData->user_email ?? 'No Email' }}</span>
-                                                            <br>
-                                                            <span class="time">{{ $notification->created_at->diffForHumans() }}</span>
+                                                            <span
+                                                                class="block">{{ $notificationData->message ?? 'No message' }}</span>
+                                                            <span class="block">Full Name:
+                                                                {{ $notificationData->user_name ?? 'Unknown User' }}</span>
+                                                            <span class="block">Email:
+                                                                {{ $notificationData->user_email ?? 'No Email' }}</span>
+                                                            <span
+                                                                class="time">{{ $notification->created_at->diffForHumans() }}</span>
+                                                            </div>
                                                         </div>
-                                                    </div>
+                                                        <div class="dropdown-divider"></div>
                                                 </div>
                                             </a>
                                         @else
-                                            <p class="text-center text-warning">User ID is missing for this notification. You can still view the message details.</p>
+                                            <p class="text-center text-warning">User ID is missing for this
+                                                notification. You can still view the message details.</p>
                                         @endif
                                     @empty
                                         {{-- <p class="text-center">No new registrations available</p> --}}
@@ -137,7 +148,8 @@
 
                 <!-- User Profile -->
                 <li class="nav-item topbar-user dropdown hidden-caret">
-                    <a class="dropdown-toggle profile-pic" data-bs-toggle="dropdown" href="#" aria-expanded="false">
+                    <a class="dropdown-toggle profile-pic" data-bs-toggle="dropdown" href="#"
+                        aria-expanded="false">
                         <div class="avatar-sm">
                             <img src="{{ Auth::user()->image ? asset('storage/' . Auth::user()->image) : asset('assets/img/default-avatar.png') }}"
                                 alt="User Avatar" class="avatar-img rounded-circle" />
@@ -158,16 +170,19 @@
                                     <div class="u-text">
                                         <h4>{{ Auth::user()->first_name }} {{ Auth::user()->last_name }}</h4>
                                         <p class="text-muted">{{ Auth::user()->email }}</p>
-                                        <a href="{{ route('adminprofile') }}" class="btn btn-xs btn-secondary btn-sm">View Profile</a>
+                                        <a href="{{ route('adminprofile') }}"
+                                            class="btn btn-xs btn-secondary btn-sm">View Profile</a>
                                     </div>
                                 </div>
                             </li>
                             <li>
-                                <a class="dropdown-item" href="{{ route('home') }}"><i class="fa fa-home me-2"></i>Home</a>
+                                <a class="dropdown-item" href="{{ route('home') }}"><i
+                                        class="fa fa-home me-2"></i>Home</a>
                                 <div class="dropdown-divider"></div>
                                 <form action="{{ route('logout') }}" method="POST" style="display: inline;">
                                     @csrf
-                                    <button type="submit" class="dropdown-item"><i class="fa fa-sign-out-alt me-2" style="color: red"></i>Logout</button>
+                                    <button type="submit" class="dropdown-item"><i class="fa fa-sign-out-alt me-2"
+                                            style="color: red"></i>Logout</button>
                                 </form>
                             </li>
                         </div>

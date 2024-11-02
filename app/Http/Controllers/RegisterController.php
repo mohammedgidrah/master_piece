@@ -70,10 +70,10 @@ class RegisterController extends Controller
             'user_id' => $user->id,
             'type' => 'Account Registration',
             'data' => json_encode([
-                'message' => 'Welcome, ' . $user->first_name . '! a new account has been registered successfully.',
+                'message' =>  ' a new account has been registered successfully.',
+                'user_id' => $user->id,
                 'user_name' => $user->first_name . ' ' . $user->last_name,
                 'user_email' => $user->email,
-                'user_id' => $user->id,
                 'user_image' => $user->image ? asset('storage/' . $user->image) : asset('assets/img/default-avatar.png')
             ]),
             'is_read' => false, // Set as unread

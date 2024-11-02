@@ -5643,10 +5643,7 @@ label.error {
 .notif-box .notif-center a .notif-icon i {
     font-size: 15px;
 }
-.messages-notif-box .notif-center a .notif-content,
-.notif-box .notif-center a .notif-content {
-    padding: 10px 15px 10px 0;
-}
+ 
 .messages-notif-box .notif-center a .message-content,
 .notif-box .notif-center a .message-content {
     padding: 7px 15px 10px 0;
