@@ -15,6 +15,8 @@ use App\Http\Controllers\ForgetPasswordManeger;
 use App\Http\Controllers\HomeCategoryController;
 use App\Http\Controllers\OrderDashboardController;
 use App\Http\Controllers\NotificationController;
+use App\Http\Controllers\NavController;
+
 
 /*
 |--------------------------------------------------------------------------
@@ -96,10 +98,10 @@ Route::middleware(['admin'])->group(function () {
     // Inside the admin dashboard middleware group
     Route::get('/ordersdash/{id}/edit', [OrderDashboardController::class, 'edit'])->name('ordersdash.edit');
     Route::put('/ordersdash/{id}/update-status', [OrderDashboardController::class, 'update'])->name('ordersdash.update');
-    Route::delete('/orders/{orderId}', [OrderDashboardController::class, 'destroy'])->name('ordersdash.destroy');
+    Route::delete('/ordersdash/{orderId}', [OrderDashboardController::class, 'destroy'])->name('ordersdash.destroy');
 
-    Route::get('/orders/{id}', [OrderDashboardController::class, 'show'])->name('ordersdash.show');
-    Route::delete('/orders/product/{id}', [OrderDashboardController::class, 'deleteProduct'])->name('ordersdash.deleteProduct');
+    Route::get('/ordersdash/{id}', [OrderDashboardController::class, 'show'])->name('ordersdash.show');
+    Route::delete('/ordersdash/product/{id}', [OrderDashboardController::class, 'deleteProduct'])->name('ordersdash.deleteProduct');
 
     Route::post('/checkout', [OrderDashboardController::class, 'checkout'])->name('checkout');
 
@@ -157,3 +159,4 @@ Route::get('/usersnotifications/{id}/{user_id}', [NotificationController::class,
 Route::get('/ordernotifications/{id}/{order_id}', [NotificationController::class, 'handleorder'])->name('orders.handle');
  
 
+Route::get('/navbar', [NavController::class, 'index'])->name('navbar');

@@ -58,59 +58,68 @@
         overflow: hidden;
         background-color: #e9ecef;
     }
-</style>
+    a{
+        text-decoration: none;
+    }
 
+    .cart-counter {
+        position: relative;
+        /* padding: 2px 5px; */
+        border-radius: 50%;
+        /* background-color: #4a098b; */
+        font-weight: bold;
+        text-align: center;
+        top: -15px;
+        /* margin-bottom: 5px; Space between icon and count */
+        font-size: 14px; /* Size of the cart count */
+        color: #d8af53; /* Color for the cart count */
+    }
+</style>
 <header>
     <div>
-        <img class="header_img" src="{{asset('assets/img/home/masterpeace_logo-removebg-preview.png')}}" alt="Logo" />
+        <img class="header_img" src="{{ asset('assets/img/home/masterpeace_logo-removebg-preview.png') }}" alt="Logo" />
     </div>
     <button class="menu-toggle" aria-label="Open menu">
         <span class="menu-icon"></span>
     </button>
     <section class="links">
         <a href="{{ route('home') }}">Home</a>
-        {{-- <a style="transform: rotateY(180deg)" href="{{ route('orders.index') }}"><i class="fa-solid fa-cart-shopping"></i></a> --}}
         <a href="#">About</a>
         <a href="#">Faq</a>
-        {{-- <a href="{{ route('orders.index') }}" style="transform: rotateY(180deg)" ><i class="fa-solid fa-cart-shopping"></i></a> --}}
 
-        @auth <!-- Check if the user is logged in -->
+        @auth
             <div class="dropdown">
-                <!-- Display user name with a dropdown -->
                 <button class="dropbtn">
                     {{ auth()->user()->first_name }} {{ auth()->user()->last_name }}
-                    <i class="fas fa-caret-down"></i> <!-- Arrow icon -->
+                    <i class="fas fa-caret-down"></i>
                 </button>
                 <div class="dropdown-content">
                     @if (Auth::user()->role === 'admin')
-                        <!-- If the user is an admin, add admin links -->
                         <a class="dropdown-item" href="{{ route('dashboard.maindasboard') }}">Dashboard</a>
-                        <!-- Add more admin-specific links here -->
                     @endif
-                    @if (Auth::user()->role !== 'admin')
-                        {{-- <div class="dropdown-divider"></div> --}}
-                        <a class="dropdown-item" href="{{ route('userprofile') }}">Profile</a>
-                        <div class="dropdown-divider"></div>
-                    @endif
-
-                    <!-- Logout link that submits the hidden form -->
+                    <a class="dropdown-item" href="{{ route('userprofile') }}">Profile</a>
+                    <div class="dropdown-divider"></div>
                     <a href="#" class="dropdown-item" onclick="event.preventDefault(); document.getElementById('logout-form').submit();">Logout</a>
                 </div>
             </div>
-
-            <!-- Hidden logout form -->
             <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">
-                @csrf <!-- Ensure CSRF token is included -->
+                @csrf
             </form>
         @else
-            <!-- Display login link if the user is not logged in -->
             <a href="{{ route('login') }}">Login</a>
         @endauth
         
     </section>
-    <a style="transform: rotateY(180deg)" href="{{ route('orders.index') }}"><i class="fa-solid fa-cart-shopping" style="color: #d8af53; font-size: 20px"></i></a>
+    <a   href="{{ route('orders.index') }}">
+        <i class="fa-solid fa-cart-shopping" style="color: #d8af53; font-size: 20px"></i>
+        @if(auth()->check() && $cartCount > 0)
+            <span class="cart-counter">{{ $cartCount }}</span>
+        @endif
+    </a>
+    
 </header>
+
+
+
 <script src="https://kit.fontawesome.com/a49038f582.js" crossorigin="anonymous"></script>
 <script src="{{ asset('assets/js/homepage.js') }}"></script>
-
-

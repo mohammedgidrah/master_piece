@@ -7,6 +7,7 @@
     <title>Unauthorized Access - 403</title>
     <!-- Bootstrap CSS -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="assets/css/homepage.css" />
     <style>
         body {
             background: linear-gradient(to bottom, #0f0c29, #302b63, #24243e);
@@ -22,7 +23,7 @@
 </head>
 
 <body>
-
+@include('homepage.homenav.homenav')
     <div class="d-flex justify-content-center align-items-center vh-100">
         <div class="text-center">
             <div class="unauthorized mx-auto" data-text="403">
