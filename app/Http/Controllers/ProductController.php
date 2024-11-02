@@ -2,8 +2,9 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Category;
+use Storage;
 use App\Models\Product;
+use App\Models\Category;
 use Illuminate\Http\Request;
 
 class ProductController extends Controller
@@ -154,7 +155,7 @@ class ProductController extends Controller
         // Handle image upload
         if ($request->hasFile('image')) {
             if ($currentImagePath && \Storage::disk('public')->exists($currentImagePath)) {
-                \Storage::disk('public')->delete($currentImagePath);
+                Storage::disk('public')->delete($currentImagePath);
             }
     
             $imagePath = $request->file('image')->store('uploads/products', 'public');

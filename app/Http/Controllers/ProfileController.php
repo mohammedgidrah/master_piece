@@ -5,6 +5,7 @@ use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\File;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Storage;
 
 class ProfileController extends Controller
 {
@@ -31,11 +32,18 @@ class ProfileController extends Controller
         ]);
     
         $user = User::findOrFail($id);
-    
-        // Handle file upload if exists, otherwise keep the current image
+        $defaultImagePath = 'uploads/usersprofiles/defaultimage/userimage.png'; // Replace with your actual default image path
+
+        // Handle file upload if exists
         if ($request->hasFile('image')) {
+            // Delete old image if it exists and is not the default image
+            if ($user->image && $user->image !== $defaultImagePath) {
+                Storage::disk('public')->delete($user->image); // Deletes only non-default images
+            }
+    
+            // Store the new image
             $imagePath = $request->file('image')->store('uploads/usersprofiles', 'public');
-            $user->image = $imagePath;
+            $user->image = $imagePath; // Update the user's image path
         }
     
         // Update user details

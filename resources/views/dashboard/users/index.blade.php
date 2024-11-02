@@ -172,7 +172,7 @@
     </div>
 @else
     <div class="alert alert-warning text-center" role="alert">
-        No products found.
+        No users found.
     </div>
     @endif
     @include('dashboard.footer')

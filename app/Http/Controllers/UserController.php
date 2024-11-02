@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\File;
+use Illuminate\Support\Facades\Storage;
 
 class UserController extends Controller
 {
@@ -153,21 +154,22 @@ class UserController extends Controller
             'image' => 'nullable|image|mimes:jpeg,png,jpg,gif',
             'role' => 'required|in:admin,user',
         ]);
-
+    
         $user = User::findOrFail($id);
+        $defaultImagePath = 'uploads/usersprofiles/defaultimage/userimage.png'; // Replace with your actual default image path
 
         // Handle file upload if exists
         if ($request->hasFile('image')) {
-            // Delete the old image if it exists
-            if ($user->image && \Storage::disk('public')->exists($user->image)) {
-                \Storage::disk('public')->delete($user->image);
+            // Delete old image if it exists and is not the default image
+            if ($user->image && $user->image !== $defaultImagePath) {
+                Storage::disk('public')->delete($user->image); // Deletes only non-default images
             }
-
+    
             // Store the new image
             $imagePath = $request->file('image')->store('uploads/usersprofiles', 'public');
             $user->image = $imagePath; // Update the user's image path
         }
-
+    
         // Update user details
         $user->first_name = $request->first_name;
         $user->last_name = $request->last_name;
@@ -175,17 +177,18 @@ class UserController extends Controller
         $user->address = $request->address;
         $user->phone = $request->phone;
         $user->role = $request->role;
-
+    
         // Only update password if provided
         if ($request->filled('password')) {
             $user->password = bcrypt($request->password); // Hash the new password
         }
-
+    
         // Save the changes
         $user->save();
-
+    
         return redirect()->route('users.index')->with('success', 'Profile updated successfully!');
     }
+    
 
     public function destroy(string $id)
     {

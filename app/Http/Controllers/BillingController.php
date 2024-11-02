@@ -147,9 +147,18 @@ class BillingController extends Controller
                 Notification::create([
                     'user_id' => $user->id, // Use the authenticated user's ID
                     'type' => 'New Order', // Type of notification
-                    'data' => json_encode(['message' => 'Your order has been placed successfully!', 'order_id' => $orderId]), // Notification message and order ID
+                    'data' => json_encode([
+                        'message' => 'new order has been placed successfully!',
+                        'order_id' => $orderId, // Order ID
+                        'user_name' => $user->first_name . ' ' . $user->last_name, // User's full name
+                        'user_email' => $user->email, // User's email
+                        'user_image' => $user->image ? asset('storage/' . $user->image) : asset('assets/img/default-avatar.png') // User's image URL
+                    ]), // Notification message and order ID
                     'is_read' => false, // Set as unread
                 ]);
+                
+                
+                
             }
 
             // Update order status to "processing"

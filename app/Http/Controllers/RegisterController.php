@@ -46,15 +46,15 @@ class RegisterController extends Controller
             'password' => 'required|string|min:8',
             'image' => 'nullable|image|mimes:jpeg,png,jpg,gif,web|max:5120',
         ]);
-
+    
         // Set the default image path
-        $imagePath = 'uploads/usersprofiles/defaultimage/userimage.png';
-
+        $imagePath = 'uploads/usersprofiles/defultimage/userimage.png';
+    
         // Check if an image was uploaded
         if ($request->hasFile('image')) {
             $imagePath = $request->file('image')->store('uploads/usersprofiles', 'public');
         }
-
+    
         // Create the user with is_verified set to false
         $user = User::create([
             'first_name' => $request->first_name,
@@ -64,28 +64,38 @@ class RegisterController extends Controller
             'image' => $imagePath, // Store the path of the uploaded or default image
             'is_verified' => false, // Set verification status to false
         ]);
-
-        // Create a notification for the new registration
+    
+        // Create a notification for the user upon successful registration
         Notification::create([
-            'user_id' => $user->id, // Use the newly created user's ID
-            'type' => 'New Registration',
-            'data' => json_encode(['message' => 'Welcome to the platform!']), // Convert array to JSON string
-            'is_read' => false,
+            'user_id' => $user->id,
+            'type' => 'Account Registration',
+            'data' => json_encode([
+                'message' => 'Welcome, ' . $user->first_name . '! a new account has been registered successfully.',
+                'user_name' => $user->first_name . ' ' . $user->last_name,
+                'user_email' => $user->email,
+                'user_id' => $user->id,
+                'user_image' => $user->image ? asset('storage/' . $user->image) : asset('assets/img/default-avatar.png')
+            ]),
+            'is_read' => false, // Set as unread
         ]);
 
+      
+        
         // Generate a verification token
         $token = Str::random(64);
         DB::table('password_reset_tokens')->insert([
             'email' => $request->email,
             'token' => $token
         ]);
-
+    
         // Send verification email
         Mail::send('emails.verify', ['token' => $token], function ($message) use ($request) {
             $message->subject('Email Verification Mail from MASA')->to($request->email);
         });
-
+    
         // Redirect to the login page after successful registration
         return redirect()->route('login')->with('success', 'Registration successful. A verification email has been sent to your email address. Please check your email to verify your account.');
     }
+    
+    
 }

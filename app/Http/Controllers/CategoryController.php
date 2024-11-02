@@ -2,9 +2,10 @@
 
 namespace App\Http\Controllers;
 
+use Storage;
+use App\Models\Product;
 use App\Models\Category;
 use Illuminate\Http\Request;
-use App\Models\Product;
 
 class CategoryController extends Controller
 {
@@ -118,7 +119,7 @@ class CategoryController extends Controller
         if ($request->hasFile('image')) {
 
             if ($currentImagePath && \Storage::disk('public')->exists($currentImagePath)) {
-                \Storage::disk('public')->delete($currentImagePath);
+                Storage::disk('public')->delete($currentImagePath);
             }
 
             $imagePath = $request->file('image')->store('uploads/categories', 'public');

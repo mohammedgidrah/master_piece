@@ -2,30 +2,60 @@
 
 namespace App\Http\Controllers;
 
-use Illuminate\Support\Facades\Auth;
 use App\Models\Notification;
- class NotificationController extends Controller
-{
+use App\Models\User;
+use Illuminate\Support\Facades\Auth;
 
+class NotificationController extends Controller
+{
     public function index()
     {
-        $notifications = Notification::all(); // Adjust the query as necessary
 
+        $notifications = Auth::user()->notifications;
         return view('dashboard.maindasboard', compact('notifications'));
     }
-    
 
-    
-    
-    public function markAsRead($id)
+    // public function markAsRead($id)
+    // {
+
+    //     $notification = Auth::user()->notifications()->find($id);
+
+    //     if ($notification) {
+    //         $notification->markAsRead();
+    //         return redirect()->back();
+    //     }
+
+    //     return redirect()->back()->with('error', 'Notification not found.');
+    // }
+    public function handleUserProfile($notificationId, $userId)
     {
-        $notification = Auth::user()->notifications()->findOrFail($id);
-        $notification->markAsRead();
-    
-        return redirect()->back();
-    }
-    
+
+        $notification = Notification::find($notificationId);
+
+        if ($notification) {
+            // Optionally, you can delete it or mark it as read
+            $notification->delete(); // or $notification->markAsRead();
+        } else {
+            return redirect()->route('notifications.index')->with('error', 'Notification not found.');
+        }
+        $user = User::find($userId);
+
  
+        return redirect()->route('users.index', ['id' => $user->id])->with('success', 'Redirected to user profile.');
+    }
+    public function handleOrder($id, $order_id)
+    {
+        // Find the notification
+        $notification = Notification::find($id);
 
+        if ($notification) {
+            // Optionally, you can delete it or mark it as read
+            $notification->delete(); // or $notification->markAsRead();
+        } else {
+            return redirect()->route('notifications.index')->with('error', 'Notification not found.');
+        }
 
+        // Redirect to the specific order page
+        return redirect()->route('ordersdash.index', ['id' => $order_id])->with('success', 'Redirected to order.');
+    }
 }
