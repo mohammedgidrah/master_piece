@@ -2,10 +2,13 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Notification;
 use App\Models\User;
+use Illuminate\Support\Str;
+use App\Models\Notification;
+use Illuminate\Support\Facades\DB; 
 use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\Storage; // Include the Storage facade
+use Illuminate\Support\Facades\Mail;
+use Illuminate\Support\Facades\Storage;
 use Laravel\Socialite\Facades\Socialite;
 
 class SocialiteController extends Controller
@@ -18,58 +21,85 @@ class SocialiteController extends Controller
     public function handleGoogleCallback()
     {
         try {
-            // Get user information from Google
-            $user = Socialite::driver('google')->user();
-            // Find user in the database
-            $findUser = User::where('social_id', $user->id)->first();
+            $googleUser = Socialite::driver('google')->stateless()->user();
+            $user = User::where('email', $googleUser->getEmail())->first();
 
-            if ($findUser) {
-                // User exists, log them in
-                Auth::login($findUser);
+            if ($user) {
+                // If the user exists but is not verified, resend the verification email
+                if (!$user->is_verified) {
+                    $this->sendVerificationEmail($user);
+                    return redirect()->route('login')->with('info', 'Your account is not verified. Please check your email for the verification link.');
+                }
+                // Log in the verified user
+                Auth::login($user);
+
+                // Redirect based on user role
+                if ($user->role === 'admin') {
+                    return redirect()->route('dashboard.maindasboard')->with('success', 'Welcome to your dashboard.');
+                } else {
+                    return redirect()->route('home')->with('success', 'You are logged in successfully.');
+                }
             } else {
-                // Create a new user if they do not exist
-                $imagePath = $this->storeImage($user->user['picture'] ?? null); // Store the image
+                // Split the Google name into first and last names
+                $fullName = $googleUser->getName();
+                $nameParts = explode(' ', $fullName, 2);
+                $firstName = $nameParts[0];
+                $lastName = isset($nameParts[1]) ? $nameParts[1] : '';
 
-                $newUser = User::create([
-                    'first_name' => $user->user['given_name'] ?? '',
-                    'last_name' => $user->user['family_name'] ?? '',
-                    'email' => $user->email,
-                    'password' => bcrypt('my-google'), // Use bcrypt for password hashing
-                    'social_id' => $user->id,
+                // Store the Google profile image, if available
+                $imagePath = $this->storeImage($googleUser->avatar);
+
+                // Create a new user with is_verified set to false
+                $user = User::create([
+                    'first_name' => $firstName,
+                    'last_name' => $lastName,
+                    'email' => $googleUser->getEmail(),
                     'image' => $imagePath,
+                    'is_verified' => false, // Email verification required
+                    'password' => bcrypt(Str::random(16)), // Generate a random password
+                    'role' => 'user', // Assign a default role (adjust as necessary)
                     'social_type' => 'google',
-                    'email_verified_at' => now(),
                 ]);
 
-                // Create a welcome notification for the new user
                 Notification::create([
-                    'user_id' => $newUser->id,
+                    'user_id' => $user->id,
                     'type' => 'google Registration',
                     'data' => json_encode([
-                        'message' =>  ' An account has been registered by Google.',
-                        'user_name' => $newUser->first_name . ' ' . $newUser->last_name,
-                        'user_id' => $newUser->id,
-                        'user_image' => $newUser->image ? asset('storage/' . $newUser->image) : asset('assets/img/default-avatar.png'),
-                        'user_email' => $newUser->email,
-
+                        'message' => ' An account has been registered by Google.',
+                        'user_name' => $user->first_name . ' ' . $user->last_name,
+                        'user_id' => $user->id,
+                        'user_image' => $user->image ? asset('storage/' . $user->image) : asset('assets/img/default-avatar.png'),
+                        'user_email' => $user->email,
                     ]),
                     'is_read' => false, // Set as unread
                 ]);
 
-                // Log the new user in
-                Auth::login($newUser);
+                // Send a verification email to the new user
+                $this->sendVerificationEmail($user);
+                return redirect()->route('login')->with('success', 'Registration successful. A verification email has been sent to your email address.');
             }
 
-            // Redirect based on user role
-            if (Auth::user()->role === 'admin') {
-                return redirect('/dashboard'); // Admin dashboard
-            }
-
-            return redirect('/'); // Regular user home page
         } catch (\Exception $e) {
-            // Handle the exception, log it if necessary
-            return redirect('/login')->with('error', 'Could not authenticate. Please try again.'); // Add an error message
+            return redirect()->route('login')->with('error', 'Failed to login with Google. Please try again.');
         }
+    }
+
+    private function sendVerificationEmail($user)
+    {
+        // Generate a unique verification token
+        $token = Str::random(64);
+
+        // Insert token and email into password_reset_tokens table
+        DB::table('password_reset_tokens')->updateOrInsert(
+            ['email' => $user->email],
+            ['token' => $token, 'created_at' => now()]
+        );
+
+        // Send verification email with token
+        Mail::send('emails.verify', ['token' => $token], function ($message) use ($user) {
+            $message->to($user->email);
+            $message->subject('Email Verification Required');
+        });
     }
 
     protected function storeImage($imageUrl)
