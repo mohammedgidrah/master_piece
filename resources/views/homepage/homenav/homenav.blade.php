@@ -96,8 +96,10 @@
                 <div class="dropdown-content">
                     @if (Auth::user()->role === 'admin')
                         <a class="dropdown-item" href="{{ route('dashboard.maindasboard') }}">Dashboard</a>
+                    @else
+                        <a class="dropdown-item" href="{{ route('userprofile') }}">Profile</a>
                     @endif
-                    <a class="dropdown-item" href="{{ route('userprofile') }}">Profile</a>
+                    {{-- <a class="dropdown-item" href="{{ route('userprofile') }}">Profile</a> --}}
                     <div class="dropdown-divider"></div>
                     <a href="#" class="dropdown-item" onclick="event.preventDefault(); document.getElementById('logout-form').submit();">Logout</a>
                 </div>

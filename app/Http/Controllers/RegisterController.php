@@ -48,7 +48,7 @@ class RegisterController extends Controller
         ]);
     
         // Set the default image path
-        $imagePath = 'uploads/usersprofiles/defultimage/userimage.png';
+        $imagePath = 'uploads/usersprofiles/defaultimage/userimage.png';
     
         // Check if an image was uploaded
         if ($request->hasFile('image')) {

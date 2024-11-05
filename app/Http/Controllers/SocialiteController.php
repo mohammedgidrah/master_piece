@@ -25,20 +25,19 @@ class SocialiteController extends Controller
             $user = User::where('email', $googleUser->getEmail())->first();
 
             if ($user) {
-                // If the user exists but is not verified, resend the verification email
+                // Resend verification email if the user is not verified
                 if (!$user->is_verified) {
                     $this->sendVerificationEmail($user);
                     return redirect()->route('login')->with('info', 'Your account is not verified. Please check your email for the verification link.');
                 }
+
                 // Log in the verified user
                 Auth::login($user);
 
                 // Redirect based on user role
-                if ($user->role === 'admin') {
-                    return redirect()->route('dashboard.maindasboard')->with('success', 'Welcome to your dashboard.');
-                } else {
-                    return redirect()->route('home')->with('success', 'You are logged in successfully.');
-                }
+                return $user->role === 'admin'
+                    ? redirect()->route('dashboard.maindasboard')->with('success', 'Welcome to your dashboard.')
+                    : redirect()->route('home')->with('success', 'You are logged in successfully.');
             } else {
                 // Split the Google name into first and last names
                 $fullName = $googleUser->getName();
@@ -47,7 +46,7 @@ class SocialiteController extends Controller
                 $lastName = isset($nameParts[1]) ? $nameParts[1] : '';
 
                 // Store the Google profile image, if available
-                $imagePath = $this->storeImage($googleUser->avatar);
+                $imagePath = $this->storeImage($googleUser->getAvatar());
 
                 // Create a new user with is_verified set to false
                 $user = User::create([
@@ -57,7 +56,7 @@ class SocialiteController extends Controller
                     'image' => $imagePath,
                     'is_verified' => false, // Email verification required
                     'password' => bcrypt(Str::random(16)), // Generate a random password
-                    'role' => 'user', // Assign a default role (adjust as necessary)
+                    'role' => 'user', // Assign a default role
                     'social_type' => 'google',
                 ]);
 
@@ -65,14 +64,14 @@ class SocialiteController extends Controller
                     'user_id' => $user->id,
                     'type' => 'google Registration',
                     'data' => json_encode([
-                        'message' => ' An account has been registered by Google.',
+                        'message' => 'An account has been registered by Google.',
                         'user_name' => $user->first_name . ' ' . $user->last_name,
                         'user_id' => $user->id,
-                        'user_image' => $user->image ? asset('storage/' . $user->image) : asset('assets/img/default-avatar.png'),
                         'user_email' => $user->email,
                     ]),
-                    'is_read' => false, // Set as unread
+                    'is_read' => false,
                 ]);
+                
 
                 // Send a verification email to the new user
                 $this->sendVerificationEmail($user);
@@ -124,6 +123,6 @@ class SocialiteController extends Controller
         Storage::disk('public')->put($imagePath, $imageContent);
 
         // Return the path where the image is stored
-        return $imagePath; // Adjust the path according to your needs
+        return $imagePath;
     }
 }

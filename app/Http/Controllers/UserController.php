@@ -156,12 +156,12 @@ class UserController extends Controller
         ]);
     
         $user = User::findOrFail($id);
-        $defaultImagePath = 'uploads/usersprofiles/defaultimage/userimage.png'; // Replace with your actual default image path
-
-        // Handle file upload if exists
+        $defaultImagePath = 'uploads/usersprofiles/defaultimage/userimage.png';
+    
+        // Handle file upload if a new image is provided
         if ($request->hasFile('image')) {
             // Delete old image if it exists and is not the default image
-            if ($user->image && $user->image !== $defaultImagePath) {
+            if ($user->image && $user->image !== $defaultImagePath && Storage::disk('public')->exists($user->image)) {
                 Storage::disk('public')->delete($user->image); // Deletes only non-default images
             }
     
@@ -189,27 +189,32 @@ class UserController extends Controller
         return redirect()->route('users.index')->with('success', 'Profile updated successfully!');
     }
     
+    
 
     public function destroy(string $id)
     {
         // Find the user by ID
         $user = User::find($id);
-
+    
         // Check if the user exists
         if (!$user) {
             return redirect()->route('users.index')->with('error', "User with ID {$id} not found.");
         }
-
-        // Delete the user's image if it exists
-        if ($user->image && File::exists(public_path($user->image))) {
-            File::delete(public_path($user->image));
+    
+        // Define the path to the default image
+        $defaultImagePath = 'uploads/usersprofiles/defaultimage/userimage.png';
+    
+        // Delete the user's image if it exists and is not the default image
+        if ($user->image && $user->image !== $defaultImagePath && File::exists(public_path("storage/{$user->image}"))) {
+            File::delete(public_path("storage/{$user->image}"));
         }
-
+    
         // Delete the user
         $user->delete();
-
+    
         // Redirect back to the users list with a success message
         return redirect()->route('users.index')->with('success', "User was deleted successfully.");
     }
+    
 
 }

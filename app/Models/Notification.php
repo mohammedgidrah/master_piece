@@ -23,28 +23,7 @@ class Notification extends Model
     {
         return $this->belongsTo(User::class);
     }
-
-    public function markAsRead()
-    {
-        $this->is_read = 1;
-        $this->save();
-    }
-
-    public function markAsUnread()
-    {
-        $this->is_read = 0;
-        $this->save();
-    }
-
-    public function scopeUnread($query)
-    {
-        return $query->where('is_read', 0);
-    }
-
-    public function scopeRead($query)
-    {
-        return $query->where('is_read', 1);
-    }
+    
     protected $guarded = [];
 
     //  protected $fillable = [

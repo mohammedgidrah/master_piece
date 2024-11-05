@@ -18,7 +18,7 @@
     <ul>
         @foreach ($orderItems as $order)
             <li>
-                {{ $order->product->name }} - ${{ number_format($order->product->price, 2) }} x {{ $order->quantity }}
+                {{ $order->product->name }} - ${{ number_format($order->product->price, 1) }} x {{ $order->quantity }} = ${{ number_format($order->product->price * $order->quantity, 1) }}
             </li>
         @endforeach
     </ul>

@@ -12,6 +12,7 @@ class NotificationController extends Controller
     {
 
         $notifications = Auth::user()->notifications;
+        
         return view('dashboard.maindasboard', compact('notifications'));
     }
 

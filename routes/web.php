@@ -98,7 +98,7 @@ Route::middleware(['admin'])->group(function () {
     // Inside the admin dashboard middleware group
     Route::get('/ordersdash/{id}/edit', [OrderDashboardController::class, 'edit'])->name('ordersdash.edit');
     Route::put('/ordersdash/{id}/update-status', [OrderDashboardController::class, 'update'])->name('ordersdash.update');
-    Route::delete('/ordersdash/{orderId}', [OrderDashboardController::class, 'destroy'])->name('ordersdash.destroy');
+    Route::delete('/php /{orderId}', [OrderDashboardController::class, 'destroy'])->name('ordersdash.destroy');
 
     Route::get('/ordersdash/{id}', [OrderDashboardController::class, 'show'])->name('ordersdash.show');
     Route::delete('/ordersdash/product/{id}', [OrderDashboardController::class, 'deleteProduct'])->name('ordersdash.deleteProduct');
