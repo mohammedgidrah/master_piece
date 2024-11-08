@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers;
 
-use Storage;
+use Illuminate\Support\Facades\Storage;
 use App\Models\Product;
 use App\Models\Category;
 use Illuminate\Http\Request;
@@ -65,6 +65,12 @@ class ProductController extends Controller
     {
         $products = Product::onlyTrashed()->findOrFail($id);
         $products->forceDelete();
+
+        $currentImagePath = $products->image;
+
+        if ($currentImagePath && \Storage::disk('public')->exists($currentImagePath)) {
+            Storage::disk('public')->delete($currentImagePath);
+        }
 
         return redirect()->route('products.trashed')->with('success', 'Product permanently deleted.');
     }

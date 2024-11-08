@@ -173,7 +173,7 @@ class BillingController extends Controller
             // Send billing details email
             Mail::to($user->email)->send(new BillingDetailsEmail($billing, $orders));
 
-            return redirect()->route('orders.index')->with('success', 'Checkout completed successfully. Billing details saved.');
+            return redirect()->route('orders.index')->with('success', 'Checkout completed successfully. Billing details saved check your email for details.');
 
         } catch (\Exception $e) {
             DB::rollBack();

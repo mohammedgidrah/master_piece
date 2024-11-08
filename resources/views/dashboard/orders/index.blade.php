@@ -29,7 +29,7 @@
 
         <!-- Search Form and Filters -->
         <div class="mb-3 ps-4">
-            <form action="{{ route('ordersdash.index') }}" method="GET" class="d-flex justify-content-between">
+            <form action="{{ route('ordersdash.index') }}" method="GET" class="d-flex justify-content-between align-items-center">
                 <div>
                     <select name="per_page" class="form-control" onchange="this.form.submit()">
                         <option value="5" {{ request('per_page') == '5' ? 'selected' : '' }}>5</option>
@@ -186,8 +186,8 @@
                         </a>
                     </div>
                 </div>
+                @include('dashboard.footer')
         </div>
-        @include('dashboard.footer')
     </div>
 
     <script>

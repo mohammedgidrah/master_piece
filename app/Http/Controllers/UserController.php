@@ -80,6 +80,13 @@ class UserController extends Controller
     {
         $user = User::onlyTrashed()->findOrFail($id);
         $user->forceDelete();
+        // Define the path to the default image
+        $defaultImagePath = 'uploads/usersprofiles/defaultimage/userimage.png';
+
+        // Delete the user's image if it exists and is not the default image
+        if ($user->image && $user->image !== $defaultImagePath && File::exists(public_path("storage/{$user->image}"))) {
+            File::delete(public_path("storage/{$user->image}"));
+        }
 
         return redirect()->route('users.trashed')->with('success', 'User permanently deleted.');
     }
@@ -134,7 +141,7 @@ class UserController extends Controller
             'image' => $imagePath,
         ]);
 
-        return redirect()->route('users.index')->with('success', 'User created successfully.');
+        return redirect()->back('users.index')->with('success', 'User created successfully.');
     }
 
     public function edit($id)
@@ -154,22 +161,22 @@ class UserController extends Controller
             'image' => 'nullable|image|mimes:jpeg,png,jpg,gif',
             'role' => 'required|in:admin,user',
         ]);
-    
+
         $user = User::findOrFail($id);
         $defaultImagePath = 'uploads/usersprofiles/defaultimage/userimage.png';
-    
+
         // Handle file upload if a new image is provided
         if ($request->hasFile('image')) {
             // Delete old image if it exists and is not the default image
             if ($user->image && $user->image !== $defaultImagePath && Storage::disk('public')->exists($user->image)) {
                 Storage::disk('public')->delete($user->image); // Deletes only non-default images
             }
-    
+
             // Store the new image
             $imagePath = $request->file('image')->store('uploads/usersprofiles', 'public');
             $user->image = $imagePath; // Update the user's image path
         }
-    
+
         // Update user details
         $user->first_name = $request->first_name;
         $user->last_name = $request->last_name;
@@ -177,44 +184,33 @@ class UserController extends Controller
         $user->address = $request->address;
         $user->phone = $request->phone;
         $user->role = $request->role;
-    
+
         // Only update password if provided
         if ($request->filled('password')) {
             $user->password = bcrypt($request->password); // Hash the new password
         }
-    
+
         // Save the changes
         $user->save();
-    
+
         return redirect()->route('users.index')->with('success', 'Profile updated successfully!');
     }
-    
-    
 
     public function destroy(string $id)
     {
         // Find the user by ID
         $user = User::find($id);
-    
+
         // Check if the user exists
         if (!$user) {
             return redirect()->route('users.index')->with('error', "User with ID {$id} not found.");
         }
-    
-        // Define the path to the default image
-        $defaultImagePath = 'uploads/usersprofiles/defaultimage/userimage.png';
-    
-        // Delete the user's image if it exists and is not the default image
-        if ($user->image && $user->image !== $defaultImagePath && File::exists(public_path("storage/{$user->image}"))) {
-            File::delete(public_path("storage/{$user->image}"));
-        }
-    
+
         // Delete the user
         $user->delete();
-    
+
         // Redirect back to the users list with a success message
-        return redirect()->route('users.index')->with('success', "User was deleted successfully.");
+        return redirect()->back()->with('success', "User was deleted successfully.");
     }
-    
 
 }

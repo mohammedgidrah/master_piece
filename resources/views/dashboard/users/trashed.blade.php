@@ -116,5 +116,6 @@
             {{ $users->appends(request()->query())->links('vendor.pagination.bootstrap-4') }}
         </div>
     </div>
+    @include('dashboard.footer')
 </div>
 @endsection

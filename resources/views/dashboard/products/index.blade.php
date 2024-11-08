@@ -32,10 +32,11 @@
                 </li>
             </ul>
         </div>
+    </div>
 
         <!-- Search and Filter -->
-        <div class="mb-3 ">
-            <form action="{{ route('products.index') }}" method="GET" class="d-flex justify-content-between">
+        <div class="mb-3 ps-4 ">
+            <form action="{{ route('products.index') }}" method="GET" class="d-flex justify-content-between align-items-center">
                 <div>
                     <select name="per_page" class="form-control" onchange="this.form.submit()">
                         <option value="5" {{ request('per_page') == '5' ? 'selected' : '' }}>5</option>
@@ -62,13 +63,13 @@
         </div>
 
         <!-- Total Products Display -->
-        <div class="mb-3  ">
+        <div class="mb-3 ps-4">
             <h5>Total Products: {{ $totalProducts }}</h5>
         </div>
 
         @if ($products->isNotEmpty())
-            <div class="table-responsive ">
-                <table id="add-row" class="display table table-striped table-hover">
+        <div class="table-responsive p-3 "  style="border-radius: 10px">
+            <table id="add-row" class="display table table-striped table-hover">
                     <thead>
                         <tr>
                             <th>Image</th>
@@ -169,13 +170,13 @@
                     </div>
                 </div>
             </div>
-        @else
+            @else
             <div class="alert alert-warning text-center" role="alert">
                 No products found.
             </div>
-        @endif
+            @endif
+            @include('dashboard.footer')
     </div>
-    @include('dashboard.footer')
 </div>
 
     @php

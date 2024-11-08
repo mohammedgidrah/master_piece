@@ -16,9 +16,9 @@
             </div>
         @endif
 
-        <div class="page-header" style="padding-top: 50px">
-            <h3 class="fw-bold mb-3">Categories Management</h3>
-            <ul class="breadcrumbs mb-3">
+        <div class="page-header  ">
+            <h3 class="fw-bold  ">Categories Management</h3>
+            <ul class="breadcrumbs  ">
                 <li class="nav-home">
                     <a href="{{ route('dashboard.maindasboard') }}">
                         <i class="icon-home"></i>
@@ -35,8 +35,8 @@
     </div>
 
     <!-- Search and Filter -->
-    <div class="mb-3 ps-4">
-        <form action="{{ route('categories.index') }}" method="GET" class="d-flex justify-content-between">
+    <div class="mb-3  ps-4">
+        <form action="{{ route('categories.index') }}" method="GET" class="d-flex justify-content-between align-items-center">
             <div>
                 <select name="per_page" class="form-control" onchange="this.form.submit()">
                     <option value="5" {{ request('per_page') == '5' ? 'selected' : '' }}>5</option>
@@ -110,12 +110,12 @@
     </div>
 
     <!-- Pagination Controls -->
-    <div class="d-flex justify-content-between align-items-center  p-4  ">
+    <div class="  d-flex justify-content-between p-4">
         {{-- <div class="d-flex justify-content-center align-items-center"> --}}
 
             {{ $categories->appends(request()->query())->links('vendor.pagination.bootstrap-4') }}
         {{-- </div> --}}
-        <div class="d-flex justify-content-end align-items-center">
+        <div class="  d-flex justify-content-end  ">
             <a href="{{ route('categories.create') }}" class="btn btn-primary me-2 d-flex align-items-center ">
                 <i class="fa fa-plus"></i> Create Category
             </a>

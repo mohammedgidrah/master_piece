@@ -2,10 +2,10 @@
 
 namespace App\Http\Controllers;
 
-use Storage;
-use App\Models\Product;
 use App\Models\Category;
+use App\Models\Product;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Storage;
 
 class CategoryController extends Controller
 {
@@ -39,11 +39,11 @@ class CategoryController extends Controller
 
     public function trashed(Request $request)
     {
-        $totaltrashedcategories= Category::onlyTrashed()->count();
-     
+        $totaltrashedcategories = Category::onlyTrashed()->count();
+
         // Fetch trashed users with pagination
         $categories = Category::onlyTrashed()->paginate(5);
-    
+
         return view('dashboard.categories.trashed', compact('categories', 'totaltrashedcategories'));
     }
 
@@ -56,10 +56,17 @@ class CategoryController extends Controller
     }
     public function forceDelete($id)
     {
-        $categories = Category::onlyTrashed()->findOrFail($id);
-        $categories->forceDelete();
+        $category = Category::onlyTrashed()->findOrFail($id);
+        $currentImagePath = $category->image;
 
-        return redirect()->route('categories.trashed')->with('success', 'Category permanently deleted.');
+        if ($currentImagePath && \Storage::disk('public')->exists($currentImagePath)) {
+            Storage::disk('public')->delete($currentImagePath);
+        }
+
+        // Permanently delete the category record from the database
+        $category->forceDelete();
+
+        return redirect()->route('categories.trashed')->with('success', 'Category and associated image permanently deleted.');
     }
     public function show($id)
     {

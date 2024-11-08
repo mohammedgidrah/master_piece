@@ -38,7 +38,7 @@
 
 
     <div class="mb-3 ps-4 ">
-        <form action="{{ route('users.index') }}" method="GET" class="d-flex justify-content-between">
+        <form action="{{ route('users.index') }}" method="GET" class="d-flex justify-content-between align-items-center">
             <div>
                 <select name="per_page" class="form-control" onchange="this.form.submit()">
                     <option value="5" {{ request('per_page') == '5' ? 'selected' : '' }}>5</option>
@@ -67,10 +67,10 @@
         <h5>Total Users: {{ $totalUsers }}</h5>
     </div>
 
-    <div class="table-responsive ms-4 "  style="border-radius: 10px">
+    <div class="table-responsive p-3 "  style="border-radius: 10px">
         @if ($users->isNotEmpty())
-            <table id="add-row" class="display table table-striped table-hover ">
-                <thead>
+        <table id="add-row" class="display table table-striped table-hover">
+            <thead>
                     <tr>
                         <th>Image</th>
                         <th>First Name</th>
@@ -157,10 +157,10 @@
                     @endforeach
                 </tbody>
             </table>
-            <div class="  d-flex justify-content-between pt-4 pb-4">
+            <div class="d-flex justify-content-between align-items-center  p-4  ">
                 {{ $users->appends(request()->query())->links('vendor.pagination.bootstrap-4') }}
 
-                <div class="  d-flex justify-content-end  ">
+                <div class="d-flex justify-content-end align-items-center">
                     <a href="{{ route('users.create') }}" class="btn btn-primary me-2">
                         <i class="fa fa-plus"></i> Create User
                     </a>
@@ -169,12 +169,12 @@
                     </a>
                 </div>
             </div>
-    </div>
-@else
-    <div class="alert alert-warning text-center" role="alert">
-        No users found.
-    </div>
-    @endif
-    @include('dashboard.footer')
+        </div>
+        @else
+        <div class="alert alert-warning text-center" role="alert">
+            No users found.
+        </div>
+        @endif
+        @include('dashboard.footer')
     </div>
 @endsection
