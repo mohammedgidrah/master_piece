@@ -35,4 +35,29 @@
         }
 
     });
+    // background image
+    function databackgroundimage() {
+        $("[data-bgimg]").each(function () {  
+            var bgImgUrl = $(this).data("bgimg");  
+            $(this).css({
+                "background-image": "url(" + bgImgUrl + ")"  
+            });
+        });
+    }
+    
+    $(window).on("load", function () {
+        databackgroundimage();
+    });
+    
+    // Carousel slider settings
+    $(".slider_area").owlCarousel({
+        animateOut: "fadeOut",  
+        autoplay: true,
+        loop: true,
+        nav: false,
+        autoplayTimeout: 5000,
+        items: 1,
+        dots: true,
+    });
+    
 })(jQuery);
