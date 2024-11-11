@@ -6,39 +6,20 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Document</title>
 
-    <link rel="stylesheet" href="assets/css/homepage.css" />
     <link rel="icon" type="image/png" href="assets/img/home/masterpeace_logo-removebg-preview.png" />
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link
-        href="https://fonts.googleapis.com/css2?family=Hanken+Grotesk:ital,wght@0,100..900;1,100..900&family=Inter:wght@500&family=Karma:wght@300;400;500;600;700&family=Kaushan+Script&family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&family=Roboto:ital,wght@0,100;0,300;0,400;0,500;0,700;0,900;1,100;1,300;1,400;1,500;1,700;1,900&display=swap"
-        rel="stylesheet">
-    <script>
-        WebFont.load({
-            google: {
-                families: ["Public Sans:300,400,500,600,700"]
-            },
-            custom: {
-                families: [
-                    "Font Awesome 5 Solid",
-                    "Font Awesome 5 Regular",
-                    "Font Awesome 5 Brands",
-                    "simple-line-icons",
-                ],
-                urls: ["{{ asset('assets/css/fonts.min.css') }}"],
-            },
-            active: function() {
-                sessionStorage.fonts = true;
-            },
-        });
-    </script>
+
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.1.3/dist/css/bootstrap.min.css">
+    <link rel="stylesheet" href="http://code.ionicframework.com/ionicons/2.0.1/css/ionicons.min.css">
+    <link rel="stylesheet" href="assets/css/homepage.css" />
+
 </head>
 
 <body>
     @include('homepage.homenav.homenav')
 
-    <section class="hero_section">
+
+
+    {{-- <section class="hero_section">
         <img class="hero_section_img" src="assets/img/home/hero-removebg-preview.png" alt="" />
         <div class="hero_text">
             <h1>Discover the Brilliance of Nature</h1>
@@ -88,7 +69,7 @@
                 <img src="assets/img/home/BRACELETS.jpg" class="category_img" alt="Bracelets">
             </div>
         </section>
-    </div>
+    </div> --}}
 
 
     {{-- <script src="{{ asset('assets/js/homepage.js') }}"></script> --}}

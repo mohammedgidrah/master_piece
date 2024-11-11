@@ -5,10 +5,12 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>MASA</title>
-    <link rel="stylesheet" href="assets/css/homepage.css" />
+    {{-- <link rel="stylesheet" href="assets/css/homepage.css" /> --}}
     <link rel="stylesheet" href="assets/css/login.css">
     <!-- Font Awesome -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.1.3/dist/css/bootstrap.min.css">
+    <link rel="stylesheet" href="http://code.ionicframework.com/ionicons/2.0.1/css/ionicons.min.css">
 
 </head>
 
@@ -75,9 +77,9 @@
 
             <!-- Login Form -->
             <div class="login">
-                <form id="login-form" method="POST" action="{{ route('login.submit') }}">
+                <form id="login-form" class="login-form" method="POST" action="{{ route('login.submit') }}">
                     @csrf
-                    <label for="chk" aria-hidden="true">Login</label>
+                    <label class="login_text" for="chk" aria-hidden="true">Login</label>
 
                     <input class="login_input" type="email" name="email" id="email-input-login" placeholder="Email">
                     <p id="email_error" class="error"></p>
