@@ -1,4 +1,4 @@
- <section class="category_section">
+ {{-- <section class="category_section">
     <div>
         <h1 class="category_heading">Our Categories</h1>
     </div>
@@ -18,7 +18,7 @@
         @endforeach
     @endif
 </div>
-</section>
+</section> --}}
 
 
 

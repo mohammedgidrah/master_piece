@@ -7,8 +7,9 @@
     <title>MASA</title>
     {{-- <link rel="stylesheet" href="assets/css/homepage.css" /> --}}
     <link rel="stylesheet" href="assets/css/login.css">
+
     <!-- Font Awesome -->
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    {{-- <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css"> --}}
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.1.3/dist/css/bootstrap.min.css">
     <link rel="stylesheet" href="http://code.ionicframework.com/ionicons/2.0.1/css/ionicons.min.css">
 
@@ -100,13 +101,9 @@
             </div>
         </div>
     </div>
+    @include('homepage.footer.footer')
 
-    <footer>
-        <div style="display: flex; align-items: center; justify-content: center">
-            <p>&copy;2023 All rights reserved | This template is made with <span style="color: red "> ❤</span> by Masa
-            </p>
-        </div>
-    </footer>
+
 
     <script>
         function togglePasswordVisibility(inputId, icon) {
