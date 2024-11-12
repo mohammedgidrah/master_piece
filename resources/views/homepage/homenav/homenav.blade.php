@@ -16,197 +16,10 @@
 
 
     <header class="header_area header_black">
-        {{-- header top start --}}
-        {{-- <div class="header_top">
-            <div class="container">
-                <div class="row align-items-center">
-                    <div class="col-lg-6 col-md-6">
-                        <div class="social_icons">
+  
 
-                            <ul>
-                                <li>
-                                    <a href="#"><i class="fab fa-facebook-f"></i></a>
-                                </li>
-                                <li>
-                                    <a href="#"><i class="fab fa-twitter"></i></a>
-                                </li>
-                                <li>
-                                    <a href="#"><i class="fab fa-instagram"></i></a>
-                                </li>
-                                <li>
-                                    <a href="#"><i class="fab fa-linkedin-in"></i></a>
-                                </li>
-                            </ul>
-
-                        </div>
-                    </div>
-                    <div class="col-lg-6 col-md-6">
-                        <div class="top_right text-right">
-                            <ul>
-                                <li class="language">
-                                    <a href="#">English <i class="ion-chevron-down"></i></a>
-                                    <ul class="dropdown_language">
-                                        <li><a href="#">English</a></li>
-                                        <li><a href="#">French</a></li>
-                                        <li><a href="#">German</a></li>
-                                    </ul>
-                                </li>
-                                <li class="currency">
-                                    <a href="#">USD <i class="ion-chevron-down"></i></a>
-                                    <ul class="dropdown_currency">
-                                        <li><a href="#">EUR</a></li>
-                                        <li><a href="#">GBP</a></li>
-                                        <li><a href="#">INR</a></li>
-                                    </ul>
-                                </li>
-
-                                <li class="top_links">
-                                    <a href="#">My Account <i class="ion-chevron-down"></i></a>
-                                    <ul class="dropdown_links">
-                                        <li><a href="#">checkout</a></li>
-                                        <li><a href="#">shopping cart</a></li>
-
-                                        @if (Auth::check())
-                                            <li>
-                                                <a href="#"
-                                                    onclick="event.preventDefault(); document.getElementById('logout-form').submit();">Logout</a>
-                                            </li>
-                                        @else
-                                            <li>
-
-                                                <a href="{{ route('login') }}">Login</a>
-                                            </li>
-                                        @endif
-                                        <form id="logout-form" action="{{ route('logout') }}" method="POST"
-                                            style="display: none;">
-                                            @csrf
-                                        </form>
-                                        @if (Auth::check())
-                                            <li>
-                                                <a href="{{ route('userprofile', Auth::user()->id) }}">Profile</a>
-                                            </li>
-                                        @endif
-                                    </ul>
-                                </li>
-
-
-
-
-                            </ul>
-                        </div>
-                    </div>
-                </div>
-            </div>
-
-        </div> --}}
-        {{-- header top end --}}
-
-        {{-- header middle start --}}
-        {{-- <div class="header_middle">
-            <div class="container">
-                <div class="row align-items-center">
-                    <div class="col-lg-5">
-                        <div class="home_contact">
-                            <div class="contact_icone">
-                                <img style="width: 50px" src="{{ asset('assets/img/home/BRACELETS.jpg') }}"
-                                    alt="">
-                            </div>
-                            <div class="contact_box">
-                                <p>inquiry / support: <a href="tel:123456789"></a> 123456789 </p>
-                            </div>
-                        </div>
-                    </div>
-
-                    <div class="col-lg-2 col-md-3 col-4">
-                        <div class="logo">
-                            <a href="{{ route('home') }}">
-                                <img src="{{ asset('assets/img/home/masterpeace_logo-removebg-preview.png') }}"
-                                    alt="Logo" />
-                            </a>
-                        </div>
-                    </div>
-
-                    <div class="col-lg-5 col-md-7 col-6">
-                        <div class="middle_right">
-                            <div class="search_btn">
-                                <a href="#"> <i class="ion-ios-search-strong"></i> </a>
-                                <div class="dropdown_search">
-                                    <form action="#">
-                                        <input type="text" placeholder="Search for products">
-                                        <button type="submit"><i class="ion-ios-search-strong"></i></button>
-                                    </form>
-                                </div>
-                            </div>
-                            <div class="wishlist_btn">
-                                <a href=""> <i class="ion-ios-heart"></i></a>
-                            </div>
-                            <div class="cart_link">
-                                 <a href=""> <i class="ion-android-cart"></i> <span class="cart_text_quantity">Rs.
-                                        67598 <i class="ion-chevron-down"></i>
-                                        </span"></a>
-                                <span class="cart_quantity">2</span>
-                                  <div class="mini_cart">
-                                    <div class="cart_close">
-                                        <div class="cart_text">
-                                            <h3>cart</h3>
-                                        </div>
-                                        <div class="mini_cart_close">
-                                            <a href="javascript:void(0)"><i class="ion-android-close"></i></a>
-                                        </div>
-                                    </div>
-                                    <div class="cart_item">
-                                        <div class="cart_img">
-                                            <a href="#"><img src="{{ asset('assets/img/home/BRACELETS.jpg') }}"
-                                                    alt=""></a>
-                                        </div>
-                                        <div class="cart_info">
-                                            <a href="#">pendant</a>
-                                            <span class="quantity">Qty : 1</span>
-                                            <span class="price_cart">Rs. 67598 </span>
-                                        </div>
-                                        <div class="cart_remove">
-                                            <a href="#"><i class="ion-android-close"></i></a>
-                                        </div>
-                                    </div>
-                                    <div class="cart_item">
-                                        <div class="cart_img">
-                                            <a href="#"><img src="{{ asset('assets/img/home/BRACELETS.jpg') }}"
-                                                    alt=""></a>
-                                        </div>
-                                        <div class="cart_info">
-                                            <a href="#">pendant</a>
-                                            <span class="quantity">Qty : 1</span>
-                                            <span class="price_cart">Rs. 67598 </span>
-                                        </div>
-                                        <div class="cart_remove">
-                                            <a href="#"><i class="ion-android-close"></i></a>
-                                        </div>
-                                    </div>
-                                    <div class="cart_total">
-                                        <span>Subtotal: (add the total of the cart)</span>
-                                        <span>Rs. 67598 </span>
-                                    </div>
-                                    <div class="mini_cart_footer">
-                                        <div class="cart_button view_cart">
-                                            <a href="#">view cart</a>
-                                        </div>
-                                        <div class="cart_button checkout">
-                                            <a href="#" class="active">checkout</a>
-                                        </div>
-                                    </div>
-                                </div>
-                             </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div> --}}
-
-
-        {{-- header middle end --}}
-
-        {{-- header bottom start --}}
-        <div class="header_bottom sticky-header">
+        {{-- header  start --}}
+        {{-- <div class="header_bottom sticky-header">
             <div class="contaner">
                 <div class="row align-items-center">
 
@@ -340,8 +153,8 @@
                 </div>
             </div>
 
-        </div>
-        {{-- header bottom end --}}
+        </div> --}}
+        {{-- header  end --}}
 
     </header>
     <script src="https://code.jquery.com/jquery-3.7.1.js"></script>
@@ -350,7 +163,7 @@
 </body>
 
 </html>
-{{-- 
+
 <header>
     <div>
         <img class="header_img" src="{{ asset('assets/img/home/masterpeace_logo-removebg-preview.png') }}" alt="Logo" />
@@ -394,4 +207,4 @@
         @endif
     </a>
     
-</header> --}}
+</header>

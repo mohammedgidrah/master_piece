@@ -49,49 +49,7 @@
                               </div>
                           </div>
                       </div>
-                      <div class="col-lg-4 col-md-6 col-sm-7">
-                          <div class="widgets_container category_widget">
-                              <h3>Top Rated categorys</h3>
-                              <div class="simple_category">
-                                  <div class="simple_category_items">
-                                      <div class="simple_category_thumb">
-                                          <a href="#"><img src="images/category/14.jpg" alt=""></a>
-                                      </div>
-                                      <div class="simple_category_content">
-                                          <div class="tag_cate">
-                                              <a href="#">Women,</a>
-                                              <a href="#">Earrings</a>
-                                          </div>
-                                          <div class="category_name">
-                                              <h3><a href="#">Bracelet</a></h3>
-                                          </div>
-                                          <div class="category_price">
-                                              <span class="old_price">Rs. 45612.54</span>
-                                              <span class="current_price">Rs. 41612.54</span>
-                                          </div>
-                                      </div>
-                                  </div>
-                                  <div class="simple_category_items">
-                                      <div class="simple_category_thumb">
-                                          <a href="#"><img src="images/category/28.jpg" alt=""></a>
-                                      </div>
-                                      <div class="simple_category_content">
-                                          <div class="tag_cate">
-                                              <a href="#">Women,</a>
-                                              <a href="#">Earrings</a>
-                                          </div>
-                                          <div class="category_name">
-                                              <h3><a href="#">Ring</a></h3>
-                                          </div>
-                                          <div class="category_price">
-                                              <span class="old_price">Rs. 75612.54</span>
-                                              <span class="current_price">Rs. 71612.54</span>
-                                          </div>
-                                      </div>
-                                  </div>
-                              </div>
-                          </div>
-                      </div>
+ 
                   </div>
               </div>
 

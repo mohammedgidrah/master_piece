@@ -8,8 +8,159 @@
     <link rel="stylesheet" href="{{ asset('assets/css/homepage.css') }}" />
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
     <link rel="icon" type="image/png" href="{{ asset('assets/img/home/masterpeace_logo-removebg-preview.png') }}" />
+    <link rel="stylesheet" href="http://code.ionicframework.com/ionicons/2.0.1/css/ionicons.min.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css">
     <link rel="stylesheet" href="{{ asset('assets/css/bootstrap.min.css') }}" />
 </head>
+<style>
+    /* File: resources/assets/css/homepage.css */
+
+    body {
+        background-color: #242424;
+        color: #fff;
+        font-family: Arial, sans-serif;
+        margin: 0;
+        padding: 0;
+    }
+
+
+
+    .product_detail_section {
+        padding: 2rem;
+        max-width: 800px;
+        margin: auto;
+        text-align: center;
+        margin-bottom: 20px;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.5);
+
+    }
+
+    .product_name {
+        font-size: 2rem;
+        color: #d8af53;
+        margin-bottom: 1rem;
+        text-transform: capitalize;
+    }
+
+    .product_details {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: 1.5rem;
+        margin-bottom: 2rem;
+    }
+
+    .product_image {
+        max-width: 100%;
+        height: auto;
+        border-radius: 10px;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.5);
+    }
+
+    .description h2 {
+        font-size: 1.5rem;
+        color: #d8af53;
+        margin-bottom: 0.5rem;
+    }
+
+    .product_description {
+        font-size: 1rem;
+        color: #ddd;
+        text-align: justify;
+    }
+
+    .product_price {
+        font-size: 1.5rem;
+        color: #d8af53;
+        margin-bottom: 1.5rem;
+    }
+
+    .price_value {
+        color: #ffcc00;
+    }
+
+    .alert {
+        margin-top: 1rem;
+        text-align: center;
+        font-size: 1rem;
+        font-weight: bold;
+    }
+
+    .button-container {
+        display: flex;
+        flex-direction: row;
+        justify-content: space-around;
+        gap: 1rem;
+        align-items: center;
+        margin-top: 2rem;
+    }
+
+    .btn {
+        display: inline-block;
+        padding: 0.7rem 1.5rem;
+        font-size: 1rem;
+        font-weight: bold;
+        color: #fff;
+        background-color: #d8af53;
+        border: none;
+        border-radius: 5px;
+        transition: background-color 0.3s ease;
+        text-decoration: none;
+        text-transform: uppercase;
+    }
+
+    .btn:hover {
+        background-color: #b4933f;
+    }
+
+    .btn-secondary {
+        display: flex;
+        align-items: center;
+        height: 40px;
+        background-color: #444;
+    }
+
+    .btn-secondary:hover {
+        background-color: #666;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.5);
+    }
+
+    .alert-warning {
+        background-color: #d8af53;
+        color: black;
+        padding: 0.5rem 1rem;
+        border-radius: 5px;
+    }
+
+    .alert-danger {
+        background-color: #ff4d4d;
+        color: #fff;
+        padding: 0.5rem 1rem;
+        border-radius: 5px;
+    }
+
+    .alert-success {
+        background-color: #4caf50;
+        color: #fff;
+        padding: 0.5rem 1rem;
+        border-radius: 5px;
+    }
+
+    a {
+        text-decoration: none;
+        color: #a0a0a0;
+    }
+
+    ul {
+        text-align: start;
+        margin: 0;
+        padding: 0;
+    }
+
+    .check_login {
+        color: #ffffff
+    }
+</style>
 
 <body>
     @include('homepage.homenav.homenav')
@@ -24,68 +175,79 @@
                     <p style="text-align: justify" class="product_description">{!! wrapText($product->description, 40) !!}</p>
                 </div>
             </div>
-            <p class="product_price">Price: <span class="price_value">${{ $product->price }}</span>  </p>
+            <p class="product_price">Price: <span class="price_value">${{ $product->price }}</span> </p>
 
             <!-- Alert for low stock -->
             @if ($product->quantity <= 0)
-                <div class="alert alert-danger" style="height: 40px; margin-top: 17px; display: flex; align-items: center">
+                <div class="alert alert-danger"
+                    style="height: 40px; margin-top: 17px; display: flex; align-items: center">
                     This product is out of stock!
                 </div>
             @elseif ($product->quantity < 3)
-                <div class="alert alert-warning" style="height: 40px; margin-top: 17px; display: flex; align-items: center">
+                <div class="alert alert-warning"
+                    style="height: 40px; margin-top: 17px; display: flex; align-items: center">
                     Only {{ $product->quantity }} left in stock! Hurry up!
                 </div>
             @endif
 
+            <!-- Display success message if available -->
+            @if (session('success'))
+                <div class="alert alert-success"
+                    style="height: 40px; margin-top: 17px; display: flex; align-items: center">
+                    {{ session('success') }}
+                </div>
+            @endif
+
+            <!-- Display error message if available -->
+            @if (session('error'))
+                <div class="alert alert-danger"
+                    style="height: 40px; margin-top: 17px; display: flex; align-items: center">
+                    {{ session('error') }}
+                </div>
+            @endif
+
+            <!-- Display Validation Errors -->
+            @if ($errors->any())
+                <div class="alert alert-danger"
+                    style="height: 40px; margin-top: 17px; display: flex; align-items: center">
+                    <ul>
+                        @foreach ($errors->all() as $error)
+                            <li>{{ $error }}</li>
+                        @endforeach
+                    </ul>
+                </div>
+            @endif
+
+            <!-- Show login message if the user is not logged in -->
+            @if (!auth()->check())
+                <p class="alert alert-warning"
+                    style="height: 40px; margin-top: 17px; display: flex; align-items: center">
+                    You need to <a class="check_login" href="{{ route('login') }}">log in</a> first to place in the
+                    cart.
+                </p>
+            @endif
+
             <div class="button-container">
-                @if(auth()->check())
-                    <!-- Display success message if available -->
-                    @if (session('success'))
-                        <div class="alert alert-success" style="height: 40px; margin-top: 17px; display: flex; align-items: center">
-                            {{ session('success') }}
-                        </div>
-                    @endif
-
-                    <!-- Display error message if available -->
-                    @if (session('error'))
-                        <div class="alert alert-danger" style="height: 40px; margin-top: 17px; display: flex; align-items: center">
-                            {{ session('error') }}
-                        </div>
-                    @endif
-
+                @if (auth()->check())
                     <!-- Check if the product is in stock before displaying the order form -->
                     @if ($product->quantity > 0)
                         <form action="{{ route('orders.store', $product->id) }}" method="POST" class="order_form">
                             @csrf
-                
-                            <!-- Display Validation Errors -->
-                            @if ($errors->any())
-                                <div class="alert alert-danger" style="height: 40px; margin-top: 17px; display: flex; align-items: center">
-                                    <ul>
-                                        @foreach ($errors->all() as $error)
-                                            <li>{{ $error }}</li>
-                                        @endforeach
-                                    </ul>
-                                </div>
-                            @endif
-                
                             <input type="hidden" name="product_id" value="{{ $product->id }}">
                             <input type="hidden" name="total_price" value="{{ $product->price }}">
                             <input type="hidden" name="customer_id" value="{{ auth()->user()->id }}">
                             <button type="submit" class="btn btn-primary">Store Product in Cart</button>
                         </form>
                     @endif
-                @else
-                    <!-- Show message if the user is not logged in -->
-                    <p class="alert alert-warning" style="height: 40px; margin-top: 17px; display: flex; align-items: center">
-                        You need to <a href="{{ route('login') }}" style="text-decoration: none">log in</a> first to place in the cart.
-                    </p>
                 @endif
-                <a href="{{ route('category.products', $product->category->id) }}" class="btn btn-secondary">Back to Category</a>
+                <a href="{{ route('category.products', $product->category->id) }}" class="btn btn-secondary">Back to
+                    Category</a>
             </div>
+
         </div>
     </section>
-    
+    @include('homepage.footer.footer')
+
     <script src="{{ asset('./assets/js/homepage.js') }}"></script>
     <script>
         document.querySelector('.order_form').addEventListener('submit', function() {
@@ -97,9 +259,10 @@
 </html>
 
 @php
-if (!function_exists('wrapText')) {
-    function wrapText($text, $length = 50) {
-        return nl2br(wordwrap($text, $length, "\n", true));
+    if (!function_exists('wrapText')) {
+        function wrapText($text, $length = 50)
+        {
+            return nl2br(wordwrap($text, $length, "\n", true));
+        }
     }
-}
 @endphp
