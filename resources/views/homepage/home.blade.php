@@ -80,7 +80,7 @@
 
         {{-- slider section start --}}
         <div class="slider_area slider_black owl-carousel">
-            <div class="single_slider" data-bgimg="{{ asset('assets/images/salider/1.png') }}">
+            <div class="single_slider" data-bgimg="{{ asset('assets/images/slider/1.png') }}">
                 <div class="container">
                     <div class="row align-items-center">
                         <div class="col-12">
@@ -96,7 +96,7 @@
                 </div>
 
             </div>
-            <div class="single_slider" data-bgimg="{{ asset('assets/images/sliader/2.jpg') }}">
+            <div class="single_slider" data-bgimg="{{ asset('assets/images/slider/2.jpg') }}">
                 <div class="container">
                     <div class="row align-items-center">
                         <div class="col-12">
@@ -112,7 +112,7 @@
                 </div>
 
             </div>
-            <div class="single_slider" data-bgimg="{{ asset('assets/images/slidaer/3.jpg') }}">
+            <div class="single_slider" data-bgimg="{{ asset('assets/images/slider/3.jpg') }}">
                 <div class="container">
                     <div class="row align-items-center">
                         <div class="col-12">
@@ -2775,8 +2775,7 @@
 
     <script src="{{ asset('assets/js/homepage.js') }}"></script>
 
-    <script src="https://kit.fontawesome.com/a49038f582.js" crossorigin="anonymous"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/slick-carousel/1.9.0/slick.min.js" crossorigin="anonymous"></script>
+     <script src="https://cdnjs.cloudflare.com/ajax/libs/slick-carousel/1.9.0/slick.min.js" crossorigin="anonymous"></script>
 
 </body>
 

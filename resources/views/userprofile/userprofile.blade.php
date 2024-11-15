@@ -7,31 +7,32 @@
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>Document</title>
     <link rel="stylesheet" href="assets/css/bootstrap.min.css" />
-    <link rel="stylesheet" href="assets/css/homepage.css" />
+    {{-- <link rel="stylesheet" href="assets/css/homepage.css" /> --}}
 
 
 
     <link rel="stylesheet" href="http://code.ionicframework.com/ionicons/2.0.1/css/ionicons.min.css">
-    {{-- <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css"> --}}
-    {{-- <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css"> --}}
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css">
     {{-- <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/slick-carousel/1.9.0/slick.min.css"> --}}
-    {{-- <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/OwlCarousel2/2.3.4/assets/owl.carousel.min.css"> --}}
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/OwlCarousel2/2.3.4/assets/owl.carousel.min.css">
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 </head>
 <style>
-    body {
-        background-color: #242424;
-        color: #fff;
-        font-family: Arial, sans-serif;
-        margin: 0;
-        padding: 0;
-    }
+ 
 
-    #profile_container {
-        padding: 50px;
-        margin: 25px;
-        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-    }
+ .btn {
+    background-color: #a8741a;
+    color: white;
+    border: none;
+    outline: none;
+    width: 150px;
+    height: 40px;
+}
+ 
+.btn:hover {
+    background: #d8af53;
+}
 </style>
 
 <body>
@@ -48,7 +49,7 @@
                             src="{{ asset('storage/' . Auth::user()->image) }}" class="avatar-img rounded-circle"
                             style="width: 50%" alt="Profile Image">
 
-                        <div class="font-italic text-muted mb-4">{{ Auth::user()->first_name }}
+                        <div class="font-italic text-light mb-4  ">{{ Auth::user()->first_name }}
                             {{ Auth::user()->last_name }} </div>
                     </div>
                 </div>
@@ -136,7 +137,7 @@
                                 </div>
                             </div>
 
-                            <button class="btn btn-primary" type="submit">Save changes</button>
+                            <button class="btn btn-warning  " type="submit">Save changes</button>
                         </form>
                     </div>
                 </div>

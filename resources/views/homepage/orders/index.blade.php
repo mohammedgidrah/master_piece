@@ -14,26 +14,43 @@
 
     <style>
         /* Page Layout */
-        body {
-            height: 100vh;
-            background-color: #242424;
+        #btn {
+            background-color: #a8741a;
+            color: white;
+            border: none;
+            outline: none;
+            width: 150px;
+            height: 40px;
+            border-radius: 5px;
+            font-size: 16px;
+            font-weight: bold;
+            cursor: pointer;
         }
 
-        .container {
-            /* background-color: #fff; */
-            border-radius: 8px;
-            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-            padding: 20px;
-            margin-top: 100px;
+        .containers {
+            background-color: #3e3e3e;
+            padding: 25px
         }
 
         h1 {
             font-size: 2rem;
-            font-weight: bold;
-            color: #333;
-        }
+             color: white;
+         }
 
         /* Alerts */
+        .alert-success {
+        background-color: #4a894c;
+        color: #fff;
+        padding: 0.5rem 1rem;
+        border-radius: 5px;
+    }
+
+    .alert-danger {
+        background-color: #ff6666;
+        color: #fff;
+        padding: 0.5rem 1rem;
+        border-radius: 5px;
+    }
         .alert {
             margin-top: 10px;
             border-radius: 5px;
@@ -103,22 +120,21 @@
         }
 
         /* Checkout Button */
-        .btn-primary.btn-block {
+        .btn-warning.btn-block {
             font-size: 1.1rem;
-            background-color: #d8af53;
-            color: black;
+            background-color: #a8741a;
+            color: white;
             font-weight: bold;
             margin-top: 20px;
         }
-
     </style>
 </head>
 
 <body>
     @include('homepage.homenav.homenav')
 
-    <div style="padding-top: 100px">
-        <div class="container">
+    <div class="containers">
+        <div>
             <h1 class="mb-4">Cart</h1>
 
             <!-- Error Handling -->
@@ -150,7 +166,7 @@
                     <input type="text" name="search" class="form-control" placeholder="Search product..."
                         value="{{ request('search') }}">
                     <div class="input-group-append">
-                        <button class="btn btn-primary" type="submit">Search</button>
+                        <button id="btn" class="btn btn-warning" type="submit">Search</button>
                     </div>
                 </div>
             </form>
@@ -233,7 +249,7 @@
                                 </li>
                             </ul>
                             <a href="{{ route('billing.create', ['orderId' => $order->id, 'productId' => $product->id]) }}"
-                                class="btn btn-primary btn-block">
+                                class="btn btn-warning btn-block">
                                 Proceed to Checkout
                             </a>
                         </div>
@@ -243,6 +259,7 @@
         </div>
     </div>
     @include('homepage.footer.footer')
+    <script src="{{ asset('assets/js/homepage.js') }}"></script>
 
     <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>

@@ -87,8 +87,7 @@
         padding: 0.5rem 1rem;
         border-radius: 5px;
     }
-[]
-    .alert-success {
+     .alert-success {
         background-color: #4a894c;
         color: #fff;
         padding: 0.5rem 1rem;
@@ -185,7 +184,7 @@
                             <input type="hidden" name="product_id" value="{{ $product->id }}">
                             <input type="hidden" name="total_price" value="{{ $product->price }}">
                             <input type="hidden" name="customer_id" value="{{ auth()->user()->id }}">
-                            <button type="submit" class="btn btn-primary">Store Product in Cart</button>
+                            <button type="submit" class="btn btn-warning">Store Product in Cart</button>
                         </form>
                     @endif
                 @endif

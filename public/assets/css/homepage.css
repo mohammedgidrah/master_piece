@@ -15,6 +15,7 @@
 html,
 body {
     height: 100%;
+    background: #242424;
 }
 body {
     line-height: 24px;
@@ -768,38 +769,82 @@ nav {
 .footer_bottom {
     padding: 38px 0 46px;
 }
-
 .menu-toggle {
-    display: none;
+    display: none; /* Ensure the button is visible */
     background: none;
     border: none;
     cursor: pointer;
-}
-
-.menu-icon::before {
-    content: "";
     width: 30px;
-    height: 3px;
-    position: absolute;
-}
-
-.menu-icon::before {
-    background-color: #a8741a;
+    height: 30px;
+    align-items: center;
+    justify-content: center;
 }
 
 .menu-icon {
+    display: block;
     width: 30px;
     height: 3px;
-    background-color: var(--toggle-dark);
-    display: block;
-    color: var(--accent-dark);
-    margin: 6px 0;
+    background-color: #a8741a;
+    transition: transform 0.3s ease, opacity 0.3s ease;
+    transform-origin: center;
 }
 
-.links {
-    display: flex;
-    font-size: 18px;
-    align-items: center;
+/* Space out the spans initially */
+.menu-icon:not(:last-child) {
+    margin-bottom: 5px;
+}
+
+/* Transitions when menu is open */
+.menu-toggle.open .menu-icon:nth-child(1) {
+    transform: rotate(45deg) translate(5px, 5px);
+}
+
+.menu-toggle.open .menu-icon:nth-child(2) {
+    opacity: 0;
+}
+
+.menu-toggle.open .menu-icon:nth-child(3) {
+    transform: rotate(-45deg) translate(5px, -5px);
+}
+
+/* Reset transitions when menu is closed */
+.menu-toggle:not(.open) .menu-icon:nth-child(1) {
+    transform: rotate(0) translate(0, 0);
+}
+
+.menu-toggle:not(.open) .menu-icon:nth-child(2) {
+    opacity: 1;
+}
+
+.menu-toggle:not(.open) .menu-icon:nth-child(3) {
+    transform: rotate(0) translate(0, 0);
+}
+
+.menu-toggle.active {
+    /* Add styles for the active state of the toggle button */
+    transform: rotate(90deg); /* Example rotation */
+}
+
+@keyframes fadeInLeft {
+    from {
+        opacity: 0;
+        transform: translateX(-100%);
+    }
+    to {
+        opacity: 1;
+        transform: translateX(0);
+    }
+}
+
+@keyframes fadeOutLeft {
+    from {
+        opacity: 1;
+        transform: translateX(0);
+    }
+    to {
+        opacity: 0;
+        transform: translateX(-100%);
+    }
 }
 
 .product_detail_section {
@@ -923,6 +968,22 @@ nav {
     margin-top: 2rem;
 }
 
+#profile_container {
+    padding: 50px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    background: #3e3e3e;
+}
+.card-header {
+    background-color: #a8741a;
+    color: white;
+}
+
+.card-body {
+    background-color: #3e3e3e;
+    color: white;
+}
+
+
 /* General Responsive Adjustments */
 @media (max-width: 1200px) {
     /* Large desktop */
@@ -989,7 +1050,7 @@ nav {
     }
 
     .cart_link > a {
-        font-size: 13px;
+        font-size: 9px;
         padding: 10px 8px 12px 15px;
         line-height: 14px;
     }
@@ -999,8 +1060,40 @@ nav {
         padding-right: 5px;
     }
     .cart_link > a i.ion-chevron-down {
-        font-size: 16px;
+        font-size: 9px;
         margin-left: 2px;
+    }
+    .links {
+        display: none;
+        flex-direction: column;
+        position: fixed;
+        top: 0;
+        left: 0px;
+        animation: fadeOutLeft 10s ease-in-out;
+        left: 0;
+        width: 250px;
+        height: 100vh;
+        align-items: center;
+        justify-content: center;
+        /* transition: left 0.3s ease-in-out; */
+
+        gap: 20px;
+    }
+    .links.active {
+        display: flex;
+        z-index: 9999999;
+        background: #2d2d2d;
+        animation: fadeInLeft 0.5s ease;
+        height: 100vh;
+        transition: left 0.3s ease-in-out;
+    }
+
+    .menu-toggle {
+        display: inline-block;
+    }
+    .menu-icon {
+        width: 25px;
+        height: 2px;
     }
 }
 
@@ -1072,38 +1165,6 @@ nav {
     .mini_cart {
         width: 100%;
         padding: 10px;
-    }
-    .links {
-        display: none;
-        flex-direction: column;
-        position: fixed;
-        top: 0;
-        left: 0px;
-        animation: fadeInLeft 0.5s ease-in-out;
-
-        left: 0;
-        width: 250px;
-        height: 100vh;
-        align-items: center;
-        justify-content: center;
-        /* transition: left 0.3s ease-in-out; */
-
-        gap: 20px;
-    }
-    .links.active {
-        display: flex;
-        z-index: 9999999;
-        background: #2d2d2d;
-        /* border: 1px solid #fff; */
-        transition: left 0.3s ease-in-out;
-    }
-
-    .menu-toggle {
-        display: inline-block;
-    }
-    .menu-icon {
-        width: 25px;
-        height: 2px;
     }
 }
 @media (max-width: 626px) {
@@ -1178,7 +1239,6 @@ nav {
 @media (max-width: 600px) {
     .menu-toggle {
         display: block;
-        padding-right: 50px;
     }
     .header_img {
         width: 75px;
