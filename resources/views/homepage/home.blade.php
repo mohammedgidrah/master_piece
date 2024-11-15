@@ -79,7 +79,7 @@
 
 
         {{-- slider section start --}}
-        {{-- <div class="slider_area slider_black owl-carousel">
+        <div class="slider_area slider_black owl-carousel">
             <div class="single_slider" data-bgimg="{{ asset('assets/images/salider/1.png') }}">
                 <div class="container">
                     <div class="row align-items-center">
@@ -128,7 +128,7 @@
                 </div>
 
             </div>
-        </div> --}}
+        </div>
         {{-- slider section end --}}
         {{-- banner section start --}}
 
@@ -161,7 +161,8 @@
                                     </a>
                                 </div>
                                 <div class="banner_content">
-                                    <p class="category-name">{{ $category->name }}</p>
+                                    <h2>{{ $category->name }}</h2>
+                                    <p class="category-name">{{ $category->description }}</p>
                                 </div>
                             </div>
                         </div>

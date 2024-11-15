@@ -15,11 +15,10 @@
 <body>
 
 
-    <header class="header_area header_black">
+    {{-- <header class="header_area header_black">
   
 
-        {{-- header  start --}}
-        {{-- <div class="header_bottom sticky-header">
+         <div class="header_bottom sticky-header">
             <div class="contaner">
                 <div class="row align-items-center">
 
@@ -153,9 +152,139 @@
                 </div>
             </div>
 
-        </div> --}}
-        {{-- header  end --}}
+        </div>
+ 
+    </header> --}}
+    <header class="header_area header_black">
+        <div class="header_bottom sticky-header">
+            <div class="container">
+                <div class="row align-items-center">
+                    <div  >
+                        <div class="main_menu_inner">
+                            <!-- Burger Icon for Mobile -->
 
+                            <div class="main_menu">
+                                <nav>
+                                    <!-- Logo -->
+                                    <div class="logo">
+                                        <a href="{{ route('home') }}">
+                                            <img src="{{ asset('assets/img/home/masterpeace_logo-removebg-preview.png') }}"
+                                                alt="Logo" />
+                                        </a>
+                                    </div>
+
+                                    <!-- Navigation Links -->
+                                    <ul class="links">
+                                        
+                                        <li class="active">
+                                            <a href="{{ route('home') }}">Home  </a>
+       
+                                        </li>
+                                        <li><a href="#">About Us</a></li>
+                                        <li>
+                                            @auth
+                                                <a href="#">{{ auth()->user()->first_name }}
+                                                    {{ auth()->user()->last_name }}
+                                                    <i class="ion-chevron-down"></i></a>
+                                                <ul class="sub_menu">
+                                                    @if (Auth::user()->role === 'admin')
+                                                        <li><a href="{{ route('dashboard.maindasboard') }}">Dashboard</a>
+                                                        </li>
+                                                    @else
+                                                        <li><a href="{{ route('userprofile') }}">Profile</a></li>
+                                                    @endif
+                                                    <li><a href="{{ route('logout') }}"
+                                                            onclick="event.preventDefault(); document.getElementById('logout-form').submit();">Logout</a>
+                                                    </li>
+                                                    <form id="logout-form" action="{{ route('logout') }}" method="POST"
+                                                        style="display: none;">
+                                                        @csrf
+                                                    </form>
+                                                </ul>
+                                            @else
+                                            <li><a href="{{ route('login') }}">Login</a></li>
+                                        @endauth
+                                        </li>
+                                    </ul>
+
+                                    <!-- Cart Section -->
+                                    
+                                    <div class="cart_link">
+                                        <a href="#">
+                                            <i class="ion-android-cart"></i>
+                                            <span class="cart_text_quantity">Rs. 67598 <i
+                                                    class="ion-chevron-down"></i></span>
+                                        </a>
+                                        <span class="cart_quantity">
+                                            @if (auth()->check() && $cartCount > 0)
+                                                <span class="cart-counter">{{ $cartCount }}</span>
+                                            @endif
+                                        </span>
+                                        <div class="mini_cart">
+                                            <div class="cart_close">
+                                                <div class="cart_text">
+                                                    <h3>cart</h3>
+                                                </div>
+                                                <div class="mini_cart_close">
+                                                    <a href="javascript:void(0)"><i class="ion-android-close"></i></a>
+                                                </div>
+                                            </div>
+                                            <div class="cart_item">
+                                                <div class="cart_img">
+                                                    <a href="#"><img
+                                                            src="{{ asset('assets/img/home/BRACELETS.jpg') }}"
+                                                            alt=""></a>
+                                                </div>
+                                                <div class="cart_info">
+                                                    <a href="#">pendant</a>
+                                                    <span class="quantity">Qty : 1</span>
+                                                    <span class="price_cart">Rs. 67598 </span>
+                                                </div>
+                                                <div class="cart_remove">
+                                                    <a href="#"><i class="ion-android-close"></i></a>
+                                                </div>
+                                            </div>
+                                            <div class="cart_item">
+                                                <div class="cart_img">
+                                                    <a href="#"><img
+                                                            src="{{ asset('assets/img/home/BRACELETS.jpg') }}"
+                                                            alt=""></a>
+                                                </div>
+                                                <div class="cart_info">
+                                                    <a href="#">pendant</a>
+                                                    <span class="quantity">Qty : 1</span>
+                                                    <span class="price_cart">Rs. 67598 </span>
+                                                </div>
+                                                <div class="cart_remove">
+                                                    <a href="#"><i class="ion-android-close"></i></a>
+                                                </div>
+                                            </div>
+                                            <div class="cart_total">
+                                                <span>Subtotal: (add the total of the cart)</span>
+                                                <span>Rs. 67598 </span>
+                                            </div>
+                                            <div class="mini_cart_footer">
+                                                <div class="cart_button view_cart">
+                                                    <a href="{{ route('orders.index') }}">view cart</a>
+                                                </div>
+                                                <div class="cart_button checkout">
+                                                    <a href="#" class="active">checkout</a>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <button class="menu-toggle" aria-label="Toggle navigation">
+                                        <span class="menu-icon"></span>
+                                        <span class="menu-icon"></span>
+                                        <span class="menu-icon"></span>
+                                    </button>
+                                </nav>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
     </header>
     <script src="https://code.jquery.com/jquery-3.7.1.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/wow/1.1.2/wow.min.js"></script>
@@ -164,7 +293,7 @@
 
 </html>
 
-<header>
+{{-- <header>
     <div>
         <img class="header_img" src="{{ asset('assets/img/home/masterpeace_logo-removebg-preview.png') }}" alt="Logo" />
     </div>
@@ -207,4 +336,4 @@
         @endif
     </a>
     
-</header>
+</header> --}}

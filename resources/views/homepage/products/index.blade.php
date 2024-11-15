@@ -14,93 +14,18 @@
 
 </head>
 <style>
-    /* File: resources/assets/css/homepage.css */
     body {
         height: 100vh;
         background-color: #242424;
         color: #fff;
-         margin: 0;
+        margin: 0;
         padding: 0;
     }
 
-    .product_section {
-        padding: 2rem;
-        text-align: center;
-    }
-
-    .section_titles {
-        font-size: 2rem;
-        margin-bottom: 1.5rem;
-        color: #d8af53;
-        padding-top: 20px;
-        text-transform: uppercase;
-        letter-spacing: 1px;
-    }
-
-    .product_grid {
-        display: flex;
-        flex-wrap: wrap;
-        gap: 2rem;
-        justify-content: center;
-    }
-
-    .product_card {
-        background-color: #222;
-        border-radius: 8px;
-        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
-        overflow: hidden;
-        width: 220px;
-        transition: transform 0.3s ease, box-shadow 0.3s ease;
-    }
-
-    .product_card:hover {
-        transform: translateY(-10px);
-        box-shadow: 0 6px 12px rgba(0, 0, 0, 0.5);
-    }
-
-    .product_name {
-        font-size: 1.2rem;
-        color: #d8af53;
-        margin: 10px 0;
-        text-align: center;
-        padding: 0 10px;
-        white-space: nowrap;
-        overflow: hidden;
-        text-overflow: ellipsis;
-    }
-
-    .product_image {
-        width: 100%;
-        height: 150px;
-        object-fit: cover;
-        display: block;
-        margin: 10px auto;
-        border-bottom: 1px solid #333;
-    }
-
-    .product_link {
-        display: inline-block;
-        margin: 15px auto;
-        padding: 8px 16px;
-        font-size: 0.9rem;
-        color: #fff;
-        background-color: #d8af53;
-        text-transform: uppercase;
-        text-align: center;
-        text-decoration: none;
-        border-radius: 4px;
-        transition: background-color 0.3s ease;
-    }
-
-    .product_link:hover {
-        background-color: #b4933f;
-    }
-
+ 
     p {
         color: white;
-        /* font-size: 1.2rem;
-        margin-top: 2rem; */
-        text-align: start;
+         text-align: start;
     }
 
     a {
@@ -111,19 +36,20 @@
     a:hover {
         color: black;
     }
-    h3{
+
+    h3 {
         text-align: start;
     }
-    ul{
+
+    ul {
         text-align: start;
         padding: 0;
         margin: 0;
     }
- 
-    footer{
-        margin-top: 20px;
-    }
 
+    footer {
+        margin-top: 100px;
+    }
 </style>
 
 <body style="height: 100vh;>

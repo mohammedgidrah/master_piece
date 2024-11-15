@@ -8,16 +8,38 @@
     <title>Document</title>
     <link rel="stylesheet" href="assets/css/bootstrap.min.css" />
     <link rel="stylesheet" href="assets/css/homepage.css" />
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+
+
+
+    <link rel="stylesheet" href="http://code.ionicframework.com/ionicons/2.0.1/css/ionicons.min.css">
+    {{-- <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css"> --}}
+    {{-- <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css"> --}}
+    {{-- <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/slick-carousel/1.9.0/slick.min.css"> --}}
+    {{-- <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/OwlCarousel2/2.3.4/assets/owl.carousel.min.css"> --}}
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 </head>
+<style>
+    body {
+        background-color: #242424;
+        color: #fff;
+        font-family: Arial, sans-serif;
+        margin: 0;
+        padding: 0;
+    }
+
+    #profile_container {
+        padding: 50px;
+        margin: 25px;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    }
+</style>
 
 <body>
 
     @include('homepage.homenav.homenav')
 
-    <div class="main-panel" style="padding-top: 125px">
-        <div class="row" style="padding: 75px">
+    <div class="main-panel">
+        <div class="row" id="profile_container">
             <div class="col-xl-4">
                 <div class="card mb-4 mb-xl-0">
                     <div class="card-header">Profile Picture</div>
@@ -121,6 +143,7 @@
             </div>
         </div>
     </div>
+    @include('homepage.footer.footer')
 
     <script>
         @if (session('success'))
@@ -147,7 +170,8 @@
                 // Email validation
                 const emailPattern = /^[a-zA-Z0-9._%+-]+@gmail\.com$/; // Updated regex pattern
                 if (!emailPattern.test(emailInput.value)) {
-                    emailErrorElement.textContent = 'Please enter a valid email address ending with @gmail.com.';
+                    emailErrorElement.textContent =
+                        'Please enter a valid email address ending with @gmail.com.';
                     isValid = false;
                 }
 

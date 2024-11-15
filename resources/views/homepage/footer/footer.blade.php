@@ -1,7 +1,7 @@
       <footer class="footer_widgets footer_black">
           <div class="container">
               <div class="footer_top">
-                  <div class="row">
+                  <div class="row justify-content-around">
                       <div class="col-lg-4 col-md-6 col-sm-8">
                           <div class="widgets_container contact_us">
                               <h3>About Ashirwaad</h3>
@@ -9,7 +9,7 @@
                                   <p>Address : Ashirwaad palace, Surat, Gujarat</p>
                                   <p>Phone : <a href="tel:(+91)888888885555">(+91)888888885555</a></p>
                                   <p>Email : ashirwaadjewlers@gmail.com</p>
-                                  <ul>
+                                  <ul class="footer_social">
                                       <li><a href="#"><i class="ion-social-facebook"></i></a></li>
                                       <li><a href="#"><i class="ion-social-twitter"></i></a></li>
                                       <li><a href="#"><i class="ion-social-rss"></i></a></li>

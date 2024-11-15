@@ -25,59 +25,15 @@
 
 
 
-    .product_detail_section {
-        padding: 2rem;
-        max-width: 800px;
-        margin: auto;
-        text-align: center;
-        margin-bottom: 20px;
-        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.5);
+ 
+ 
+ 
+ 
+ 
 
-    }
+ 
 
-    .product_name {
-        font-size: 2rem;
-        color: #d8af53;
-        margin-bottom: 1rem;
-        text-transform: capitalize;
-    }
-
-    .product_details {
-        display: flex;
-        flex-direction: column;
-        align-items: center;
-        gap: 1.5rem;
-        margin-bottom: 2rem;
-    }
-
-    .product_image {
-        max-width: 100%;
-        height: auto;
-        border-radius: 10px;
-        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.5);
-    }
-
-    .description h2 {
-        font-size: 1.5rem;
-        color: #d8af53;
-        margin-bottom: 0.5rem;
-    }
-
-    .product_description {
-        font-size: 1rem;
-        color: #ddd;
-        text-align: justify;
-    }
-
-    .product_price {
-        font-size: 1.5rem;
-        color: #d8af53;
-        margin-bottom: 1.5rem;
-    }
-
-    .price_value {
-        color: #ffcc00;
-    }
+ 
 
     .alert {
         margin-top: 1rem;
@@ -86,14 +42,7 @@
         font-weight: bold;
     }
 
-    .button-container {
-        display: flex;
-        flex-direction: row;
-        justify-content: space-around;
-        gap: 1rem;
-        align-items: center;
-        margin-top: 2rem;
-    }
+
 
     .btn {
         display: inline-block;
@@ -133,14 +82,14 @@
     }
 
     .alert-danger {
-        background-color: #ff4d4d;
+        background-color: #e35c5c;
         color: #fff;
         padding: 0.5rem 1rem;
         border-radius: 5px;
     }
-
+[]
     .alert-success {
-        background-color: #4caf50;
+        background-color: #4a894c;
         color: #fff;
         padding: 0.5rem 1rem;
         border-radius: 5px;
@@ -172,7 +121,7 @@
                 <img src="{{ asset('storage/' . $product->image) }}" alt="{{ $product->name }}" class="product_image" />
                 <div class="description">
                     <h2>Description:</h2>
-                    <p style="text-align: justify" class="product_description">{!! wrapText($product->description, 40) !!}</p>
+                    <p   class="product_description">{!! wrapText($product->description, 40) !!}</p>
                 </div>
             </div>
             <p class="product_price">Price: <span class="price_value">${{ $product->price }}</span> </p>

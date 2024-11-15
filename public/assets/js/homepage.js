@@ -1,21 +1,19 @@
-// document.addEventListener('DOMContentLoaded', function() {
-//     const menuToggle = document.querySelector('.menu-toggle');
-//     const navLinks = document.querySelector('.links');
-//     const bg = document.querySelector('header');
-//     const body = document.body;
+document.addEventListener("DOMContentLoaded", function () {
+  const menuToggle = document.querySelector(".menu-toggle");
+  const links = document.querySelector(".links");
 
-//     menuToggle.addEventListener('click', function() {
-//         bg.classList.toggle('active');
-//         navLinks.classList.toggle('active');
-//         body.classList.toggle('show-sidebar');
-//     });
-// });
+  menuToggle.addEventListener("click", function () {
+      menuToggle.classList.toggle("active");
+      links.classList.toggle("active");
+  });
+});
+
 (function ($) {
     "use strict";
 
     new WOW().init();
 // navbar cart
-    $(".cart_link > a").on("click", function (e) {
+    $(".cart_link > a").on("click", function (e) {  
         e.preventDefault();
         $(".mini_cart").addClass("active");
     });
