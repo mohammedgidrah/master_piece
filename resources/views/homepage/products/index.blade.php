@@ -72,8 +72,8 @@
             </p>
         @endforelse
     </div>
-    @include('homepage.footer.footer')
-    </section>
+</section>
+@include('homepage.footer.footer')
 
     <script src="../assets/js/homepage.js"></script>
 </body>

@@ -13,44 +13,47 @@
     <link rel="icon" type="image/png" href="{{ asset('assets/img/home/masterpeace_logo-removebg-preview.png') }}" />
 
     <style>
+        .cart-counter{
+            color: white;
+        }
         /* Page Layout */
         #btn {
-            background-color: #a8741a;
+            background-color: rgb(179, 162, 51);
             color: white;
             border: none;
             outline: none;
             width: 150px;
-            height: 40px;
-            border-radius: 5px;
+            height: 38px;
             font-size: 16px;
             font-weight: bold;
             cursor: pointer;
         }
 
         .containers {
-            background-color: #3e3e3e;
-            padding: 25px
+            padding: 25px;
+            
         }
 
         h1 {
             font-size: 2rem;
-             color: white;
-         }
+            color: white;
+        }
 
         /* Alerts */
         .alert-success {
-        background-color: #4a894c;
-        color: #fff;
-        padding: 0.5rem 1rem;
-        border-radius: 5px;
-    }
+            background-color: #4a894c;
+            color: #fff;
+            padding: 0.5rem 1rem;
+            border-radius: 5px;
+        }
 
-    .alert-danger {
-        background-color: #ff6666;
-        color: #fff;
-        padding: 0.5rem 1rem;
-        border-radius: 5px;
-    }
+        .alert-danger {
+            background-color: #ff6666;
+            color: #fff;
+            padding: 0.5rem 1rem;
+            border-radius: 5px;
+        }
+
         .alert {
             margin-top: 10px;
             border-radius: 5px;
@@ -64,6 +67,7 @@
 
         /* Cart Table */
         .cart-table {
+
             text-align: center;
         }
 
@@ -102,31 +106,63 @@
 
         /* Cart Totals Section */
         .cart-totals {
-            background-color: #f9f9f9;
-            padding: 20px;
+             padding: 20px;
+            margin-top: 40px;
             border-radius: 8px;
-            border: 1px solid #ddd;
+             box-shadow: 0 2px 4px rgba(0, 0, 0, 0.5); 
         }
 
         .cart-totals h5 {
             font-weight: bold;
-            color: #333;
+            font-size: 1.2rem;
+            color: rgb(179, 162, 51);
+            /* color: #333; */
         }
 
         .cart-totals .list-unstyled li {
             padding: 10px 0;
             font-weight: 500;
-            color: #555;
+            /* color: #555; */
         }
 
         /* Checkout Button */
         .btn-warning.btn-block {
             font-size: 1.1rem;
-            background-color: #a8741a;
+            background-color: rgb(179, 162, 51);
             color: white;
             font-weight: bold;
             margin-top: 20px;
         }
+
+        .cart-table {
+            background-color: #f5f5f5;
+            /* Light gray background */
+            border-radius: 8px;
+            /* Optional rounded corners */
+        }
+
+        .cart-table th {
+            background-color: #222831;
+            color: white;
+            border: none;
+
+            /* Slightly darker gray for headers */
+        }
+
+        .cart-table td {
+            background-color: #222831;
+            border: none;
+            color: white;
+            /* White background for table cells */
+        }
+        .table-responsive{
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.5); 
+            padding-top: 20px;
+
+        }
+ span{
+    color: rgb(179, 162, 51);
+ }
     </style>
 </head>
 
@@ -161,25 +197,25 @@
             @endif
 
             <!-- Search Form -->
-            <form method="GET" action="{{ route('orders.index') }}" class="mb-4">
-                <div class="input-group">
-                    <input type="text" name="search" class="form-control" placeholder="Search product..."
-                        value="{{ request('search') }}">
-                    <div class="input-group-append">
-                        <button id="btn" class="btn btn-warning" type="submit">Search</button>
-                    </div>
-                </div>
-            </form>
-
+            
             <!-- Cart Content -->
             @if (isset($orders) && $orders->isEmpty())
-                <div class="alert alert-info text-center">
-                    Your cart is empty. <a href="{{ route('home') }}">Continue shopping</a>
-                </div>
+            <div class="alert alert-info text-center">
+                Your cart is empty. <a href="{{ route('home') }}">Continue shopping</a>
+            </div>
             @elseif (isset($orders))
-                <!-- Cart Table -->
-                <div class="table-responsive">
-                    <table class="table cart-table">
+            <!-- Cart Table -->
+            <div class="table-responsive">
+                <form method="GET" action="{{ route('orders.index') }}" class="mb-4">
+                    <div class="input-group">
+                        <input type="text" name="search" class="form-control" placeholder="Search product..."
+                            value="{{ request('search') }}">
+                        <div class="input-group-append">
+                            <button id="btn" class="btn btn-warning" type="submit">Search</button>
+                        </div>
+                    </div>
+                </form>
+                <table class="table cart-table">
                         <thead>
                             <tr>
                                 <th colspan="2">Product</th>
@@ -198,7 +234,7 @@
                                     $total += $subtotal;
                                 @endphp
                                 <tr>
-                                    <td>
+                                    <td class="img_product">
                                         <img src="{{ asset('storage/' . $product->image) }}" alt="{{ $product->name }}"
                                             style="width: 80px;">
                                     </td>

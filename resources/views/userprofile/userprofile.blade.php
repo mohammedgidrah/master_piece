@@ -22,7 +22,7 @@
  
 
  .btn {
-    background-color: #a8741a;
+    background-color: rgb(179, 162, 51);
     color: white;
     border: none;
     outline: none;
@@ -31,7 +31,7 @@
 }
  
 .btn:hover {
-    background: #d8af53;
+    background: rgb(179, 162, 51);
 }
 </style>
 
