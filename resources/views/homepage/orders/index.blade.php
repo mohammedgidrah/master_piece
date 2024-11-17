@@ -13,9 +13,10 @@
     <link rel="icon" type="image/png" href="{{ asset('assets/img/home/masterpeace_logo-removebg-preview.png') }}" />
 
     <style>
-        .cart-counter{
+        .cart-counter {
             color: white;
         }
+
         /* Page Layout */
         #btn {
             background-color: rgb(179, 162, 51);
@@ -30,8 +31,10 @@
         }
 
         .containers {
-            padding: 25px;
-            
+            padding: 50px;
+            margin: 20px 10px;
+            box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.5);
+
         }
 
         h1 {
@@ -57,6 +60,14 @@
         .alert {
             margin-top: 10px;
             border-radius: 5px;
+            background: rgb(179, 162, 51);
+            color: white
+        }
+
+        .alert a {
+            color: #5a5a55;
+            text-decoration: none;
+            font-weight: bold;
         }
 
         /* Search Form */
@@ -106,10 +117,10 @@
 
         /* Cart Totals Section */
         .cart-totals {
-             padding: 20px;
+            padding: 20px;
             margin-top: 40px;
             border-radius: 8px;
-             box-shadow: 0 2px 4px rgba(0, 0, 0, 0.5); 
+            box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.9);
         }
 
         .cart-totals h5 {
@@ -155,18 +166,24 @@
             color: white;
             /* White background for table cells */
         }
-        .table-responsive{
-            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.5); 
+
+        .table-responsive {
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.9);
             padding-top: 20px;
 
         }
- span{
-    color: rgb(179, 162, 51);
- }
+
+        ul li span {
+            color: rgb(179, 162, 51);
+        }
+
+        footer {
+            background: #222831
+        }
     </style>
 </head>
 
-<body>
+<body style="background: #242424;">
     @include('homepage.homenav.homenav')
 
     <div class="containers">
@@ -197,25 +214,25 @@
             @endif
 
             <!-- Search Form -->
-            
+
             <!-- Cart Content -->
             @if (isset($orders) && $orders->isEmpty())
-            <div class="alert alert-info text-center">
-                Your cart is empty. <a href="{{ route('home') }}">Continue shopping</a>
-            </div>
+                <div class="alert alert-info text-center">
+                    Your cart is empty. <a href="{{ route('home') }}">Continue shopping</a>
+                </div>
             @elseif (isset($orders))
-            <!-- Cart Table -->
-            <div class="table-responsive">
-                <form method="GET" action="{{ route('orders.index') }}" class="mb-4">
-                    <div class="input-group">
-                        <input type="text" name="search" class="form-control" placeholder="Search product..."
-                            value="{{ request('search') }}">
-                        <div class="input-group-append">
-                            <button id="btn" class="btn btn-warning" type="submit">Search</button>
+                <!-- Cart Table -->
+                <div class="table-responsive">
+                    <form method="GET" action="{{ route('orders.index') }}" class="mb-4">
+                        <div class="input-group">
+                            <input type="text" name="search" class="form-control" placeholder="Search product..."
+                                value="{{ request('search') }}">
+                            <div class="input-group-append">
+                                <button id="btn" class="btn btn-warning" type="submit">Search</button>
+                            </div>
                         </div>
-                    </div>
-                </form>
-                <table class="table cart-table">
+                    </form>
+                    <table class="table cart-table">
                         <thead>
                             <tr>
                                 <th colspan="2">Product</th>
@@ -275,10 +292,7 @@
                         <div class="cart-totals">
                             <h5>Cart totals</h5>
                             <ul class="list-unstyled">
-                                <li class="d-flex justify-content-between">
-                                    <span>Subtotal:</span>
-                                    <span>${{ number_format($total, 2) }}</span>
-                                </li>
+
                                 <li class="d-flex justify-content-between">
                                     <span>Total:</span>
                                     <span>${{ number_format($total, 2) }}</span>

@@ -8,7 +8,6 @@ use App\View\Components\InputError;
 use Illuminate\Support\Facades\View;
 use Illuminate\Support\Facades\Blade;
 use Illuminate\Support\ServiceProvider;
- 
 
 class AppServiceProvider extends ServiceProvider
 {
@@ -25,14 +24,31 @@ class AppServiceProvider extends ServiceProvider
      */
     public function boot()
     {
+        // Share notifications with the dashboard navbar view
         View::composer('dashboard.navbar', function ($view) {
             $view->with('notifications', Notification::all());
         });
 
-        View::composer('homepage.homenav.homenav', function ($view) {
-            $cartCount = auth()->check() ? Order::where('customer_id', auth()->id())->count() : 0;
-            $view->with('cartCount', $cartCount);
+        // Share orders and cart count with the homepage navbar and all views globally
+        View::composer('*', function ($view) {
+            $orders = auth()->check()
+                ? Order::with('product')->where('customer_id', auth()->id())->get()
+                : collect();
+
+            $cartCount = $orders->count();
+            $cartTotal = $orders->sum(function ($order) {
+                return $order->product->price * $order->quantity;
+            });
+
+            $view->with([
+                'orders' => $orders,
+                'cartCount' => $cartCount,
+                'cartTotal' => $cartTotal,
+                'user' => auth()->user(),
+            ]);
         });
+
+        // Register custom Blade components
         Blade::component('input-error', InputError::class);
     }
 }

@@ -19,8 +19,12 @@
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 </head>
 <style>
- 
-
+.form-control{
+    background-color: #EEEEEE;
+}
+.form-control .mb-3{
+    background-color: #EEEEEE;
+}
  .btn {
     background-color: rgb(179, 162, 51);
     color: white;

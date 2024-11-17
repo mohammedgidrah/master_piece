@@ -288,6 +288,13 @@ ul {
     font-size: 14px;
     font-weight: 400;
 }
+.empty_cart_message {
+    color: rgb(179, 162, 51);
+    text-align: center;
+    font-size: 16px;
+    margin-top: 20px;
+}
+
 
 .cart_button a {
     text-transform: uppercase;
@@ -932,7 +939,7 @@ nav {
     }
     nav {
         display: flex;
-        justify-content: space-around;
+        justify-content: space-between;
         align-items: center;
         gap: 50px;
     }
@@ -1042,6 +1049,12 @@ nav {
     .menu-icon {
         width: 25px;
         height: 2px;
+    }
+    .header_black .cart_link span.cart_quantity {
+        margin: -2px 2px;
+        display: flex;
+        justify-content: center;
+        align-items: center;
     }
 }
 
@@ -1177,6 +1190,7 @@ nav {
         display: flex;
         justify-content: center;
         align-items: center;
+        flex-wrap: wrap;
         width: 100%;
         margin: 20px 0;
     }
@@ -1292,6 +1306,10 @@ nav {
         font-size: 8px;
         padding: 5px 3px 7px 10px;
         line-height: 10px;
+    }
+    .header_black .cart_link span.cart_quantity {
+         margin: -7px 5px;
+ 
     }
     .cart_link > a i.ion-android-cart {
         font-size: 10px;
