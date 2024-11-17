@@ -4,12 +4,8 @@ namespace App\Http\Controllers;
 
 use App\Models\Order;
 use App\Models\OrderItem;
-use App\Models\Product;
-use App\Models\User;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
-use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Validator;
 
 class OrderDashboardController extends Controller
@@ -35,12 +31,11 @@ class OrderDashboardController extends Controller
         $query = OrderItem::with(['order.user', 'product'])
             ->join('orders', 'order_items.order_id', '=', 'orders.id')
             ->join('users', 'orders.customer_id', '=', 'users.id')
-        // ->join('products', 'order_items.product_id', '=', 'products.id')
             ->select(
                 'order_items.*',
                 'users.first_name',
                 'users.last_name',
-             );
+            );
 
         // Apply search filters for order item total price, user's first name, and last name
         if ($search) {
@@ -62,10 +57,7 @@ class OrderDashboardController extends Controller
 
         return view('dashboard.orders.index', compact('orders', 'totalOrders'));
     }
-    
-    
-    
-    
+
     /**
      * Show the form for creating a new resource.
      */
@@ -101,9 +93,6 @@ class OrderDashboardController extends Controller
         return view('dashboard.orders.show', compact('order'));
     }
 
- 
-
- 
     public function trashed()
     {
         // Assuming you have a relationship set up for OrderItems in your Order model
@@ -111,10 +100,10 @@ class OrderDashboardController extends Controller
         $orders = OrderItem::onlyTrashed()
             ->with(['order', 'product', 'order.user']) // Load related models
             ->paginate(10);
-    
+
         return view('dashboard.orders.trashed', compact('orders'));
     }
-    
+
     public function restore($id)
     {
         $order = OrderItem::onlyTrashed()->findOrFail($id);
@@ -139,20 +128,20 @@ class OrderDashboardController extends Controller
         $request->validate([
             'order_status' => 'required|in:pending,processing,delivered,cancelled',
         ]);
-    
+
         DB::beginTransaction();
         try {
             // Check if the order is soft-deleted
             $order = Order::withTrashed()->find($orderId);
-    
+
             if ($order) {
                 $order->order_status = $request->order_status;
                 $order->save();
-    
+
                 // Update order items if order exists
                 $updatedItems = OrderItem::where('order_id', $orderId)
-                                ->update(['order_status' => $request->order_status]);
-    
+                    ->update(['order_status' => $request->order_status]);
+
                 DB::commit();
                 return redirect()->back()->with('success', 'Order status updated successfully.');
             } else {
@@ -164,12 +153,10 @@ class OrderDashboardController extends Controller
             return redirect()->back()->with('error', 'An error occurred: ' . $e->getMessage());
         }
     }
-    
 
     /**
      * Update the status of a soft-deleted order.
      */
-  
 
     /**
      * Remove the specified resource from storage.
@@ -178,37 +165,33 @@ class OrderDashboardController extends Controller
     {
         // Find the orders associated with the given order ID
         $orders = Orderitem::where('order_id', $orderId)->get();
-    
+
         if ($orders->isNotEmpty()) {
             // Delete all associated orders
             foreach ($orders as $order) {
                 $order->delete();
             }
-    
+
             return redirect()->back()->with('success', 'All orders deleted successfully.');
         }
-    
+
         return redirect()->back()->with('error', 'No orders found to delete.');
     }
-    
+
     public function deleteProduct($id)
     {
         // Log the incoming ID for debugging
         \Log::info('Attempting to delete order with ID: ' . $id);
-    
+
         $order = Orderitem::find($id);
-    
+
         if (!$order) {
             \Log::warning('Order not found for ID: ' . $id);
             return redirect()->back()->with('error', 'Order not found.');
         }
-    
+
         $order->delete(); // Delete the order
         return redirect()->back()->with('success', 'Order deleted successfully.');
     }
-    
-    
-    
-    
-    
+
 }

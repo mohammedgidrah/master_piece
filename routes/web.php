@@ -16,7 +16,8 @@ use App\Http\Controllers\HomeCategoryController;
 use App\Http\Controllers\OrderDashboardController;
 use App\Http\Controllers\NotificationController;
 use App\Http\Controllers\NavController;
- 
+use App\Http\Controllers\DashboardController;
+
 
 /*
 |--------------------------------------------------------------------------
@@ -29,17 +30,7 @@ use App\Http\Controllers\NavController;
 |
  */
 
-// Route::get('shsmo/{id}', function ($id) {
-//     $target = User::find($id);
-//     $total = 0;
-//     foreach ($target->orders as $value) {
-//         # code...
-//         if ($value->status == 'Pending') {
-//             $total += $value->total_price;
-//         }
-//     }
-//     return $total;
-// });
+ 
 // Home page route
 Route::view('/', 'homepage.home')->name('home');
 
@@ -63,7 +54,9 @@ Route::middleware(['admin'])->group(function () {
     Route::get('/dashboard', [AdminController::class, 'mainDashboard'])->name('dashboard.maindasboard'); // Correct spelling
 
     // Status page route
-    Route::view('/status', 'dashboard.statestic')->name('status');
+    // Route::get('/status', [DashboardController::class, 'index'])->name('status');
+    Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard.index');
+
 
     // Admin profile page route
     Route::view('/adminprofile', 'dashboard.profile')->name('adminprofile');
