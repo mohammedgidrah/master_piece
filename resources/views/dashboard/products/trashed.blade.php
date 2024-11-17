@@ -59,10 +59,10 @@
                             <td>{{ $product->quantity }}</td>
                             <td>{{ $product->category ? $product->category->name : 'No category' }}</td>
                             <td>
-                                <button class="btn btn-success" onclick="showRestoreModal({{ $product->id }})">
+                                <button class="btn btn-success m-1" onclick="showRestoreModal({{ $product->id }})">
                                     <i class="fas fa-undo"></i>
                                 </button>
-                                <button class="btn btn-danger" onclick="showDeleteModal({{ $product->id }})">
+                                <button class="btn btn-danger m-1" onclick="showDeleteModal({{ $product->id }})">
                                     <i class="fas fa-trash-alt"></i>
                                 </button>
                             </td>

@@ -11,12 +11,9 @@ use App\Models\Notification;
 use Illuminate\Http\Request;
 use App\Mail\BillingDetailsEmail;
 use Illuminate\Support\Facades\DB;
-use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Auth;  
 use Illuminate\Support\Facades\Mail;
-use Illuminate\Support\Facades\Log; // Import the new mail class
-
-
-// Import Mail facade
+use Illuminate\Support\Facades\Log;  
 
 class BillingController extends Controller
 {
@@ -27,11 +24,8 @@ class BillingController extends Controller
      */
     public function create()
     {
-
         $user = Auth::user();
-
         $order = Order::where('customer_id', $user->id)->latest()->first();
-
         $orderId = $order ? $order->id : null;
 
         return view('homepage.bilings.bilingform', compact('orderId', 'user'));
@@ -75,11 +69,13 @@ class BillingController extends Controller
             return redirect()->route('orders.index')->with('error', 'Order not found.');
         }
 
+        // Fetch order items for the user
         $orders = $user->orders()->with('product')->get();
         if ($orders->isEmpty()) {
             return redirect()->route('orders.index')->with('error', 'Your cart is empty.');
         }
 
+        // Validate billing details
         $request->validate([
             'first_name' => 'required|string|max:255',
             'last_name' => 'required|string|max:255',
@@ -130,7 +126,6 @@ class BillingController extends Controller
                 $orderItem->order_status = 'processing';
                 $orderItem->save();
 
-
                 // Update product stock
                 $product->quantity -= $order->quantity;
 
@@ -143,37 +138,33 @@ class BillingController extends Controller
 
                 // Delete processed order
                 $order->delete();
-
-                Notification::create([
-                    'user_id' => $user->id, // Use the authenticated user's ID
-                    'type' => 'New Order', // Type of notification
-                    'data' => json_encode([
-                        'message' => 'A new order has been placed successfully!',
-                        'order_id' => $orderId, // Order ID
-                        'user_name' => $user->first_name . ' ' . $user->last_name, // User's full name
-                        'user_email' => $user->email, // User's email
-                        'user_image' => $user->image ? asset('storage/' . $user->image) : asset('assets/img/default-avatar.png'), // User's image URL
-                    ]), // Notification message and order ID
-                    'is_read' => false, // Set as unread
-                ]);
-                
-                
-                
             }
 
             // Update order status to "processing"
-            if ($orderToUpdate) {
-                $orderToUpdate->order_status = 'processing';
-                $orderToUpdate->save();
-                Log::info('Order Status Updated to Processing for Order ID: ' . $orderId);
-            }
+            $orderToUpdate->order_status = 'processing';
+            $orderToUpdate->save();
+            Log::info('Order Status Updated to Processing for Order ID: ' . $orderId);
+
+            // Create a single notification after the checkout process
+            Notification::create([
+                'user_id' => $user->id, // Use the authenticated user's ID
+                'type' => 'New Order', // Type of notification
+                'data' => json_encode([
+                    'message' => 'A new order has been placed successfully!',
+                    'order_id' => $orderId, // Order ID
+                    'user_name' => $user->first_name . ' ' . $user->last_name, // User's full name
+                    'user_email' => $user->email, // User's email
+                    'user_image' => $user->image ? asset('storage/' . $user->image) : asset('assets/img/default-avatar.png'), // User's image URL
+                ]), // Notification message and order ID
+                'is_read' => false, // Set as unread
+            ]);
 
             DB::commit();
 
             // Send billing details email
             Mail::to($user->email)->send(new BillingDetailsEmail($billing, $orders));
 
-            return redirect()->route('orders.index')->with('success', 'Checkout completed successfully. Billing details saved check your email for details.');
+            return redirect()->route('orders.index')->with('success', 'Checkout completed successfully. Billing details saved. Check your email for details.');
 
         } catch (\Exception $e) {
             DB::rollBack();
@@ -181,21 +172,16 @@ class BillingController extends Controller
             return redirect()->route('orders.index')->with('error', 'An error occurred during checkout. Please try again.');
         }
     }
-    
-    
 
     public function showCheckoutForm()
     {
-
         $billingDetails = session('billing_details');
         $orderId = session('order_id');
         $userId = session('user_id');
 
         $order = Order::find($orderId);
-
         $user = auth()->user();
 
         return view('homepage.bilings.bilingform', compact('billingDetails', 'order', 'userId', 'user'));
     }
-
 }

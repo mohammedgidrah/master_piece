@@ -141,7 +141,7 @@ class UserController extends Controller
             'image' => $imagePath,
         ]);
 
-        return redirect()->back('users.index')->with('success', 'User created successfully.');
+        return redirect()->route('users.index')->with('success', 'User created successfully.');
     }
 
     public function edit($id)
@@ -210,7 +210,7 @@ class UserController extends Controller
         $user->delete();
 
         // Redirect back to the users list with a success message
-        return redirect()->back()->with('success', "User was deleted successfully.");
+        return redirect()->route('users.index')->with('success', "User was deleted successfully.");
     }
 
 }

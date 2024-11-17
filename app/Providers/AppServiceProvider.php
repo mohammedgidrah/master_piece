@@ -26,23 +26,28 @@ class AppServiceProvider extends ServiceProvider
     {
         // Share notifications with the dashboard navbar view
         View::composer('dashboard.navbar', function ($view) {
+            // You can limit notifications here if necessary
             $view->with('notifications', Notification::all());
         });
 
-        // Share orders and cart count with the homepage navbar and all views globally
-        View::composer('*', function ($view) {
+        // Share cart count and orders with the homepage navbar view and all views globally
+        View::composer('homepage.homenav.homenav', function ($view) {
+            $cartCount = auth()->check() ? Order::where('customer_id', auth()->id())->count() : 0;
+
+            // Get orders for the cart total calculation
             $orders = auth()->check()
                 ? Order::with('product')->where('customer_id', auth()->id())->get()
                 : collect();
 
-            $cartCount = $orders->count();
+            // Calculate the total cart amount
             $cartTotal = $orders->sum(function ($order) {
                 return $order->product->price * $order->quantity;
             });
 
+            // Pass the necessary data to the view
             $view->with([
-                'orders' => $orders,
                 'cartCount' => $cartCount,
+                'orders' => $orders,
                 'cartTotal' => $cartTotal,
                 'user' => auth()->user(),
             ]);

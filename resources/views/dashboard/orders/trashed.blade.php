@@ -67,10 +67,10 @@
                             <td>{{ $order->total_price }}</td>
                             <td>{{ $order->order_status }}</td>
                             <td>
-                                <button class="btn btn-success" onclick="showRestoreModal({{ $order->id }})">
+                                <button class="btn btn-success m-1" onclick="showRestoreModal({{ $order->id }})">
                                     <i class="fas fa-undo"></i>
                                 </button>
-                                <button class="btn btn-danger" onclick="showDeleteModal({{ $order->id }})">
+                                <button class="btn btn-danger m-1" onclick="showDeleteModal({{ $order->id }})">
                                     <i class="fas fa-trash-alt"></i>
                                 </button>
                             </td>

@@ -14,7 +14,7 @@
 
 </head>
 <style>
-    body {
+    .product_section {
         background-color: #242424;
         color: #fff;
 

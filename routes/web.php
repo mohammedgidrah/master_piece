@@ -16,7 +16,7 @@ use App\Http\Controllers\HomeCategoryController;
 use App\Http\Controllers\OrderDashboardController;
 use App\Http\Controllers\NotificationController;
 use App\Http\Controllers\NavController;
-
+ 
 
 /*
 |--------------------------------------------------------------------------
@@ -118,7 +118,14 @@ Route::middleware(['auth'])->group(function () {
     Route::get('/billing/{orderId}/{productId}', [BillingController::class, 'showBillingForm'])->name('billing.create');
     
 });
+Route::middleware(['web'])->group(function () {
+    // Your other routes go here
 
+    // This route will catch all invalid URLs and return the custom 404 page
+    Route::fallback(function () {
+        return view('errors.404');  // The custom 404 view you created
+    });
+});
 // User profile route
 Route::view('/userprofile', 'userprofile.userprofile')->name('userprofile');
 

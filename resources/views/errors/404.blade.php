@@ -8,8 +8,7 @@
     <link rel="icon" type="image/png" href="{{ asset('assets/img/home/masterpeace_logo-removebg-preview.png') }}" />
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css">
     <link rel="stylesheet" href="http://code.ionicframework.com/ionicons/2.0.1/css/ionicons.min.css">
-    <link rel="stylesheet" href="{{ asset('assets/css/homepage.css') }}" />
-
+ 
     <style>
         .error_text {
             color: white;
@@ -41,7 +40,7 @@
             outline: none;
             width: 150px;
             height: 50px;
-            font-size: 16px;
+            font-size: 14px;
             font-weight: bold;
             cursor: pointer;
         }

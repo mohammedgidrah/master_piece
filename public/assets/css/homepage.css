@@ -790,7 +790,8 @@ nav {
 }
 
 .product_detail_section {
-    margin:  50px;
+    padding: 50px;
+    background: #242424;
 }
 
 .product_detail_container {

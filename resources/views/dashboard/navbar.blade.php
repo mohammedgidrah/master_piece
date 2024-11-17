@@ -38,33 +38,37 @@
                             <div class="notif-scroll scrollbar-outer">
                                 <div class="notif-center">
                                     @forelse($notifications as $notification)
-                                    @php
-                                        $notificationData = json_decode($notification->data);
-                                        $orderId = $notificationData->order_id ?? null; // Ensure order_id is retrieved
-                                    @endphp
-                                    @if ($orderId)
-                                        <a href="{{ route('orders.handle', ['id' => $notification->id, 'order_id' => $orderId]) }}">
-                                            <div class="notif-content">
-                                                <div class="d-flex align-items-center">
-                                                    <div class="avatar-xs me-2">
-                                                        <img src="{{ $notification->user->image ? asset('storage/' . $notification->user->image) : asset('assets/img/default-avatar.png') }}"
-                                                            alt="User Image" class="avatar-img rounded-circle" />
+                                        @php
+                                            $notificationData = json_decode($notification->data);
+                                            $orderId = $notificationData->order_id ?? null; // Ensure order_id is retrieved
+                                        @endphp
+                                        @if ($orderId)
+                                            <a
+                                                href="{{ route('orders.handle', ['id' => $notification->id, 'order_id' => $orderId]) }}">
+                                                <div class="notif-content">
+                                                    <div class="d-flex align-items-center">
+                                                        <div class="avatar-xs me-2">
+                                                            <img src="{{ $notification->user->image ? asset('storage/' . $notification->user->image) : asset('assets/img/default-avatar.png') }}"
+                                                                alt="User Image" class="avatar-img rounded-circle" />
+                                                        </div>
+                                                        <div>
+                                                            <span
+                                                                class="block">{{ $notificationData->message ?? 'No message' }}</span>
+                                                            <span class="block">User:
+                                                                {{ $notificationData->user_name ?? 'Unknown User' }}</span>
+                                                            <span class="block">Email:
+                                                                {{ $notificationData->user_email ?? 'No Email' }}</span>
+                                                            <span
+                                                                class="time">{{ $notification->created_at->diffForHumans() }}</span>
+                                                        </div>
                                                     </div>
-                                                    <div>
-                                                        <span class="block">{{ $notificationData->message ?? 'No message' }}</span>
-                                                        <span class="block">User: {{ $notificationData->user_name ?? 'Unknown User' }}</span>
-                                                        <span class="block">Email: {{ $notificationData->user_email ?? 'No Email' }}</span>
-                                                        <span class="time">{{ $notification->created_at->diffForHumans() }}</span>
-                                                    </div>
+                                                    <div class="dropdown-divider"></div>
                                                 </div>
-                                                <div class="dropdown-divider"></div>
-                                            </div>
-                                        </a>
-                                    @endif
-                                @empty
-                                    <div>No notifications found.</div>
-                                @endforelse
-                                
+                                            </a>
+                                        @endif
+                                    @empty
+                                    @endforelse
+
                                 </div>
                             </div>
                         </li>
@@ -113,13 +117,18 @@
                                                     <div class="d-flex align-items-center">
                                                         <div class="avatar-xs me-2">
                                                             @php
-                                                                $notificationUser = App\Models\User::find($notificationData->user_id);
-                                                                $userImage = $notificationUser->image ? asset('storage/' . $notificationUser->image) : asset('assets/img/default-avatar.png');
+                                                                $notificationUser = App\Models\User::find(
+                                                                    $notificationData->user_id,
+                                                                );
+                                                                $userImage = $notificationUser->image
+                                                                    ? asset('storage/' . $notificationUser->image)
+                                                                    : asset('assets/img/default-avatar.png');
                                                             @endphp
-                                                            <img src="{{ $userImage }}" alt="User Image" class="avatar-img rounded-circle" />
+                                                            <img src="{{ $userImage }}" alt="User Image"
+                                                                class="avatar-img rounded-circle" />
                                                         </div>
-                                                        
-                                                        
+
+
                                                         <div>
                                                             <span
                                                                 class="block">{{ $notificationData->message ?? 'No message' }}</span>
@@ -129,9 +138,9 @@
                                                                 {{ $notificationData->user_email ?? 'No Email' }}</span>
                                                             <span
                                                                 class="time">{{ $notification->created_at->diffForHumans() }}</span>
-                                                            </div>
                                                         </div>
-                                                        <div class="dropdown-divider"></div>
+                                                    </div>
+                                                    <div class="dropdown-divider"></div>
                                                 </div>
                                             </a>
                                         @else
