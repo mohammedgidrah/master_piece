@@ -17,23 +17,9 @@
 
     body {
         background-color: #242424;
-        color: #fff;
         font-family: Arial, sans-serif;
-        margin: 0;
-        padding: 0;
+
     }
-
-
-
- 
- 
- 
- 
- 
-
- 
-
- 
 
     .alert {
         margin-top: 1rem;
@@ -65,7 +51,6 @@
     .btn-secondary {
         display: flex;
         align-items: center;
-        height: 40px;
         background-color: #444;
     }
 
@@ -76,7 +61,7 @@
 
     .alert-warning {
         background-color: #d8af53;
-        color: black;
+        color: white;
         padding: 0.5rem 1rem;
         border-radius: 5px;
     }
@@ -87,7 +72,8 @@
         padding: 0.5rem 1rem;
         border-radius: 5px;
     }
-     .alert-success {
+
+    .alert-success {
         background-color: #4a894c;
         color: #fff;
         padding: 0.5rem 1rem;
@@ -106,7 +92,36 @@
     }
 
     .check_login {
-        color: #ffffff
+        color: black;
+        margin: 4px;
+
+    }
+
+    @media (max-width: 626px) {
+
+        .btn {
+            font-size: 12px;
+        }
+
+
+
+    }
+
+    @media (max-width: 490px) {
+        .alert {
+            font-size: 10px;
+        }
+    }
+
+    @media (max-width: 369px) {
+        .alert {
+            font-size: 7px;
+        }
+    }
+
+    footer {
+        background: #222831;
+
     }
 </style>
 
@@ -120,7 +135,7 @@
                 <img src="{{ asset('storage/' . $product->image) }}" alt="{{ $product->name }}" class="product_image" />
                 <div class="description">
                     <h2>Description:</h2>
-                    <p   class="product_description">{!! wrapText($product->description, 40) !!}</p>
+                    <p class="product_description">{!! wrapText($product->description, 40) !!}</p>
                 </div>
             </div>
             <p class="product_price">Price: <span class="price_value">${{ $product->price }}</span> </p>
@@ -170,7 +185,7 @@
             @if (!auth()->check())
                 <p class="alert alert-warning"
                     style="height: 40px; margin-top: 17px; display: flex; align-items: center">
-                    You need to <a class="check_login" href="{{ route('login') }}">log in</a> first to place in the
+                    You need to <a class="check_login" href="{{ route('login') }}"> log in </a> first to place in the
                     cart.
                 </p>
             @endif
@@ -194,14 +209,10 @@
 
         </div>
     </section>
-    @include('homepage.footer.footer')
 
     <script src="{{ asset('./assets/js/homepage.js') }}"></script>
-    <script>
-        document.querySelector('.order_form').addEventListener('submit', function() {
-            this.querySelector('button[type="submit"]').disabled = true;
-        });
-    </script>
+
+    @include('homepage.footer.footer')
 </body>
 
 </html>

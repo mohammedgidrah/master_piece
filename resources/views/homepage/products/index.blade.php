@@ -15,17 +15,15 @@
 </head>
 <style>
     body {
-        height: 100vh;
         background-color: #242424;
         color: #fff;
-        margin: 0;
-        padding: 0;
+
     }
 
- 
+
     p {
         color: white;
-         text-align: start;
+        text-align: start;
     }
 
     a {
@@ -48,11 +46,12 @@
     }
 
     footer {
-        margin-top: 100px;
+        background: #222831;
+        /* margin-top: 180px; */
     }
 </style>
 
-<body style="height: 100vh;>
+<body >
     @include('homepage.homenav.homenav')
 
     <section class="product_section">
@@ -75,7 +74,8 @@
 </section>
 @include('homepage.footer.footer')
 
-    <script src="../assets/js/homepage.js"></script>
+ 
+     <script src="../assets/js/homepage.js"></script>
 </body>
 
 </html>

@@ -96,13 +96,7 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     });
 });
-// document.getElementById('toggle-password').addEventListener('click', function () {
-//     const passwordInput = document.getElementById('password-input-login');
-//     const type = passwordInput.getAttribute('type') === 'password' ? 'text' : 'password';
-//     passwordInput.setAttribute('type', type);
-//     // Toggle the eye / eye-slash icon
-//     this.classList.toggle('fa-eye-slash');
-// });
+ 
  
 function togglePasswordVisibility(inputId, icon) {
     const passwordInput = document.getElementById(inputId);

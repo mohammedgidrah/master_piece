@@ -133,7 +133,7 @@
                                             </div>
                                         </div>
                                     </div>
-                                    <button class="menu-toggle" aria-label="Toggle navigation">
+                                    <button class="menu-toggle"  aria-label="Toggle navigation">
                                         <span class="menu-icon"></span>
                                         <span class="menu-icon"></span>
                                         <span class="menu-icon"></span>

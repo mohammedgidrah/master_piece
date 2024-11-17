@@ -7,11 +7,15 @@
     <title>MASA</title>
     <link rel="stylesheet" href="assets/css/login.css">
 
-    <link rel="stylesheet" href="assets/css/homepage.css" />
     <link rel="stylesheet" href="http://code.ionicframework.com/ionicons/2.0.1/css/ionicons.min.css">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css">
 
 </head>
+<style>
+    .header_bottom {
+        background: #222831;
+    }
+</style>
 
 <body>
 
@@ -21,7 +25,6 @@
         <div class="main">
             <input type="checkbox" id="chk" aria-hidden="true">
 
-            <!-- Sign-Up Form -->
             <div class="sign-in-contaner">
                 @if ($errors->has('email'))
                     <p class="error" style="display: flex; justify-content: center; align-items: center">
@@ -31,9 +34,9 @@
                     <p class="error" style="display: flex; justify-content: center; align-items: center">
                         {{ $errors->first('password') }}</p>
                 @endif
-                {{-- @if ($errors->any())
+                @if ($errors->any())
                     <p class="success">{{ $errors->first() }}</p>
-                @endif --}}
+                @endif
 
                 <form id="sign-up-form" action="{{ route('register') }}" method="POST" enctype="multipart/form-data">
                     @csrf
@@ -64,7 +67,7 @@
                     <button class="sign_up_btn" type="submit">SIGN UP</button>
                     <p class="sign_up_p">or sign up with</p>
                     <div class="svg_contaner">
-                        <a href="/auth/google" class="social-btn google-btn" style="background-color: #8f00ff">
+                        <a href="/auth/google" class="social-btn google-btn">
                             <i class="fab fa-google"></i> Google
                         </a>
 
@@ -74,7 +77,6 @@
                 </form>
             </div>
 
-            <!-- Login Form -->
             <div class="login">
                 <form id="login-form" class="login-form" method="POST" action="{{ route('login.submit') }}">
                     @csrf
@@ -88,7 +90,7 @@
                             placeholder="Password">
                         <span onclick="togglePasswordVisibility('password-input-login', this)"
                             class="password-toggle-icon">
-                            <i class="fas fa-eye" id="toggle-password" style="color: black"></i>
+                            <i class="fas fa-eye" id="toggle-password"  ></i>
                         </span>
                     </div>
                     <p id="password_error" class="error"></p>
@@ -104,14 +106,9 @@
 
 
     <script>
-        function togglePasswordVisibility(inputId, icon) {
-            const passwordInput = document.getElementById(inputId);
-            const type = passwordInput.getAttribute('type') === 'password' ? 'text' : 'password';
-            passwordInput.setAttribute('type', type);
-            icon.querySelector('i').classList.toggle('fa-eye-slash');
-        }
-    </script>
 
+    </script>
+    <script src="https://kit.fontawesome.com/a49038f582.js"  ></script>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
     <script src="{{ asset('assets/js/login.js') }}"></script>
     <script src="{{ asset('assets/js/homepage.js') }}"></script>
