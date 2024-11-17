@@ -17,6 +17,10 @@
     <link rel="stylesheet" href="assets/css/homepage.css" />
 </head>
 <style>
+    .sign_img{
+        width: 100px;
+        height: 100px;
+    }
     .banner_section {
     padding: 50px 0;
     background-color: #111;
@@ -156,8 +160,8 @@
                         <div class="col-lg-4 col-md-6">
                             <div class="single_banner">
                                 <div class="banner_thumb">
-                                    <a href="{{ route('category.products', $category->id) }}">
-                                        <img src="{{ asset('storage/' . $category->image) }}" alt="{{ $category->name }}">
+                                    <a  href="{{ route('category.products', $category->id) }}">
+                                        <img class="sign_img" src="{{ asset('storage/' . $category->image) }}" alt="{{ $category->name }}">
                                     </a>
                                 </div>
                                 <div class="banner_content">

@@ -636,9 +636,7 @@ nav {
 .banner_black .banner_thumb:hover .banner_content {
     transform: scale(1.1);
 }
-.banner_content {
-    margin-top: 20px;
-}
+ 
 
 /* ******************* banner section end ***************** */
 
