@@ -1,17 +1,14 @@
 @extends('dashboard.maindasboard')
 @section('content')
 
-<div class="container">
+{{-- <div class="container"> --}}
     <div class="page-inner">
         <div class="d-flex align-items-left align-items-md-center flex-column flex-md-row pt-2 pb-4">
             <div>
                 <h3 class="fw-bold mb-3">Dashboard</h3>
-                <h6 class="op-7 mb-2">Free Bootstrap 5 Admin Dashboard</h6>
+                <h6 class="op-7 mb-2">MASA Admin Dashboard</h6>
             </div>
-            <div class="ms-md-auto py-2 py-md-0">
-                <a href="#" class="btn btn-label-info btn-round me-2">Manage</a>
-                <a href="#" class="btn btn-primary btn-round">Add Customer</a>
-            </div>
+     
         </div>
         <div class="row">
             <div class="col-sm-6 col-md-3">
@@ -25,8 +22,8 @@
                             </div>
                             <div class="col col-stats ms-3 ms-sm-0">
                                 <div class="numbers">
-                                    <p class="card-category">Visitors</p>
-                                    {{-- <h4 class="card-title">{{ $users }}</h4> --}}
+                                    <p class="card-category">Users</p>
+                                    <h4 class="card-title">{{ $users }}</h4>
                                 </div>
                             </div>
                         </div>
@@ -44,8 +41,8 @@
                             </div>
                             <div class="col col-stats ms-3 ms-sm-0">
                                 <div class="numbers">
-                                    <p class="card-category">Subscribers</p>
-                                    {{-- <h4 class="card-title">{{ $categorys }}</h4> --}}
+                                    <p class="card-category">Categories</p>
+                                    <h4 class="card-title">{{ $categorys }}</h4>
                                 </div>
                             </div>
                         </div>
@@ -63,8 +60,8 @@
                             </div>
                             <div class="col col-stats ms-3 ms-sm-0">
                                 <div class="numbers">
-                                    <p class="card-category">Sales</p>
-                                    {{-- <h4 class="card-title">${{ number_format($sales, 2) }}</h4> --}}
+                                    <p class="card-category">Products</p>
+                                    <h4 class="card-title">{{ $products }}</h4>
                                 </div>
                             </div>
                         </div>
@@ -82,8 +79,8 @@
                             </div>
                             <div class="col col-stats ms-3 ms-sm-0">
                                 <div class="numbers">
-                                    <p class="card-category">Order</p>
-                                    {{-- <h4 class="card-title">{{ $orders }}</h4> --}}
+                                    <p class="card-category">Orders</p>
+                                    <h4 class="card-title">{{ $orders }}</h4>
                                 </div>
                             </div>
                         </div>
@@ -97,7 +94,7 @@
                     <div class="card-header">
                         <div class="card-head-row">
                             <div class="card-title">User Statistics</div>
-                            <div class="card-tools">
+                            {{-- <div class="card-tools">
                                 <a href="#" class="btn btn-label-success btn-round btn-sm me-2">
                                     <span class="btn-label">
                                         <i class="fa fa-pencil"></i>
@@ -110,7 +107,7 @@
                                     </span>
                                     Print
                                 </a>
-                            </div>
+                            </div> --}}
                         </div>
                     </div>
                     <div class="card-body">
@@ -127,45 +124,83 @@
                         <div class="card-head-row">
                             <div class="card-title">Daily Sales</div>
                             <div class="card-tools">
-                                <div class="dropdown">
-                                    <button class="btn btn-sm btn-label-light dropdown-toggle"
-                                        type="button" id="dropdownMenuButton" data-bs-toggle="dropdown"
-                                        aria-haspopup="true" aria-expanded="false">
-                                        Export
-                                    </button>
-                                    <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-                                        <a class="dropdown-item" href="#">Action</a>
-                                        <a class="dropdown-item" href="#">Another action</a>
-                                        <a class="dropdown-item" href="#">Something else here</a>
-                                    </div>
-                                </div>
-                            </div>
                         </div>
                         <div class="card-category">March 25 - April 02</div>
                     </div>
                     <div class="card-body pb-0">
                         <div class="mb-4 mt-2">
-                            {{-- <h1>${{ number_format($sales, 2) }}</h1> --}}
+                            <h1>${{ $sales }}</h1>
                         </div>
                         <div class="pull-in">
                             <canvas id="dailySalesChart"></canvas>
                         </div>
                     </div>
                 </div>
-                <div class="card card-round">
-                    <div class="card-body pb-0">
-                        <div class="h1 fw-bold float-end text-primary">+5%</div>
-                        <h2 class="mb-2">17</h2>
-                        <p class="text-muted">Users online</p>
-                        <div class="pull-in sparkline-fix">
-                            <div id="lineChart"></div>
-                        </div>
-                    </div>
-                </div>
-            </div>
+             </div>
         </div>
  
     </div>
 </div>
+@include('dashboard.footer')
+</div>
+
 
 @endsection
+@push('scripts')
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<script>
+    document.addEventListener('DOMContentLoaded', () => {
+        // Data passed from the controller
+        const userStatistics = @json($userStatistics);
+        const dailySales = @json($dailySales);
+
+        // Prepare data for the statistics chart (users by month)
+        const statisticsLabels = Object.keys(userStatistics).map(month => `Month ${month}`);
+        const statisticsData = Object.values(userStatistics);
+
+        const statisticsCtx = document.getElementById('statisticsChart').getContext('2d');
+        new Chart(statisticsCtx, {
+            type: 'bar',
+            data: {
+                labels: statisticsLabels,
+                datasets: [{
+                    label: 'User Statistics',
+                    data: statisticsData,
+                    // backgroundColor: '#4CAF50',
+                }],
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                scales: {
+                    y: {
+                        beginAtZero: true,
+                    },
+                },
+            },
+        });
+
+        // Prepare data for the daily sales chart
+        const dailySalesLabels = Object.keys(dailySales);
+        const dailySalesData = Object.values(dailySales);
+
+        const salesCtx = document.getElementById('dailySalesChart').getContext('2d');
+        new Chart(salesCtx, {
+            type: 'line',
+            data: {
+                labels: dailySalesLabels,
+                datasets: [{
+                    label: 'Daily Sales',
+                    data: dailySalesData,
+                    borderColor: '#4CAF50',
+                    tension: 0.4,
+                }],
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+            },
+        });
+    });
+</script>
+@endpush

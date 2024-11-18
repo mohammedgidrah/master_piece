@@ -54,8 +54,8 @@ Route::middleware(['admin'])->group(function () {
     Route::get('/dashboard', [AdminController::class, 'mainDashboard'])->name('dashboard.maindasboard'); // Correct spelling
 
     // Status page route
-    // Route::get('/status', [DashboardController::class, 'index'])->name('status');
-    Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard.index');
+    Route::get('/status', [DashboardController::class, 'index'])->name('status');
+    Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard.maindasboard');
 
 
     // Admin profile page route

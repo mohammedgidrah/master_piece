@@ -591,6 +591,36 @@ nav {
 
 /* ************************** banner section ********************** */
 
+.banner_section {
+    padding: 50px 0;
+    background-color: #111;
+    color: #fff;
+}
+
+.banner_black {
+    background-color: #222;
+}
+
+
+.banner_content {
+    padding: 15px;
+    text-align: center;
+    background-color: rgba(0, 0, 0, 0.7);
+    border-radius: 0 0 8px 8px;
+}
+
+.category-name {
+    font-size: 18px;
+    font-weight: bold;
+    color: #fff;
+}
+
+.no-categories {
+    font-size: 20px;
+    color: #ff6666;
+    text-align: center;
+    margin-top: 20px;
+}
 .banner_black .banner_content {
     transition: 0.5s;
     bottom: 25px;
@@ -622,9 +652,34 @@ nav {
     position: relative;
     overflow: hidden;
 }
-
+ 
 .banner_thumb img {
+    width: 100%; /* Ensures the image scales to fill its container */
+    height: 300px; /* Set a fixed height */
+    object-fit: cover; /* Ensures the image maintains aspect ratio and fills the container */
+    border-radius: 10px; /* Optional: Adds a rounded border effect */
     transition: 0.3s;
+
+}
+
+
+.single_banner {
+    position: relative;
+    overflow: hidden;
+    margin-bottom: 30px;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    transition: transform 0.3s ease-in-out;
+}
+
+.single_banner:hover {
+    transform: translateY(-5px);
+}
+
+ 
+
+.single_banner:hover .banner_thumb img {
+    transform: scale(1.05);
 }
 .banner_thumb:hover::before {
     opacity: 1;

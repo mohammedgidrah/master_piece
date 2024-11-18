@@ -6,6 +6,8 @@
     <title>Kaiadmin - Bootstrap 5 Admin Dashboard</title>
     <meta content="width=device-width, initial-scale=1.0, shrink-to-fit=no" name="viewport" />
     <link rel="icon" href="{{ asset('assets/img/masterpeace_logo__1_-removebg-preview.png') }}" type="image/x-icon" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+
 
     <!-- Fonts and icons -->
     <script src="{{ asset('assets/js/plugin/webfont/webfont.min.js') }}"></script>
@@ -40,11 +42,11 @@
 
 <body>
     <div class="wrapper">
-        
+
         <div class="main-panel">
             @include('dashboard.navbar')
-            @yield('content')  
-            @include('dashboard.sidebar')  
+            @yield('content')
+            @include('dashboard.sidebar')
         </div>
     </div>
 
@@ -64,7 +66,7 @@
                     </div>
                     <button class="saveLogoHeaderColor">Save Logo Header Color</button>
                 </div>
-
+                
                 <!-- Navbar Header Section -->
                 <div class="switch-block">
                     <h4>Navbar Header</h4>
@@ -76,7 +78,7 @@
                     </div>
                     <button class="saveTopBarColor">Save Navbar Header Color</button>
                 </div>
-
+                
                 <!-- Sidebar Section -->
                 <div class="switch-block">
                     <h4>Sidebar</h4>
@@ -93,62 +95,63 @@
             <i class="icon-settings"></i>
         </div>
     </div>
-
+    
     <script>
         // Function to apply the saved colors from localStorage on page load
         function applySavedColors() {
             const savedLogoHeaderColor = localStorage.getItem('logoHeaderColor');
             const savedTopBarColor = localStorage.getItem('topBarColor');
             const savedSideBarColor = localStorage.getItem('sideBarColor');
-
+            
             if (savedLogoHeaderColor) {
                 document.querySelector('.logo-header').style.backgroundColor = savedLogoHeaderColor;
-            }
+                }
+                
+                if (savedTopBarColor) {
+                    document.querySelector('.navbar-header').style.backgroundColor = savedTopBarColor;
+                    }
+                    
+                    if (savedSideBarColor) {
+                        document.querySelector('.sidebar').style.backgroundColor = savedSideBarColor;
+                        }
+                        }
+                        
+                        // Apply colors on page load
+                        window.addEventListener('DOMContentLoaded', applySavedColors);
+                        
+                        // Event listener for changing colors
+                        document.querySelector('.custom-content').addEventListener('click', function(e) {
+                            if (e.target.matches('.changeLogoHeaderColor, .changeTopBarColor, .changeSideBarColor')) {
+                                const groupClass = e.target.classList[0];
+                                document.querySelectorAll(`.${groupClass}`).forEach(button => button.classList.remove('selected'));
+                                e.target.classList.add('selected');
+                                }
+                                });
+                                
+                                // Save color functions
+                                function saveColor(selector, storageKey, elementClass) {
+                                    const selectedColor = document.querySelector(`${selector}.selected`)?.getAttribute('data-color');
+                                    if (selectedColor) {
+                                        localStorage.setItem(storageKey, selectedColor);
+                                        document.querySelector(elementClass).style.backgroundColor = selectedColor;
+                                        alert(`${storageKey.replace(/([A-Z])/g, ' $1')} saved!`);
+                                        }
+                                        }
+                                        
+                                        document.querySelector('.saveLogoHeaderColor').addEventListener('click', function() {
+                                            saveColor('.changeLogoHeaderColor', 'logoHeaderColor', '.logo-header');
+                                            });
+                                            
+                                            document.querySelector('.saveTopBarColor').addEventListener('click', function() {
+                                                saveColor('.changeTopBarColor', 'topBarColor', '.navbar-header');
+                                                });
+                                                
+                                                document.querySelector('.saveSideBarColor').addEventListener('click', function() {
+                                                    saveColor('.changeSideBarColor', 'sideBarColor', '.sidebar');
+                                                    });
+                                                </script> --}}
 
-            if (savedTopBarColor) {
-                document.querySelector('.navbar-header').style.backgroundColor = savedTopBarColor;
-            }
-
-            if (savedSideBarColor) {
-                document.querySelector('.sidebar').style.backgroundColor = savedSideBarColor;
-            }
-        }
-
-        // Apply colors on page load
-        window.addEventListener('DOMContentLoaded', applySavedColors);
-
-        // Event listener for changing colors
-        document.querySelector('.custom-content').addEventListener('click', function(e) {
-            if (e.target.matches('.changeLogoHeaderColor, .changeTopBarColor, .changeSideBarColor')) {
-                const groupClass = e.target.classList[0];
-                document.querySelectorAll(`.${groupClass}`).forEach(button => button.classList.remove('selected'));
-                e.target.classList.add('selected');
-            }
-        });
-
-        // Save color functions
-        function saveColor(selector, storageKey, elementClass) {
-            const selectedColor = document.querySelector(`${selector}.selected`)?.getAttribute('data-color');
-            if (selectedColor) {
-                localStorage.setItem(storageKey, selectedColor);
-                document.querySelector(elementClass).style.backgroundColor = selectedColor;
-                alert(`${storageKey.replace(/([A-Z])/g, ' $1')} saved!`);
-            }
-        }
-
-        document.querySelector('.saveLogoHeaderColor').addEventListener('click', function() {
-            saveColor('.changeLogoHeaderColor', 'logoHeaderColor', '.logo-header');
-        });
-
-        document.querySelector('.saveTopBarColor').addEventListener('click', function() {
-            saveColor('.changeTopBarColor', 'topBarColor', '.navbar-header');
-        });
-
-        document.querySelector('.saveSideBarColor').addEventListener('click', function() {
-            saveColor('.changeSideBarColor', 'sideBarColor', '.sidebar');
-        });
-    </script> --}}
-
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <!-- Core JS Files -->
     <script src="{{ asset('assets/js/core/jquery-3.7.1.min.js') }}"></script>
     <script src="{{ asset('assets/js/core/popper.min.js') }}"></script>
@@ -182,4 +185,5 @@
         // Additional sparklines can be set up similarly
     </script>
 </body>
+
 </html>

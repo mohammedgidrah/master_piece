@@ -16,66 +16,7 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/OwlCarousel2/2.3.4/assets/owl.carousel.min.css">
     <link rel="stylesheet" href="assets/css/homepage.css" />
 </head>
-<style>
-    .sign_img{
-        width: 100px;
-        height: 100px;
-    }
-    .banner_section {
-    padding: 50px 0;
-    background-color: #111;
-    color: #fff;
-}
-
-.banner_black {
-    background-color: #222;
-}
-
-.single_banner {
-    position: relative;
-    overflow: hidden;
-    margin-bottom: 30px;
-    border-radius: 8px;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
-    transition: transform 0.3s ease-in-out;
-}
-
-.single_banner:hover {
-    transform: translateY(-5px);
-}
-
-.banner_thumb img {
-    width: 100%;
-    height: auto;
-    border-radius: 8px 8px 0 0;
-    transition: transform 0.3s ease;
-}
-
-.single_banner:hover .banner_thumb img {
-    transform: scale(1.05);
-}
-
-.banner_content {
-    padding: 15px;
-    text-align: center;
-    background-color: rgba(0, 0, 0, 0.7);
-    border-radius: 0 0 8px 8px;
-}
-
-.category-name {
-    font-size: 18px;
-    font-weight: bold;
-    color: #fff;
-}
-
-.no-categories {
-    font-size: 20px;
-    color: #ff6666;
-    text-align: center;
-    margin-top: 20px;
-}
-
-</style>
+ 
 
 <body style="height: 1000px">
     <div class="home_black_virsion">
