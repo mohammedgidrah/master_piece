@@ -45,10 +45,7 @@
         margin: 0;
     }
 
-    footer {
-        background: #222831;
-        /* margin-top: 180px; */
-    }
+ 
 </style>
 
 <body >
@@ -61,7 +58,7 @@
             <div class="product_card">
                 <h3 class="product_name">{!! wrapText($product->name, 15) !!} </h3>
                 <img src="{{ asset('storage/' . $product->image) }}" alt="{{ $product->name }}" class="product_image"
-                    style="width: 200px; height: 150px; display: block; margin: 10px   auto;" />
+                style="width: 200px; height: 275px; display: block; margin: 10px auto;" />
 
                 <a class="product_link" href="{{ route('show.product', $product->id) }}">View Details</a>
             </div>

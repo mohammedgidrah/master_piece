@@ -9,15 +9,13 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
     <link rel="icon" type="image/png" href="{{ asset('assets/img/home/masterpeace_logo-removebg-preview.png') }}" />
     <link rel="stylesheet" href="http://code.ionicframework.com/ionicons/2.0.1/css/ionicons.min.css">
-    {{-- <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css"> --}}
-    <link rel="stylesheet" href="{{ asset('assets/css/bootstrap.min.css') }}" />
+     <link rel="stylesheet" href="{{ asset('assets/css/bootstrap.min.css') }}" />
 </head>
 <style>
     /* File: resources/assets/css/homepage.css */
 
     .product_detail_section {
-        background-color: #242424;
-        font-family: Arial, sans-serif;
+         font-family: Arial, sans-serif;
 
     }
 
@@ -119,10 +117,7 @@
         }
     }
 
-    footer {
-        background: #222831;
-
-    }
+ 
 </style>
 
 <body>
@@ -132,10 +127,11 @@
         <div class="product_detail_container">
             <h1 class="product_name">{!! wrapText($product->name, 30) !!}</h1>
             <div class="product_details">
-                <img src="{{ asset('storage/' . $product->image) }}" alt="{{ $product->name }}" class="product_image" />
-                <div class="description">
+                <img src="{{ asset('storage/' . $product->image) }}" alt="{{ $product->name }}" class="product_image"
+                style="width: 300px; height: 375px; display: block; margin: 10px auto; object-fit: cover;" />
+                 <div class="description">
                     <h2>Description:</h2>
-                    <p class="product_description">{!! wrapText($product->description, 40) !!}</p>
+                    <p class="product_description  ">{!! wrapText($product->description, 40) !!}</p>
                 </div>
             </div>
             <p class="product_price">Price: <span class="price_value">${{ $product->price }}</span> </p>

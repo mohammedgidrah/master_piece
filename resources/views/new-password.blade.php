@@ -9,23 +9,32 @@
     <link rel="stylesheet" href="assets/css/bootstrap.min.css" />
     <link rel="stylesheet" href="{{ asset('assets/css/login.css') }}">
     <link rel="stylesheet" href="{{ asset('assets/css/homepage.css') }}">
+    <link rel="stylesheet" href="http://code.ionicframework.com/ionicons/2.0.1/css/ionicons.min.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.1.3/dist/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css">
+
+
+
     <style>
         /* Form container styles */
+        * {
+            font-family:    serif;
+
+        }
         .wrapper {
+            
             display: flex;
             justify-content: center;
             align-items: center;
-            min-height: 100vh;
-            padding-top: 100px;
+
             /* background-color: #f8f9fa; */
         }
 
         .maina {
-            /* background-color: #ffffff; */
             border-radius: 10px;
-            /* padding-top: 100px; */
 
-            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.5);
             padding: 30px;
             width: 100%;
             max-width: 500px;
@@ -43,18 +52,19 @@
             margin-top: 30px;
             margin-bottom: 15px;
             border: 1px solid #ced4da;
+            background: #EEEEEE;
             border-radius: 5px;
         }
 
         .login_input:focus {
-            border-color: #007bff;
+            border-color: #d7b053;
             outline: none;
-            box-shadow: 0 0 5px rgba(0, 123, 255, 0.5);
+             box-shadow: 0 0 5px rgba(0, 123, 255, 0.5);
         }
 
         /* Button styles */
         .login_btn {
-            /* background-color: #007bff; */
+            background-color: #d7b053;
             color: white;
             border: none;
             display: flex;
@@ -69,7 +79,7 @@
         }
 
         .login_btn:hover {
-            background-color: #0056b3;
+            background-color: #8f7a48;
         }
 
         /* Error message styling */
@@ -82,8 +92,7 @@
         .form-title {
             font-size: 24px;
             font-weight: bold;
-            /* margin-bottom: 20px; */
-            text-align: center;
+             text-align: center;
             color: white;
         }
 
@@ -104,12 +113,12 @@
     <div class="wrapper">
         <div class="maina">
             <div class="logins">
-                <form id="login-form" method="POST" action="{{ route('reset.password.post') }}" >
+                <form id="login-form" method="POST" action="{{ route('reset.password.post') }}">
                     @csrf
                     <input type="hidden" name="token" value="{{ $token }}">
 
                     <div class="form-title">Reset Password</div>
-                    
+
                     @if ($errors->any())
                         <div class="alert alert-danger" style="color: red">
                             <ul>
@@ -123,19 +132,19 @@
                     <!-- Email Input -->
                     <div class="mb-3">
                         <input type="email" class="login_input" name="email" id="email"
-                            placeholder="Enter your email" value="{{ old('email') }}" >
+                            placeholder="Enter your email" value="{{ old('email') }}">
                     </div>
 
                     <!-- New Password Input -->
                     <div class="mb-3">
                         <input type="password" class="login_input" name="password" id="password"
-                            placeholder="Enter new password" >
+                            placeholder="Enter new password">
                     </div>
 
                     <!-- Confirm Password Input -->
                     <div class="mb-3">
                         <input type="password" class="login_input" name="password_confirmation"
-                            id="password_confirmation" placeholder="Confirm new password" >
+                            id="password_confirmation" placeholder="Confirm new password">
                     </div>
 
                     <!-- Submit Button -->
@@ -144,6 +153,8 @@
             </div>
         </div>
     </div>
+    @include('homepage.footer.footer')
+    <script src="{{ asset('assets/js/homepage.js') }}"></script>
 
     <script src="assets/js/bootstrap.bundle.min.js"></script>
 </body>

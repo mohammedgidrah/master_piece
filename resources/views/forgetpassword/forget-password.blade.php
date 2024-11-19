@@ -21,15 +21,15 @@
 <body>
     @include('homepage.homenav.homenav')
 
-    <div class="wrapper">
+    <div class="wrapper" style="display: flex; justify-content: center; align-items: center; height: 550px">
 
-        <div class="main ms-auto me-auto mt-5" style="width: 500px">
+        <div class="main" style="width: 500px">
             <div class="logins">
-                <p style="color: white ; font-size: 20px display: flex; justify-content: center;">we wil send you a link to reset your password</p>
+                <p style="color: white ; font-size: 20px; display: flex; justify-content: center;  text-align: center">we wil send you a link to reset your password please enter your email</p>
                 <form id="login-form" method="POST" action="{{ route('forget.password.post') }} "
-                    class="ms-auto me-auto mt-5">
+                    class=" ">
                     @csrf
-                    <label for="chk" aria-hidden="true" style="font-size: 30px">forget password</label>
+                    <label for="chk" aria-hidden="true" style="font-size: 30px"> please enter your email</label>
 
                     <!-- Email Input -->
                     <input class="login_input" type="email" name="email" id="email-input-login" placeholder="Email"
@@ -46,6 +46,9 @@
 
         </div>
     </div>
+    @include('homepage.footer.footer')
+    <script src="{{ asset('assets/js/homepage.js') }}"></script>
+
 </body>
 
 </html>

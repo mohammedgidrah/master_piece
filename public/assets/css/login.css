@@ -1,37 +1,28 @@
-/* :root {
-    dark
-    --text: #e7ecfd;
-    --background: #010613;
-    --primary: #a1b0d9;
-    --secondary: #4a098b;
-    --accent: #790cac;
-
-    light 
-    --text: #020718;
-    --background: #ecf1fe;
-    --primary: #26355e;
-    --secondary: #b574f6;
-    --accent: #c053f3;
-} */
  
+ *{
+    font-family:    serif;
  
+ }
 .wrapper {
     display: flex;
     justify-content: center;
     align-items: center;
     height: 100vh;
+ 
     background: #242424;
- }
+}
 .main {
     width: 350px;
     height: 500px;
     overflow: hidden;
     border-radius: 15px;
-        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.5);
-    }
  
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.5);
+}
+
 .sign_in_p {
     color: white;
+ 
 }
 
 #chk {
@@ -40,12 +31,15 @@
 
 .sign-in-contaner {
     position: relative;
+ 
     width: 100%;
     height: 100%;
 }
 
 label {
     color: #fff;
+ 
+
     font-size: 3.3em;
     justify-content: center;
     display: flex;
@@ -57,7 +51,7 @@ label {
 .sign_up_input {
     width: 60%;
     height: 30px;
-    background: #EEEEEE;
+    background: #eeeeee;
     color: black;
     justify-content: center;
     display: flex;
@@ -72,7 +66,7 @@ label {
 .login_input {
     width: 60%;
     height: 30px;
-    background: #EEEEEE;
+    background: #eeeeee;
     color: black;
     justify-content: center;
     display: flex;
@@ -81,12 +75,11 @@ label {
     outline: none;
     padding: 10px;
     border-radius: 10px;
- }
+}
 
 input::placeholder {
     color: black;
 }
-
 
 .sign_up_btn {
     width: 28%;
@@ -95,7 +88,7 @@ input::placeholder {
     justify-content: center;
     display: block;
     color: black;
-    background: #EEEEEE;
+    background: #eeeeee;
     font-size: 15px;
     font-weight: bold;
     margin-top: 20px;
@@ -112,7 +105,7 @@ input::placeholder {
     justify-content: center;
     display: block;
     color: black;
-    background: #EEEEEE;
+    background: #eeeeee;
     font-size: 15px;
     font-weight: bold;
     margin-top: 20px;
@@ -123,7 +116,6 @@ input::placeholder {
     cursor: pointer;
 }
 
- 
 #login-form {
     margin-top: 80px;
 }
@@ -134,13 +126,13 @@ input::placeholder {
     transform: translateY(-180px);
     transition: 0.8s ease-in-out;
 }
- 
+
 .login_text {
-    color: rgb(179, 162, 51);
+    color: #d7b053;
     transform: scale(0.6);
     font-weight: bolder;
     margin: 20px 90px;
-     font-size: 60px;
+    font-size: 60px;
 }
 
 .forget_password {
@@ -162,8 +154,6 @@ input::placeholder {
     transform: scale(0.6);
 }
 
- 
-
 .svg_contaner {
     display: flex;
     justify-content: space-around;
@@ -182,7 +172,7 @@ p {
     justify-content: center;
     align-items: center;
     margin: 20px 0;
-    color: #EEEEEE;
+    color: #eeeeee;
 }
 .sign_in_p {
     display: flex;
@@ -227,7 +217,7 @@ p {
     align-items: center;
     justify-content: center;
     color: white;
-    background: #EEEEEE;
+    background: #eeeeee;
     font-size: 14px;
     padding: 10px;
     width: 150px;
@@ -237,14 +227,14 @@ p {
 }
 
 .google-btn {
-    background-color: #EEEEEE;
+    background-color: #eeeeee;
     color: black;
 }
 
 .facebook-btn {
     background-color: #3b5998;
 }
- 
+
 .social-btn i {
     margin-right: 8px;
     font-size: 16px;
@@ -263,11 +253,11 @@ p {
         color: #999;
         transition: color 0.3s ease;
     }
-    
+
     .user-box {
         position: relative;
     }
-    
+
     .password-toggle-icon {
         position: absolute;
         top: 50%;
@@ -279,7 +269,7 @@ p {
 .forget_password {
     display: block;
     margin-top: -30px;
-    color: #EEEEEE;
+    color: #eeeeee;
     text-decoration: none;
     font-size: 14px;
     transition: color 0.3s ease;
@@ -288,12 +278,12 @@ p {
 }
 
 .forget_password:hover {
-    color: rgb(179, 162, 51);
-     text-decoration: underline;
+    color: #d7b053;
+    text-decoration: underline;
 }
 
 @media (max-width: 325px) {
-.login_text {
-  margin-left: 80px;
- }
+    .login_text {
+        margin-left: 80px;
+    }
 }

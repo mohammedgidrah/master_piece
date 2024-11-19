@@ -32,7 +32,7 @@
                 </li>
             </ul>
         </div>
-    </div>
+    {{-- </div> --}}
 
         <!-- Search and Filter -->
         <div class="mb-3 ps-4 ">
