@@ -53,6 +53,44 @@
                     </div>
                 </div>
             </div>
+            <div class="single_slider"
+                data-bgimg="{{ asset('assets/img/home/slider/multicolored-crystals-shines-against-abyssal-backdrop.jpg') }}">
+                <div class="container">
+                    <div class="row align-items-center">
+                        <div class="col-12">
+                            <div class="slider_content">
+                                <p>Empowering Your Journey with Innovation, Quality</p>
+                                <span>Step into a world of timelessand natural beauty</span><br>
+                                <span>Our gemstones are more than treasures</span><br>
+                                <span>they’re stories waiting to be shared.</span><br>
+
+                                @if (!Auth::check())
+                                    <a href="{{ route('login') }}" class="button">Join Us</a>
+                                @endif
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="single_slider"
+                data-bgimg="{{ asset('assets/img/home/slider/high-angle-woman-holding-turquoise-stones.jpg') }}">
+                <div class="container">
+                    <div class="row align-items-center">
+                        <div class="col-12">
+                            <div class="slider_content">
+                                <p>Uncover the Beauty of Natural Gemstones</p>
+                                <span>Discover magic within every gemstone</span><br>
+                                <span>Our collection is crafted with love</span><br>
+                                <span>offering you pieces that are as unique .</span><br>
+
+                                @if (!Auth::check())
+                                    <a href="{{ route('login') }}" class="button">Join Us</a>
+                                @endif
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
             <!-- Repeat other slider items with similar structure -->
 
         </div>

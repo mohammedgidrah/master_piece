@@ -904,8 +904,8 @@ footer {
 
 .about-us {
     padding: 4rem 2rem;
-    border-top: 1px solid #d7b053;
-    border-bottom: 1px solid #d7b053;
+    border-top: 1px solid #e2c38a;
+    border-bottom: 1px solid #e2c38a;
     background-color: #222;
     color: #fff;
 }
@@ -1042,8 +1042,8 @@ footer {
 
 #contact {
     background-color: #222;
-    border-top: 1px solid #d7b053;
-    border-bottom: 1px solid #d7b053;
+    border-top: 1px solid #e2c38a;
+    border-bottom: 1px solid #e2c38a;
 
     color: #fff;
     padding: 50px 20px;
@@ -1117,6 +1117,10 @@ footer {
 }
 
 .right-content {
+    display: flex;
+    justify-content: center;
+    /* align-items: center; */
+    flex-wrap: wrap;
     margin-top: 30px;
 }
 
