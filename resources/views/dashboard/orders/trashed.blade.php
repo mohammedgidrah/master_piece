@@ -54,9 +54,9 @@
                             <td>
                                 @if ($order->product && $order->product->image)
                                     <img src="{{ asset('storage/' . $order->product->image) }}"
-                                        style="width: 75px; height: auto;">
+                                    style="width: 85px; height: 85px; border-radius: 50%;">
                                 @else
-                                    <img src="{{ asset('path/to/placeholder.jpg') }}" style="width: 75px; height: auto;"
+                                    <img src="{{ asset('path/to/placeholder.jpg') }}" style="width: 85px; height: 85px; border-radius: 50%;"
                                         alt="No Image">
                                 @endif
                             </td>

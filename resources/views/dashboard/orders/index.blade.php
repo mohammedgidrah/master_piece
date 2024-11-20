@@ -75,6 +75,7 @@
                         <th>Customer</th>
                         <th>Total Price</th>
                         <th>Order Status</th>
+                        <th>Order Date</th>
                         <th style="width: 10%">Action</th>
                     </tr>
                 </thead>
@@ -91,11 +92,11 @@
                                 @if ($firstOrder->user)
                                     <img src="{{ asset('storage/' . $firstOrder->user->image) }}"
                                         alt="{{ $firstOrder->user->first_name }} {{ $firstOrder->user->last_name }}"
-                                        style="width: 50px; height: auto; border-radius: 50%;" />
-                                    <span>{{ $firstOrder->user->first_name }} {{ $firstOrder->user->last_name }}</span>
+                                        style="width: 85px; height: 85px; border-radius: 50%;" /> 
+                                    <span style="margin-left: 20px;">   {{ $firstOrder->user->first_name }} {{ $firstOrder->user->last_name }}</span>
                                 @else
                                     <img src="{{ asset('images/default-user.png') }}" alt="Default User"
-                                        style="width: 50px; height: auto; border-radius: 50%;" />
+                                        style="width: 85px; height: 85px; border-radius: 50%;" />
                                     <span>N/A</span>
                                 @endif
                             </td>
@@ -116,6 +117,7 @@
                                     </select>
                                 </form>
                             </td>
+                            <td>{{ $firstOrder->created_at->format('Y-m-d') }}</td>
 
                             <td>
                                 <div class="form-button-action">
@@ -144,7 +146,7 @@
                                                 <li class="d-flex align-items-center mb-2">
                                                     <img src="{{ isset($order->product->image) ? asset('storage/' . $order->product->image) : asset('images/default-product.png') }}"
                                                         alt="{{ $order->product?->name ?? 'N/A' }}"
-                                                        style="width: 50px; height: 50px; object-fit: cover; margin-right: 10px;">
+                                                        style="width: 75px; height: 75px; border-radius: 50%; object-fit: cover; margin-right: 10px;">
                                                     <span>{{ $order->product?->name ?? 'N/A' }} :
                                                         ${{ number_format($order->product?->price ?? 0, 2) }} x
                                                         {{ $order->quantity }} =

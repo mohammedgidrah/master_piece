@@ -10,7 +10,17 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/OwlCarousel2/2.3.4/assets/owl.carousel.min.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css">
     <link rel="stylesheet" href="http://code.ionicframework.com/ionicons/2.0.1/css/ionicons.min.css">
+    <meta name="description" content="Discover exclusive collections of handmade jewelry featuring rare gemstones, each with unique beauty and storytelling charm." />
+    <meta name="keywords" content="handmade jewelry, gemstones, rare gemstones, exclusive collection, jewelry craftsmanship" />
+    <meta name="author" content="MASA Jewelry" />
+    <!-- Social Media and Open Graph Tags -->
+    <link rel="icon" type="image/png" href="{{ asset('assets/img/home/masterpeace_logo-removebg-preview.png') }}" />
 
+    <meta property="og:title" content="Handcrafted Gemstone Jewelry - MASA" />
+    <meta property="og:description" content="Discover exclusive collections of handmade jewelry featuring rare gemstones, each with unique beauty and storytelling charm." />
+    <meta property="og:image" content="assets/img/home/masterpeace_logo-removebg-preview.png" />
+    <meta property="og:url" content="{{ url('/') }}" />
+    <meta name="twitter:card" content="summary_large_image" />
 </head>
 
 <body>
@@ -31,7 +41,8 @@
                                 <!-- Navigation Links -->
                                 <ul class="links">
                                     <li><a href="{{ route('home') }}">Home</a></li>
-                                    <li><a href="#">About Us</a></li>
+                                    <li><a href="#about">About Us</a></li>
+                                    <li><a href="#contact">contact Us</a></li>
                                     <li>
                                         @auth
                                             <a href="#">
@@ -72,6 +83,8 @@
                                     <span class="cart_quantity">
                                         @if (auth()->check() && $cartCount >= 0)
                                             <span class="cart-counter">{{ $cartCount }}</span>
+                                            @else
+                                            <span class="cart-counter">0</span>
                                         @endif
                                     </span>
                                     <div class="mini_cart">

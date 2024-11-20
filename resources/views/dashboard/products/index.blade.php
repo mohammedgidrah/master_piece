@@ -99,7 +99,7 @@
                             <tr>
                                 <td>
                                     <img src="{{ asset('storage/' . $product->image) }}"
-                                        style="width: 75px; height: auto; border-radius: 50%;">
+                                        style="width: 85px; height: 85px; border-radius: 50%;">
                                 </td>
                                 <td>{!! wrapText($product->name, 30) !!}</td>
                                 <td>{!! wrapText($product->description, 30) !!}</td>

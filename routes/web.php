@@ -17,6 +17,7 @@ use App\Http\Controllers\OrderDashboardController;
 use App\Http\Controllers\NotificationController;
 use App\Http\Controllers\NavController;
 use App\Http\Controllers\DashboardController;
+use App\Http\Controllers\ContactController;
 
 
 /*
@@ -160,3 +161,6 @@ Route::get('/ordernotifications/{id}/{order_id}', [NotificationController::class
  
 
 Route::get('/navbar', [NavController::class, 'index'])->name('navbar');
+
+Route::post('/contact', [ContactController::class, 'submitForm'])->name('contact.submit');
+

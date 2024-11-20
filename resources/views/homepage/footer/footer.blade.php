@@ -6,30 +6,34 @@
                           <div class="widgets_container contact_us">
                               <h3>About Ashirwaad</h3>
                               <div class="footer_contact">
-                                  <p>Address : Ashirwaad palace, Surat, Gujarat</p>
-                                  <p>Phone : <a href="tel:(+91)888888885555">(+91)888888885555</a></p>
-                                  <p>Email : ashirwaadjewlers@gmail.com</p>
-                                  <ul class="footer_social">
-                                      <li><a href="#"><i class="ion-social-facebook"></i></a></li>
-                                      <li><a href="#"><i class="ion-social-twitter"></i></a></li>
-                                      <li><a href="#"><i class="ion-social-rss"></i></a></li>
-                                      <li><a href="#"><i class="ion-social-googleplus"></i></a></li>
-                                      <li><a href="#"><i class="ion-social-youtube"></i></a></li>
-                                  </ul>
+                                   <p>Phone : <a href="#">+962 798 199 473</a></p>
+                                   <p>Email : <a href="mailto:m7mdgidrah@gmail.com"> m7mdgidrah@gmail.com</a></p>
+   
                               </div>
                           </div>
                       </div>
                       <div class="col-lg-2 col-md-6 col-sm-4 col-6">
                           <div class="widgets_container widget_menu">
-                              <h3>Information</h3>
+                              <h3>useful links</h3>
                               <div class="footer_menu">
                                   <ul>
-                                      <li><a href="#">About Us</a></li>
-                                      <li><a href="#">Blog</a></li>
-                                      <li><a href="#">Contact</a></li>
-                                      <li><a href="#">Services</a></li>
-                                      <li><a href="#">Collection</a></li>
-                                      <li><a href="#">Portfolio</a></li>
+                                      <li><a href="#about">About Us</a></li>
+                                      <li><a href="#category">category</a></li>
+                                      @if (!Auth::check())
+                                          <li><a href="{{ route('login') }}">Login</a></li>
+                                      @else
+                                          @if (Auth::user()->role === 'admin')
+                                              <!-- Check if the user is an admin -->
+                                              <li><a href="{{ route('dashboard.maindasboard') }}">Dashboard</a></li>
+                                              <!-- Admin's Dashboard link -->
+                                          @elseif (Auth::user()->role === 'user')
+                                              <li><a href="{{ route('userprofile') }}">Profile</a></li>
+                                              <!-- Regular user's Profile link -->
+                                          @endif
+                                      @endif
+
+                                      <li><a href="#contact">Contact</a></li>
+
                                   </ul>
                               </div>
                           </div>
@@ -39,17 +43,18 @@
                               <h3>My Account</h3>
                               <div class="footer_menu">
                                   <ul>
-                                      <li><a href="#">My Account</a></li>
-                                      <li><a href="#">Contact</a></li>
-                                      <li><a href="#">Wishlist</a></li>
-                                      <li><a href="#">Portfolio</a></li>
-                                      <li><a href="#">Checkout</a></li>
-                                      <li><a href="#">Frequently Questions</a></li>
+                                      @if (Auth::check() && Auth::user()->role === 'user')
+                                          <li><a href="{{ route('userprofile') }}"> Profile</a></li>
+                                      @else
+                                          <li><a href="{{ route('home') }}">Home</a></li>
+                                      @endif
+
+         
                                   </ul>
                               </div>
                           </div>
                       </div>
- 
+
                   </div>
               </div>
 

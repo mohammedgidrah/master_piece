@@ -80,7 +80,7 @@
                     @foreach ($categories as $category)
                         <tr>
                             <td>
-                                <img src="{{ asset('storage/' . $category->image) }}" style="width: 75px; height: auto; border-radius: 50%;" />
+                                <img src="{{ asset('storage/' . $category->image) }}" style="width: 75px; height: 85px; border-radius: 50%;" />
                             </td>
                             <td>{!! wrapText($category->name, 30) !!}</td>
                             <td>{!! wrapText($category->description, 30) !!}</td>

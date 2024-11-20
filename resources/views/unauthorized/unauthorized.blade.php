@@ -14,7 +14,15 @@
     <link rel="stylesheet" href="http://code.ionicframework.com/ionicons/2.0.1/css/ionicons.min.css">
     <link rel="stylesheet" href="{{ asset('assets/css/homepage.css') }}" />
 
-
+    <meta name="description" content="Discover exclusive collections of handmade jewelry featuring rare gemstones, each with unique beauty and storytelling charm." />
+    <meta name="keywords" content="handmade jewelry, gemstones, rare gemstones, exclusive collection, jewelry craftsmanship" />
+    <meta name="author" content="MASA Jewelry" />
+    <!-- Social Media and Open Graph Tags -->
+    <meta property="og:title" content="Handcrafted Gemstone Jewelry - MASA" />
+    <meta property="og:description" content="Discover exclusive collections of handmade jewelry featuring rare gemstones, each with unique beauty and storytelling charm." />
+    <meta property="og:image" content="{{ asset('assets/img/home/masterpeace_logo-removebg-preview.png') }}" />
+    <meta property="og:url" content="{{ url('/') }}" />
+    <meta name="twitter:card" content="summary_large_image" />
     <style>
         .text-center {
             display: flex;
