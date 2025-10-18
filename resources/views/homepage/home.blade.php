@@ -59,7 +59,7 @@
                     <div class="row align-items-center">
                         <div class="col-12">
                             <div class="slider_content">
-                                <p>Empowering Your Journey with Innovation, Quality</p>
+                                <p>discover Your Journey with Innovation</p>
                                 <span>Step into a world of timelessand natural beauty</span><br>
                                 <span>Our gemstones are more than treasures</span><br>
                                 <span>they’re stories waiting to be shared.</span><br>
